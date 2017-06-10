@@ -1,3 +1,4 @@
+package com.dambra.paul.moduluschecker;
 
 public class ModulusChecker {
     public Boolean checkBankAccount(String sortcode, String accountNumber) {
