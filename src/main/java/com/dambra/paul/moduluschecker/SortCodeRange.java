@@ -16,7 +16,7 @@ public class SortCodeRange {
         int start = Integer.parseInt(lowest.replaceAll("^0+", ""));
         int end = Integer.parseInt(highest.replaceAll("^0+", ""));
 
-         fullRange = IntStream.range(start, end+1)
+         fullRange = IntStream.rangeClosed(start, end)
                               .mapToObj(String::valueOf)
                               .map(s -> Strings.padStart(s, 6, '0'));
     }

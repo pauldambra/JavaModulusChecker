@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ModulusWeightRows {
     private final ImmutableMap<String, WeightRow> weights;
@@ -22,9 +23,9 @@ public class ModulusWeightRows {
     public ModulusCheckParams FindFor(BankAccount account) {
 
         if (!weights.containsKey(account.sortCode)) {
-            return new ModulusCheckParams(account, WeightRow.UNMATCHED_ACCOUNT);
+            return new ModulusCheckParams(account, Optional.empty());
         }
 
-        return new ModulusCheckParams(account, weights.get(account.sortCode));
+        return new ModulusCheckParams(account, Optional.of(weights.get(account.sortCode)));
     }
 }
