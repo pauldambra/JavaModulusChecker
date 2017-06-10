@@ -9,13 +9,18 @@ import java.util.stream.Stream;
  * Created by pauldambra on 10/06/2017.
  */
 public class BankAccount {
-    private final String sortCode;
-    private final String accountNumber;
+    public final String sortCode;
+    public final String accountNumber;
 
     public BankAccount(String sortCode, String accountNumber) {
 
         this.sortCode = sortCode;
         this.accountNumber = accountNumber;
+    }
+
+    public BankAccount(BankAccount bankAccount) {
+        this.sortCode = bankAccount.sortCode;
+        this.accountNumber = bankAccount.accountNumber;
     }
 
     public List<Integer> allDigits() {
