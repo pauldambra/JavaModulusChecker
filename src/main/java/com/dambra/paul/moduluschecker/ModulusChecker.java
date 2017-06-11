@@ -1,6 +1,6 @@
 package com.dambra.paul.moduluschecker;
 
-import com.dambra.paul.moduluschecker.chain.SortCodeSubstitutionCheck;
+import com.dambra.paul.moduluschecker.chain.*;
 
 import java.util.Optional;
 
@@ -12,8 +12,17 @@ public class ModulusChecker {
         ModulusWeightRows.fromFile("file/valacdos.txt");
 
         BankAccount account = new BankAccount(sortcode, accountNumber);
-        //ModulusCheckParams startingParams = new ModulusCheckParams(account, We)
+        Optional<ModulusWeightRows> weightRows = ModulusWeightRows.fromFile("file/valacdos.txt");
 
-        return new SortCodeSubstitutionCheck(sortCodeSubstitution.get(), null).check(null);
+        ModulusCheckParams startingParams = new ModulusCheckParams(account, Optional.empty());
+
+        return new SortCodeSubstitutionCheck(
+                    sortCodeSubstitution.get(),
+                    new AtLeastOneWeightRowGate(weightRows, new FirstModulusCheckRouter(
+                            new DoubleAlternateCheck(),
+                            new ModulusTenCheck(),
+                            new ModulusElevenCheck()
+                    )))
+                .check(startingParams);
     }
 }

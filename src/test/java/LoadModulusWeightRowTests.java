@@ -2,11 +2,14 @@ import com.dambra.paul.moduluschecker.*;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 public class LoadModulusWeightRowTests {
@@ -70,10 +73,8 @@ public class LoadModulusWeightRowTests {
         BankAccount ba = new BankAccount("938173", "01234567");
         ModulusWeightRows weightRows = modulusWeightRows.get();
         ModulusCheckParams found = weightRows.FindFor(ba);
-        ModulusAlgorithm modulusAlgorithm = found.weightRows
-                                                 .get()
-                                                 .get(1)
-                                                 .modulusAlgorithm;
-        assertThat(modulusAlgorithm, is(equalTo(ModulusAlgorithm.MOD11)));
+        List<ModulusAlgorithm> modulusAlgorithms = found.weightRows.get()
+                    .stream().map(wr->wr.modulusAlgorithm).collect(Collectors.toList());
+        assertThat(modulusAlgorithms, containsInAnyOrder(ModulusAlgorithm.MOD11, ModulusAlgorithm.DOUBLE_ALTERNATE));
     }
 }

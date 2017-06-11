@@ -1,5 +1,5 @@
 import com.dambra.paul.moduluschecker.*;
-import com.dambra.paul.moduluschecker.checks.DoubleAlternate;
+import com.dambra.paul.moduluschecker.checks.ModulusTen;
 import com.google.common.collect.ImmutableList;
 import org.junit.Test;
 
@@ -10,22 +10,21 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
-public class DoubleAlternateTests {
-
+public class ModulusTenTests {
     @Test
-    public void CanRunDoubleAlternateCheck() {
-        String sc = "499273";
-        String an = "12345678";
+    public void CanRunModulusTenCheck() {
+        String sc = "089999";
+        String an = "66374958";
         WeightRow row = new WeightRow(
-                ModulusAlgorithm.DOUBLE_ALTERNATE,
-                Stream.of(2,1,2,1,2,1,2,1,2,1,2,1,2,1),
+                ModulusAlgorithm.MOD10,
+                Stream.of(0, 0, 0, 0, 0, 0, 7, 1, 3, 7, 1, 3, 7, 1),
                 Optional.empty()
-                );
+        );
 
         ModulusCheckParams params = new ModulusCheckParams(
                 new BankAccount(sc, an),
                 Optional.of(ImmutableList.of(row)));
-        DoubleAlternate checker = new DoubleAlternate();
+        ModulusTen checker = new ModulusTen();
 
         Boolean result = checker.check(params.account.allDigits(), params.weightRows.get().get(0).weights);
 

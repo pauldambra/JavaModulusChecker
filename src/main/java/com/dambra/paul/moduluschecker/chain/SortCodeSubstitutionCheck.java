@@ -6,9 +6,9 @@ import com.dambra.paul.moduluschecker.SortCodeSubstitution;
 public class SortCodeSubstitutionCheck implements ModulusChainCheck{
 
     private final SortCodeSubstitution sortCodeSubstitution;
-    private final ModulusChainCheck next;
+    private final AtLeastOneWeightRowGate next;
 
-    public SortCodeSubstitutionCheck(SortCodeSubstitution sortCodeSubstitution, ModulusChainCheck next) {
+    public SortCodeSubstitutionCheck(SortCodeSubstitution sortCodeSubstitution, AtLeastOneWeightRowGate next) {
         this.sortCodeSubstitution = sortCodeSubstitution;
         this.next = next;
     }

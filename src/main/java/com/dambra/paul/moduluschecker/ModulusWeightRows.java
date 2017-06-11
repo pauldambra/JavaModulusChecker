@@ -10,7 +10,6 @@ import com.google.common.io.Resources;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
