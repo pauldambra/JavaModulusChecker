@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class WeightRow {
+    private static final Splitter splitter = Splitter.on(CharMatcher.whitespace())
+                                              .omitEmptyStrings();
 
     public final ModulusAlgorithm modulusAlgorithm;
     public final Optional<Integer> exception;
@@ -22,10 +24,7 @@ public class WeightRow {
         this.weights = weights;
     }
 
-    public static WeightRow parse(String input) throws UnknownAlgorithmException {
-        Splitter splitter = Splitter.on(CharMatcher.whitespace())
-                .omitEmptyStrings();
-
+    public static Optional<WeightRow> parse(String input) {
         List<String> parts = splitter.splitToList(input);
 
         Stream<Integer> weights = parts.stream()
@@ -39,10 +38,18 @@ public class WeightRow {
             exception = Integer.parseInt(parts.get(EXCEPTION_INDEX));
         }
 
-        return new WeightRow(
-                ModulusAlgorithm.parse(parts.get(MODULUS_INDEX)),
+        ModulusAlgorithm modulusAlgorithm;
+        try {
+            modulusAlgorithm = ModulusAlgorithm.parse(parts.get(MODULUS_INDEX));
+        } catch (UnknownAlgorithmException e) {
+            //TODO how do I log?
+            return Optional.empty();
+        }
+
+        return Optional.of(new WeightRow(
+                modulusAlgorithm,
                 weights,
                 Optional.ofNullable(exception)
-        );
+        ));
     }
 }

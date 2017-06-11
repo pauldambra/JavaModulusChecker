@@ -7,7 +7,7 @@ public class DoubleAlternateChecker {
 
         int total = Streams.zip(
                         params.account.allDigits(),
-                        params.weightRow.get().weights,
+                        params.weightRows.get().get(0).weights,
                         (l, r) -> l * r
                     ).map(String::valueOf)
                     .flatMap(As::integerStream)

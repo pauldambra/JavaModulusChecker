@@ -1,4 +1,5 @@
 import com.dambra.paul.moduluschecker.*;
+import com.google.common.collect.ImmutableList;
 import org.junit.Test;
 
 import java.util.Optional;
@@ -22,7 +23,7 @@ public class DoubleAlternateTests {
 
         ModulusCheckParams params = new ModulusCheckParams(
                 new BankAccount(sc, an),
-                Optional.of(row));
+                Optional.of(ImmutableList.of(row)));
         DoubleAlternateChecker checker = new DoubleAlternateChecker();
 
         Boolean result = checker.check(params);

@@ -22,7 +22,7 @@ public class LoadModulusWeightRowTests {
     public void CanParseAModulusWeightRow() throws UnknownAlgorithmException {
         String input = "074456 074456 MOD10    0    3    2    4    5    8    9    4    5    6    7    8    9   -1  13";
 
-        WeightRow row = WeightRow.parse(input);
+        WeightRow row = WeightRow.parse(input).get();
 
         assertThat(row.modulusAlgorithm, is(equalTo(ModulusAlgorithm.MOD10)));
         assertThat(row.exception, is(equalTo(Optional.of(13))));
@@ -43,8 +43,7 @@ public class LoadModulusWeightRowTests {
         ModulusCheckParams modulusCheckParams = modulusRows.FindFor(originalAccount);
 
         assertThat(modulusCheckParams.account, is(equalTo(originalAccount)));
-        //noinspection ConstantConditions
-        assertThat(modulusCheckParams.weightRow.get(), is(equalTo(weightRow)));
+        assertThat(modulusCheckParams.weightRows.get().get(0), is(equalTo(weightRow)));
     }
 
     @Test
@@ -60,6 +59,21 @@ public class LoadModulusWeightRowTests {
         BankAccount originalAccount = new BankAccount("012345", "01234567");
         ModulusCheckParams modulusCheckParams = modulusRows.FindFor(originalAccount);
 
-        assertThat(modulusCheckParams.weightRow.isPresent(), is(equalTo(false)));
+        assertThat(modulusCheckParams.weightRows.isPresent(), is(equalTo(false)));
+    }
+
+    @Test
+    public void CanLoadFromFileResource() {
+        Optional<ModulusWeightRows> modulusWeightRows = ModulusWeightRows.fromFile("file/valacdos.txt");
+        assertThat(modulusWeightRows.isPresent(), is(equalTo(true)));
+
+        BankAccount ba = new BankAccount("938173", "01234567");
+        ModulusWeightRows weightRows = modulusWeightRows.get();
+        ModulusCheckParams found = weightRows.FindFor(ba);
+        ModulusAlgorithm modulusAlgorithm = found.weightRows
+                                                 .get()
+                                                 .get(1)
+                                                 .modulusAlgorithm;
+        assertThat(modulusAlgorithm, is(equalTo(ModulusAlgorithm.MOD11)));
     }
 }
