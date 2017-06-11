@@ -5,17 +5,18 @@ import com.google.common.base.Splitter;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class WeightRow {
 
     public final ModulusAlgorithm modulusAlgorithm;
     public final Optional<Integer> exception;
-    public final int[] weights;
+    public final Stream<Integer> weights;
 
     private static final int MODULUS_INDEX = 2;
     private static final int EXCEPTION_INDEX = 17;
 
-    public WeightRow(ModulusAlgorithm modulusAlgorithm, int[] weights, Optional<Integer> exception) {
+    public WeightRow(ModulusAlgorithm modulusAlgorithm, Stream<Integer> weights, Optional<Integer> exception) {
         this.modulusAlgorithm = modulusAlgorithm;
         this.exception = exception;
         this.weights = weights;
@@ -27,11 +28,11 @@ public class WeightRow {
 
         List<String> parts = splitter.splitToList(input);
 
-        int[] weights = parts.stream()
+        Stream<Integer> weights = parts.stream()
                                 .skip(MODULUS_INDEX + 1)
                                 .limit(EXCEPTION_INDEX - MODULUS_INDEX - 1)
                                 .mapToInt(Integer::parseInt)
-                                .toArray();
+                                .boxed();
 
         Integer exception = null;
         if (parts.size() == EXCEPTION_INDEX + 1) {
