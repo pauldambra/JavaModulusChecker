@@ -9,10 +9,9 @@ public class ModulusChecker {
 
         Optional<SortCodeSubstitution> sortCodeSubstitution = SortCodeSubstitution.fromFile("file/scsubtab.txt");
 
-        ModulusWeightRows.fromFile("file/valacdos.txt");
+        Optional<ModulusWeightRows> weightRows = ModulusWeightRows.fromFile("file/valacdos.txt");
 
         BankAccount account = new BankAccount(sortcode, accountNumber);
-        Optional<ModulusWeightRows> weightRows = ModulusWeightRows.fromFile("file/valacdos.txt");
 
         ModulusCheckParams startingParams = new ModulusCheckParams(account, Optional.empty());
 

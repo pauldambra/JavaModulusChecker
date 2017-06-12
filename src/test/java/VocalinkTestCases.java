@@ -6,6 +6,7 @@ import com.dambra.paul.moduluschecker.ModulusChecker;
 import org.junit.Test;
 
 public class VocalinkTestCases {
+    private static ModulusChecker modulusChecker = new ModulusChecker();
 
     @Test
     public void PASS_MODULUS_10_check() {
@@ -145,7 +146,6 @@ public class VocalinkTestCases {
     }
 
     private void assertVocalinkTestCase(String sortCode, String accountNumber, Boolean expectedValid) {
-        ModulusChecker modulusChecker = new ModulusChecker();
         Boolean actual = modulusChecker.checkBankAccount(sortCode, accountNumber);
         assertThat(actual, is(equalTo(expectedValid)));
     }
