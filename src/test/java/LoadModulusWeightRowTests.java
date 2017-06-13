@@ -1,4 +1,5 @@
 import com.dambra.paul.moduluschecker.*;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 
@@ -7,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.google.common.collect.ImmutableList.of;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -46,7 +48,7 @@ public class LoadModulusWeightRowTests {
         ModulusCheckParams modulusCheckParams = modulusRows.FindFor(originalAccount);
 
         assertThat(modulusCheckParams.account, is(equalTo(originalAccount)));
-        assertThat(modulusCheckParams.weightRows.get().get(0), is(equalTo(weightRow)));
+        assertThat(modulusCheckParams.firstWeightRow.get(), is(equalTo(weightRow)));
     }
 
     @Test
@@ -62,7 +64,7 @@ public class LoadModulusWeightRowTests {
         BankAccount originalAccount = new BankAccount("012345", "01234567");
         ModulusCheckParams modulusCheckParams = modulusRows.FindFor(originalAccount);
 
-        assertThat(modulusCheckParams.weightRows.isPresent(), is(equalTo(false)));
+        assertThat(modulusCheckParams.firstWeightRow.isPresent(), is(equalTo(false)));
     }
 
     @Test
@@ -73,8 +75,11 @@ public class LoadModulusWeightRowTests {
         BankAccount ba = new BankAccount("938173", "01234567");
         ModulusWeightRows weightRows = modulusWeightRows.get();
         ModulusCheckParams found = weightRows.FindFor(ba);
-        List<ModulusAlgorithm> modulusAlgorithms = found.weightRows.get()
-                    .stream().map(wr->wr.modulusAlgorithm).collect(Collectors.toList());
+
+        List<ModulusAlgorithm> modulusAlgorithms = ImmutableList.of(
+                found.firstWeightRow.get().modulusAlgorithm,
+                found.secondWeightRow.get().modulusAlgorithm
+        );
         assertThat(modulusAlgorithms, containsInAnyOrder(ModulusAlgorithm.MOD11, ModulusAlgorithm.DOUBLE_ALTERNATE));
     }
 }

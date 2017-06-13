@@ -2,10 +2,7 @@ package com.dambra.paul.moduluschecker;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ListMultimap;
+import com.google.common.collect.*;
 import com.google.common.io.Resources;
 
 import java.io.IOException;
@@ -35,10 +32,18 @@ public class ModulusWeightRows {
     public ModulusCheckParams FindFor(BankAccount account) {
 
         if (!weights.containsKey(account.sortCode)) {
-            return new ModulusCheckParams(account, Optional.empty());
+            return new ModulusCheckParams(account, Optional.empty(), Optional.empty());
         }
 
-        return new ModulusCheckParams(account, Optional.of(weights.get(account.sortCode)));
+        ImmutableList<WeightRow> matchedRows = weights.get(account.sortCode);
+
+        return new ModulusCheckParams(account, getOrDefaultAt(0, matchedRows), getOrDefaultAt(1, matchedRows));
+    }
+
+    private Optional<WeightRow> getOrDefaultAt(int index, ImmutableList<WeightRow> matchedRows) {
+        return matchedRows.size()>=index+1
+                ? Optional.of(matchedRows.get(index))
+                : Optional.empty();
     }
 
     public static Optional<ModulusWeightRows> fromFile(String filePath) {

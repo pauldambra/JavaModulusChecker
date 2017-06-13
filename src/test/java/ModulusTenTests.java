@@ -23,10 +23,10 @@ public class ModulusTenTests {
 
         ModulusCheckParams params = new ModulusCheckParams(
                 new BankAccount(sc, an),
-                Optional.of(ImmutableList.of(row)));
+                Optional.of(row), Optional.empty());
         ModulusTen checker = new ModulusTen();
 
-        Boolean result = checker.check(params.account.allDigits(), params.weightRows.get().get(0).weights);
+        Boolean result = checker.check(params.account.allDigits(), params.firstWeightRow.get().weights);
 
         assertThat(result, is(equalTo(true)));
     }

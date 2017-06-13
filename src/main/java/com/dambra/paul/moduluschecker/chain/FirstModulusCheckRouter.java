@@ -1,8 +1,6 @@
 package com.dambra.paul.moduluschecker.chain;
 
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
-import com.dambra.paul.moduluschecker.checks.DoubleAlternate;
-import com.dambra.paul.moduluschecker.checks.ModulusTen;
 
 public class FirstModulusCheckRouter implements ModulusChainCheck {
     private final DoubleAlternateCheck doubleAlternateCheck;
@@ -23,7 +21,7 @@ public class FirstModulusCheckRouter implements ModulusChainCheck {
 
         boolean result = false;
 
-        switch (params.weightRows.get().get(0).modulusAlgorithm) {
+        switch (params.firstWeightRow.get().modulusAlgorithm) {
             case DOUBLE_ALTERNATE:
                 result = doubleAlternateCheck.check(params);
                 break;

@@ -13,7 +13,8 @@ public class ModulusChecker {
 
         BankAccount account = new BankAccount(sortcode, accountNumber);
 
-        ModulusCheckParams startingParams = new ModulusCheckParams(account, Optional.empty());
+        ModulusCheckParams startingParams =
+                new ModulusCheckParams(account, Optional.empty(), Optional.empty());
 
         return new SortCodeSubstitutionCheck(
                     sortCodeSubstitution.get(),

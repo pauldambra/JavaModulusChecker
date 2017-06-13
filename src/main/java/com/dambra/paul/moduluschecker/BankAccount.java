@@ -9,7 +9,6 @@ public class BankAccount {
     public final String accountNumber;
 
     public BankAccount(String sortCode, String accountNumber) {
-
         String[] corrected = NonStandardAccounts.corrections(sortCode, accountNumber);
 
         this.sortCode = corrected[0];

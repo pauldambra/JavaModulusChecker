@@ -7,7 +7,7 @@ import com.dambra.paul.moduluschecker.checks.ModulusTen;
 public class ModulusElevenCheck implements ModulusChainCheck{
     @Override
     public Boolean check(ModulusCheckParams params) {
-        WeightRow firstWeightRow = params.weightRows.get().get(0);
+        WeightRow firstWeightRow = params.firstWeightRow.get();
 
         return ModulusTen.check(params.account.allDigits(), firstWeightRow.weights);
     }

@@ -22,7 +22,7 @@ public class AtLeastOneWeightRowGate implements ModulusChainCheck {
 
         params = modulusWeightRows.get().FindFor(params.account);
 
-        if (!params.weightRows.isPresent()) {
+        if (!params.firstWeightRow.isPresent()) {
             return false;
         }
 

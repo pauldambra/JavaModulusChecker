@@ -8,7 +8,7 @@ public class DoubleAlternateCheck implements ModulusChainCheck {
 
     @Override
     public Boolean check(ModulusCheckParams params) {
-        WeightRow firstWeightRow = params.weightRows.get().get(0);
+        WeightRow firstWeightRow = params.firstWeightRow.get();
 
         return DoubleAlternate.check(params.account.allDigits(), firstWeightRow.weights);
     }
