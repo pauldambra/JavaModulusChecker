@@ -1,7 +1,9 @@
 import com.dambra.paul.moduluschecker.chain.ModulusChainCheck;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
+import com.dambra.paul.moduluschecker.chain.ModulusResult;
 import org.junit.Test;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -23,7 +25,7 @@ public class ChainOfResponsibilityTests {
             this.next = next;
         }
 
-        public Boolean check(ModulusCheckParams params) {
+        public ModulusResult check(ModulusCheckParams params) {
             firstWasCalled = true;
             return next.check(params);
         }
@@ -38,17 +40,17 @@ public class ChainOfResponsibilityTests {
             this.next = next;
         }
 
-        public Boolean check(ModulusCheckParams params) {
+        public ModulusResult check(ModulusCheckParams params) {
             secondWasCalled = true;
-            return false;
+            return new ModulusResult(Optional.of(false), Optional.empty());
         }
     }
 
     private class Third implements ModulusChainCheck {
 
-        public Boolean check(ModulusCheckParams params) {
+        public ModulusResult check(ModulusCheckParams params) {
             thirdWasCalled = true;
-            return true;
+            return new ModulusResult(Optional.of(true), Optional.empty());
         }
     }
 
@@ -56,9 +58,9 @@ public class ChainOfResponsibilityTests {
     public void CanChainTogether() {
         ModulusChainCheck chain = new First(new SecondIsAlwaysResponsible(new Third()));
 
-        boolean result = chain.check(new ModulusCheckParams(null, Optional.empty(), Optional.empty()));
+        ModulusResult result = chain.check(new ModulusCheckParams(null, Optional.empty(), Optional.empty()));
 
-        assertThat(result, is(equalTo(false)));
+        assertThat(result.firstCheck.get(), is(equalTo(false)));
         assertThat(firstWasCalled, is(equalTo(true)));
         assertThat(secondWasCalled, is(equalTo(true)));
         assertThat(thirdWasCalled, is(equalTo(false)));

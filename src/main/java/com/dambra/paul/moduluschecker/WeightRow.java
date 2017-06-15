@@ -24,6 +24,10 @@ public class WeightRow {
         this.weights = weights;
     }
 
+    public boolean isExceptionOne() {
+        return exception.isPresent() && exception.get() == 1;
+    }
+
     public static Optional<WeightRow> parse(String input) {
         List<String> parts = splitter.splitToList(input);
 

@@ -14,7 +14,7 @@ public class SortCodeSubstitutionCheck implements ModulusChainCheck{
     }
 
     @Override
-    public Boolean check(ModulusCheckParams params) {
+    public ModulusResult check(ModulusCheckParams params) {
         return next.check(new ModulusCheckParams(
                     sortCodeSubstitution.Apply(params.account),
                     params.firstWeightRow, params.secondWeightRow));

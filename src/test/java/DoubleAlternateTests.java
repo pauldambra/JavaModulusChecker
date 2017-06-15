@@ -1,6 +1,5 @@
 import com.dambra.paul.moduluschecker.*;
-import com.dambra.paul.moduluschecker.checks.DoubleAlternate;
-import com.google.common.collect.ImmutableList;
+import com.dambra.paul.moduluschecker.chain.DoubleAlternateCheck;
 import org.junit.Test;
 
 import java.util.Optional;
@@ -26,9 +25,9 @@ public class DoubleAlternateTests {
                 new BankAccount(sc, an),
                 Optional.of(row),
                 Optional.empty());
-        DoubleAlternate checker = new DoubleAlternate();
+        DoubleAlternateCheck checker = new DoubleAlternateCheck();
 
-        Boolean result = checker.check(params.account.allDigits(), params.firstWeightRow.get().weights);
+        Boolean result = checker.check(params, x -> x.firstWeightRow.get());
 
         assertThat(result, is(equalTo(true)));
     }

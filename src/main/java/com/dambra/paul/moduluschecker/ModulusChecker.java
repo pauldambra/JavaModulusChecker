@@ -23,6 +23,6 @@ public class ModulusChecker {
                             new ModulusTenCheck(),
                             new ModulusElevenCheck()
                     )))
-                .check(startingParams);
+                .check(startingParams).firstCheck.orElse(false);
     }
 }

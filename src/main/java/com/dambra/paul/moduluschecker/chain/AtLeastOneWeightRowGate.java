@@ -15,15 +15,15 @@ public class AtLeastOneWeightRowGate implements ModulusChainCheck {
     }
 
     @Override
-    public Boolean check(ModulusCheckParams params) {
+    public ModulusResult check(ModulusCheckParams params) {
         if (!modulusWeightRows.isPresent()) {
-            return false;
+            return new ModulusResult(Optional.of(false), Optional.empty());
         }
 
         params = modulusWeightRows.get().FindFor(params.account);
 
         if (!params.firstWeightRow.isPresent()) {
-            return false;
+            return new ModulusResult(Optional.of(false), Optional.empty());
         }
 
         return next.check(params);

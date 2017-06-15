@@ -1,6 +1,6 @@
 import com.dambra.paul.moduluschecker.*;
-import com.dambra.paul.moduluschecker.checks.ModulusTen;
-import com.google.common.collect.ImmutableList;
+import com.dambra.paul.moduluschecker.chain.ModulusTenCheck;
+import com.google.common.collect.Streams;
 import org.junit.Test;
 
 import java.util.Optional;
@@ -24,9 +24,10 @@ public class ModulusTenTests {
         ModulusCheckParams params = new ModulusCheckParams(
                 new BankAccount(sc, an),
                 Optional.of(row), Optional.empty());
-        ModulusTen checker = new ModulusTen();
+        ModulusTenCheck checker = new ModulusTenCheck();
 
-        Boolean result = checker.check(params.account.allDigits(), params.firstWeightRow.get().weights);
+
+        Boolean result = checker.check(params, x -> x.firstWeightRow.get());
 
         assertThat(result, is(equalTo(true)));
     }

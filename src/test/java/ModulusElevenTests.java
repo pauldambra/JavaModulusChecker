@@ -2,8 +2,7 @@ import com.dambra.paul.moduluschecker.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusAlgorithm;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.WeightRow;
-import com.dambra.paul.moduluschecker.checks.ModulusEleven;
-import com.google.common.collect.ImmutableList;
+import com.dambra.paul.moduluschecker.chain.ModulusElevenCheck;
 import org.junit.Test;
 
 import java.util.Optional;
@@ -27,9 +26,9 @@ public class ModulusElevenTests {
         ModulusCheckParams params = new ModulusCheckParams(
                 new BankAccount(sc, an),
                 Optional.of(row), Optional.empty());
-        ModulusEleven checker = new ModulusEleven();
+        ModulusElevenCheck checker = new ModulusElevenCheck();
 
-        Boolean result = checker.check(params.account.allDigits(), params.firstWeightRow.get().weights);
+        Boolean result = checker.check(params, x -> x.firstWeightRow.get());
 
         assertThat(result, is(equalTo(true)));
     }
