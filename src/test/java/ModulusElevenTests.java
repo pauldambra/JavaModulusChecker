@@ -1,4 +1,4 @@
-import com.dambra.paul.moduluschecker.BankAccount;
+import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusAlgorithm;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.WeightRow;

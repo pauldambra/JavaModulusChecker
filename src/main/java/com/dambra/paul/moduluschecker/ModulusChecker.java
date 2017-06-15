@@ -1,5 +1,6 @@
 package com.dambra.paul.moduluschecker;
 
+import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.chain.*;
 
 import java.util.Optional;

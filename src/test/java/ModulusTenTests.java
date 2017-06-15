@@ -1,6 +1,6 @@
 import com.dambra.paul.moduluschecker.*;
+import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.chain.ModulusTenCheck;
-import com.google.common.collect.Streams;
 import org.junit.Test;
 
 import java.util.Optional;

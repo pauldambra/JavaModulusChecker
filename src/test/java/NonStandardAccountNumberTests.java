@@ -1,4 +1,4 @@
-import com.dambra.paul.moduluschecker.BankAccount;
+import com.dambra.paul.moduluschecker.Account.BankAccount;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;

@@ -1,5 +1,7 @@
 package com.dambra.paul.moduluschecker;
 
+import com.dambra.paul.moduluschecker.Account.BankAccount;
+import com.dambra.paul.moduluschecker.Account.SortCodeRange;
 import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
 import com.google.common.collect.*;

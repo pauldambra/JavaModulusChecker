@@ -1,5 +1,7 @@
 package com.dambra.paul.moduluschecker;
 
+import com.dambra.paul.moduluschecker.Account.BankAccount;
+
 import java.util.Optional;
 
 public class ModulusCheckParams {

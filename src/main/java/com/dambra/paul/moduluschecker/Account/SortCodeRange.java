@@ -1,4 +1,4 @@
-package com.dambra.paul.moduluschecker;
+package com.dambra.paul.moduluschecker.Account;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;

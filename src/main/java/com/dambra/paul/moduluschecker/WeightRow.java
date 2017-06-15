@@ -25,7 +25,19 @@ public class WeightRow {
     }
 
     public boolean isExceptionOne() {
-        return exception.isPresent() && exception.get() == 1;
+        return isException(1);
+    }
+
+    public boolean isExceptionTwo() {
+        return isException(2);
+    }
+
+    public boolean isExceptionNine() {
+        return isException(9);
+    }
+
+    private boolean isException(int exceptionNumber) {
+        return exception.isPresent() && exception.get() == exceptionNumber;
     }
 
     public static Optional<WeightRow> parse(String input) {

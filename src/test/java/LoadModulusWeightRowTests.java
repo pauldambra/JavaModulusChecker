@@ -1,11 +1,12 @@
 import com.dambra.paul.moduluschecker.*;
+import com.dambra.paul.moduluschecker.Account.BankAccount;
+import com.dambra.paul.moduluschecker.Account.SortCodeRange;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.google.common.collect.ImmutableList.of;

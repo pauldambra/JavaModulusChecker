@@ -8,6 +8,36 @@ import org.junit.Test;
 public class VocalinkTestCases {
     private static ModulusChecker modulusChecker = new ModulusChecker();
 
+    public static class ExceptionOne {
+        @Test
+        public void EnsuresThatTwentySevenHasBeenAddedToTheAccumulatedTotal() {
+            assertVocalinkTestCase("118765", "64371389", true);
+        }
+
+        @Test
+        public void WhereItFailsTheDoubleAlternateCheck() {
+            assertVocalinkTestCase("118765", "64371388", false);
+        }
+    }
+
+    public static class ExceptionTwoAndNine {
+        @Test
+        public void WhereFirstPassesAndSecondFails() {
+            assertVocalinkTestCase("309070", "02355688", true);
+        }
+        @Test
+        public void WhereFirstFailsAndSecondPassesWithSubstitution() {
+            assertVocalinkTestCase("309070", "12345668", true);
+        }
+        @Test
+        public void WhereSecondPassesWithNoMatchWeights() {
+            assertVocalinkTestCase("309070", "12345677", true);
+        }
+        @Test
+        public void WhereSecondPassesUsingOneMatchWeight() {
+            assertVocalinkTestCase("309070", "99345694", true);
+        }
+    }
     @Test
     public void PASS_MODULUS_10_check() {
         assertVocalinkTestCase("089999", "66374958", true);
@@ -52,10 +82,7 @@ public class VocalinkTestCases {
     public void Exception_4_WHERE_THE_REMAINDER_IS_equal_TO_the_checkdigit() {
         assertVocalinkTestCase("134020", "63849203", true);
     }
-    @Test
-    public void Exception_1_ensures_that_27_has_been_added_TO_the_ACCUMULATED_TOTAL() {
-        assertVocalinkTestCase("118765", "64371389", true);
-    }
+
     @Test
     public void Exception_6_WHERE_the_account_FAILS_standard_check_but_is_a_foreign_currency_account() {
         assertVocalinkTestCase("200915", "41011166", true);
@@ -76,26 +103,12 @@ public class VocalinkTestCases {
     public void Exception_7_WHERE_passes_BUT_WOULD_FAIL_THE_standard_check() {
         assertVocalinkTestCase("772798", "99345694", true);
     }
+
     @Test
     public void Exception_8_WHERE_the_check_PASSES() {
         assertVocalinkTestCase("086090", "06774744", true);
     }
-    @Test
-    public void TWO_AND_9_WHERE_first_PASSES_AND_second_FAILS() {
-        assertVocalinkTestCase("309070", "02355688", true);
-    }
-    @Test
-    public void TWO_AND_9_WHERE_first_FAILS_AND_SECOND_PASSES_WITH_SUBSTITUTION() {
-        assertVocalinkTestCase("309070", "12345668", true);
-    }
-    @Test
-    public void TWO_AND_9_SECOND_PASSES_WITH_no_MATCH_WEIGHTS() {
-        assertVocalinkTestCase("309070", "12345677", true);
-    }
-    @Test
-    public void TWO_AND_9_WHERE_SECOND_PASSES_USING_one_MATCH_WEIGHTS() {
-        assertVocalinkTestCase("309070", "99345694", true);
-    }
+
     @Test
     public void Exception_5_WHERE_THE_FIRST_checkdigit_IS_correct_AND_the_SECOND_incorrect() {
         assertVocalinkTestCase("938063", "15764273", false);
@@ -108,10 +121,7 @@ public class VocalinkTestCases {
     public void Exception_5_WHERE_THE_FIRST_checkdigit_IS_incorrect_WITH_a_REMAINDER_of_1() {
         assertVocalinkTestCase("938063", "15763217", false);
     }
-    @Test
-    public void Exception_1_WHERE_it_FAILS_DOUBLE_alternate_check() {
-        assertVocalinkTestCase("118765", "64371388", false);
-    }
+
     @Test
     public void PASS_MODULUS_11_check_AND_fail_DOUBLE_alternate_check() {
         assertVocalinkTestCase("203099", "66831036", false);
@@ -145,7 +155,7 @@ public class VocalinkTestCases {
         assertVocalinkTestCase("180002", "00000190", true);
     }
 
-    private void assertVocalinkTestCase(String sortCode, String accountNumber, Boolean expectedValid) {
+    private static void assertVocalinkTestCase(String sortCode, String accountNumber, Boolean expectedValid) {
         Boolean actual = modulusChecker.checkBankAccount(sortCode, accountNumber);
         assertThat(actual, is(equalTo(expectedValid)));
     }

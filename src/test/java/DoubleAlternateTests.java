@@ -1,4 +1,5 @@
 import com.dambra.paul.moduluschecker.*;
+import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.chain.DoubleAlternateCheck;
 import org.junit.Test;
 
