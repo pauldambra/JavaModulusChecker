@@ -21,7 +21,17 @@ public class ModulusElevenCheck {
                 (l, r) -> l * r
         ).reduce(0, Integer::sum);
 
-        return total % 11 == 0;
+        int remainder = total % 11;
+
+        return selectedRow.isExceptionFour()
+                ? remainder == exceptionFourCheckDigit(params)
+                : remainder == 0;
+    }
+
+    private int exceptionFourCheckDigit(ModulusCheckParams params) {
+        int g = params.account.getNumberAt(BankAccount.G);
+        int h = params.account.getNumberAt(BankAccount.H);
+        return Integer.parseInt(String.format("%s%s",g,h));
     }
 
     private Stream<Integer> CheckForExceptionTwoAndNine(ModulusCheckParams params, WeightRow selectedRow) {

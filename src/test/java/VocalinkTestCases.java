@@ -38,6 +38,29 @@ public class VocalinkTestCases {
             assertVocalinkTestCase("309070", "99345694", true);
         }
     }
+
+    public static class ExceptionThree {
+        @Test
+        public void CEqualsSixSoIgnoreSecondCheck() {
+            assertVocalinkTestCase("820000", "73688637", true);
+        }
+        @Test
+        public void CEqualsNineSoIgnoreSecondCheck() {
+            assertVocalinkTestCase("827999", "73988638", true);
+        }
+        @Test
+        public void CIsNeitherSixNorNineSoRunSecondCheck() {
+            assertVocalinkTestCase("827101", "28748352", true);
+        }
+    }
+
+    public static class ExceptionFour {
+        @Test
+        public void WhereTheRemainderIsEqualToTheCheckDigit() {
+            assertVocalinkTestCase("134020", "63849203", true);
+        }
+    }
+
     @Test
     public void PASS_MODULUS_10_check() {
         assertVocalinkTestCase("089999", "66374958", true);
@@ -66,22 +89,8 @@ public class VocalinkTestCases {
     public void Exception_10_WHERE_acc_no_ab_EQUALS_99_AND_g_EQUALS_9_first_check_PASSES_AND_second_FAILS() {
         assertVocalinkTestCase("871427", "99123496", true);
     }
-    @Test
-    public void Exception_3_AND_c_EQUALS_6_SO_IGNORE_second_check() {
-        assertVocalinkTestCase("820000", "73688637", true);
-    }
-    @Test
-    public void Exception_3_AND_c_EQUALS_9_SO_IGNORE_second_check() {
-        assertVocalinkTestCase("827999", "73988638", true);
-    }
-    @Test
-    public void Exception_3_AND_c_IS_NEITHER_6_NOR_9_so_RUN_second_check() {
-        assertVocalinkTestCase("827101", "28748352", true);
-    }
-    @Test
-    public void Exception_4_WHERE_THE_REMAINDER_IS_equal_TO_the_checkdigit() {
-        assertVocalinkTestCase("134020", "63849203", true);
-    }
+
+
 
     @Test
     public void Exception_6_WHERE_the_account_FAILS_standard_check_but_is_a_foreign_currency_account() {
