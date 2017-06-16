@@ -61,6 +61,38 @@ public class VocalinkTestCases {
         }
     }
 
+    public static class ExceptionFive {
+        @Test
+        public void WhereTheCheckPasses() {
+            assertVocalinkTestCase("938611", "07806039", true);
+        }
+
+        @Test
+        public void WhereTheCheckPassesWithSubstitution() {
+            assertVocalinkTestCase("938600", "42368003", true);
+        }
+
+        @Test
+        public void WhereBothChecksProduceARemainderOfZeroAndPass() {
+            assertVocalinkTestCase("938063", "55065200", true);
+        }
+
+        @Test
+        public void WhereTheFirstCheckDigitIsCorrectAndTheSecondIsIncorrect() {
+            assertVocalinkTestCase("938063", "15764273", false);
+        }
+
+        @Test
+        public void WhereTheFirstCheckDigitIsIncorrectAndTheSecondCorrect() {
+            assertVocalinkTestCase("938063", "15764264", false);
+        }
+
+        @Test
+        public void WhereTheFirstCheckDigitIsIncorrectWithARemainderOfOne() {
+            assertVocalinkTestCase("938063", "15763217", false);
+        }
+    }
+
     @Test
     public void PASS_MODULUS_10_check() {
         assertVocalinkTestCase("089999", "66374958", true);
@@ -96,18 +128,7 @@ public class VocalinkTestCases {
     public void Exception_6_WHERE_the_account_FAILS_standard_check_but_is_a_foreign_currency_account() {
         assertVocalinkTestCase("200915", "41011166", true);
     }
-    @Test
-    public void Exception_5_WHERE_the_check_PASSES() {
-        assertVocalinkTestCase("938611", "07806039", true);
-    }
-    @Test
-    public void Exception_5_WHERE_the_check_PASSES_WITH_SUBSTITUTION() {
-        assertVocalinkTestCase("938600", "42368003", true);
-    }
-    @Test
-    public void Exception_5_WHERE_both_checks_produce_a_remainder_of_0_AND_pass() {
-        assertVocalinkTestCase("938063", "55065200", true);
-    }
+
     @Test
     public void Exception_7_WHERE_passes_BUT_WOULD_FAIL_THE_standard_check() {
         assertVocalinkTestCase("772798", "99345694", true);
@@ -118,18 +139,7 @@ public class VocalinkTestCases {
         assertVocalinkTestCase("086090", "06774744", true);
     }
 
-    @Test
-    public void Exception_5_WHERE_THE_FIRST_checkdigit_IS_correct_AND_the_SECOND_incorrect() {
-        assertVocalinkTestCase("938063", "15764273", false);
-    }
-    @Test
-    public void Exception_5_WHERE_THE_FIRST_checkdigit_IS_incorrect_AND_the_SECOND_correct() {
-        assertVocalinkTestCase("938063", "15764264", false);
-    }
-    @Test
-    public void Exception_5_WHERE_THE_FIRST_checkdigit_IS_incorrect_WITH_a_REMAINDER_of_1() {
-        assertVocalinkTestCase("938063", "15763217", false);
-    }
+
 
     @Test
     public void PASS_MODULUS_11_check_AND_fail_DOUBLE_alternate_check() {
