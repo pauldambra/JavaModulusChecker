@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 public class BankAccount {
     public static final int U = 0, V = 1, W = 2, X = 3, Y = 4, Z = 5,
             A = 6, B = 7, C = 8, D = 9, E = 10, F = 11, G = 12, H = 13;
+    public static final String LLOYDS_EURO_SORT_CODE = "309634";
 
     public final String sortCode;
     public final String accountNumber;

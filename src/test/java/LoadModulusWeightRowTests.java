@@ -1,71 +1,61 @@
 import com.dambra.paul.moduluschecker.*;
 import com.dambra.paul.moduluschecker.Account.BankAccount;
-import com.dambra.paul.moduluschecker.Account.SortCodeRange;
+import com.dambra.paul.moduluschecker.valacdosFile.SortCodeRange;
+import com.dambra.paul.moduluschecker.valacdosFile.ModulusWeightRows;
+import com.dambra.paul.moduluschecker.valacdosFile.ValacdosRow;
+import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
-import static com.google.common.collect.ImmutableList.of;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 public class LoadModulusWeightRowTests {
 
     @Test
-    public void SortCodeRangeCanExpandTheRange() {
-        SortCodeRange scr = new SortCodeRange("010004", "010010");
-        Stream<String> expectedRange = Stream.of("010004", "010005", "010006", "010007", "010008", "010009", "010010");
-        Assert.thatStreamEquals(expectedRange, scr.fullRange);
-    }
-
-    @Test
     public void CanParseAModulusWeightRow() throws UnknownAlgorithmException {
         String input = "074456 074456 MOD10    0    3    2    4    5    8    9    4    5    6    7    8    9   -1  13";
 
-        WeightRow row = WeightRow.parse(input).get();
+        WeightRow row = WeightRow.parse(input).orElse(null);
 
         assertThat(row.modulusAlgorithm, is(equalTo(ModulusAlgorithm.MOD10)));
         assertThat(row.exception, is(equalTo(Optional.of(13))));
-        Assert.thatStreamEquals(row.weights, Stream.of(0, 3, 2, 4, 5, 8, 9, 4, 5, 6, 7, 8, 9, -1));
+        assertThat(row.getWeights(), is(equalTo(ImmutableList.of(0, 3, 2, 4, 5, 8, 9, 4, 5, 6, 7, 8, 9, -1))));
     }
 
     @Test
     public void CanLoadModulusWeightRow() {
-        WeightRow weightRow = new WeightRow(ModulusAlgorithm.MOD10, Stream.empty(), null);
+        WeightRow weightRow = new WeightRow(ModulusAlgorithm.MOD10, ImmutableList.of(), null);
         SortCodeRange sortCodeRange = new SortCodeRange("012344", "012346");
 
-        ImmutableMap<SortCodeRange,WeightRow> weights = ImmutableMap.<SortCodeRange, WeightRow>builder()
-                .put(sortCodeRange, weightRow)
-                .build();
-        ModulusWeightRows modulusRows = new ModulusWeightRows(weights);
+        ModulusWeightRows modulusRows = new ModulusWeightRows(Arrays.asList(new ValacdosRow(sortCodeRange, weightRow)));
 
         BankAccount originalAccount = new BankAccount("012345", "01234567");
         ModulusCheckParams modulusCheckParams = modulusRows.FindFor(originalAccount);
 
-        assertThat(modulusCheckParams.account, is(equalTo(originalAccount)));
-        assertThat(modulusCheckParams.firstWeightRow.get(), is(equalTo(weightRow)));
+        assertThat(modulusCheckParams.getAccount(), is(equalTo(originalAccount)));
+        assertThat(modulusCheckParams.getFirstWeightRow().orElse(null), is(equalTo(weightRow)));
     }
 
     @Test
     public void ReturnsUnmatchedRowWhenNoSortCodeRangeMatches() {
-        WeightRow weightRow = new WeightRow(ModulusAlgorithm.MOD10, Stream.empty(), null);
+        WeightRow weightRow = new WeightRow(ModulusAlgorithm.MOD10, ImmutableList.of(), null);
         SortCodeRange sortCodeRange = new SortCodeRange("012346", "012347");
 
-        ImmutableMap<SortCodeRange,WeightRow> weights = ImmutableMap.<SortCodeRange, WeightRow>builder()
-                .put(sortCodeRange, weightRow)
-                .build();
-        ModulusWeightRows modulusRows = new ModulusWeightRows(weights);
+        ModulusWeightRows modulusRows = new ModulusWeightRows(Arrays.asList(new ValacdosRow(sortCodeRange, weightRow)));
 
         BankAccount originalAccount = new BankAccount("012345", "01234567");
         ModulusCheckParams modulusCheckParams = modulusRows.FindFor(originalAccount);
 
-        assertThat(modulusCheckParams.firstWeightRow.isPresent(), is(equalTo(false)));
+        assertThat(modulusCheckParams.getFirstWeightRow().isPresent(), is(equalTo(false)));
     }
 
     @Test
@@ -74,13 +64,29 @@ public class LoadModulusWeightRowTests {
         assertThat(modulusWeightRows.isPresent(), is(equalTo(true)));
 
         BankAccount ba = new BankAccount("938173", "01234567");
-        ModulusWeightRows weightRows = modulusWeightRows.get();
+        ModulusWeightRows weightRows = modulusWeightRows.orElse(null);
         ModulusCheckParams found = weightRows.FindFor(ba);
 
         List<ModulusAlgorithm> modulusAlgorithms = ImmutableList.of(
-                found.firstWeightRow.get().modulusAlgorithm,
-                found.secondWeightRow.get().modulusAlgorithm
+                found.getFirstWeightRow().orElse(null).modulusAlgorithm,
+                found.getSecondWeightRow().orElse(null).modulusAlgorithm
         );
         assertThat(modulusAlgorithms, containsInAnyOrder(ModulusAlgorithm.MOD11, ModulusAlgorithm.DOUBLE_ALTERNATE));
+    }
+
+    /**
+     * This was a bug where order of loaded rows was different between debug and run configs o_O
+     */
+    @Test
+    public void CanLoadFromFileResourceAndGetALloydsAccount() {
+        Optional<ModulusWeightRows> modulusWeightRows = ModulusWeightRows.fromFile("file/valacdos.txt");
+        assertThat(modulusWeightRows.isPresent(), is(equalTo(true)));
+
+        BankAccount ba = new BankAccount("309070", "12345668");
+        ModulusWeightRows weightRows = modulusWeightRows.orElse(null);
+        ModulusCheckParams found = weightRows.FindFor(ba);
+
+        assertThat(found.getFirstWeightRow().get().exception.get(), is(equalTo(2)));
+        assertThat(found.getSecondWeightRow().get().exception.get(), is(equalTo(9)));
     }
 }

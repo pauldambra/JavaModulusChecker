@@ -3,6 +3,8 @@ package com.dambra.paul.moduluschecker.chain;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.SortCodeSubstitution;
 
+import java.util.Optional;
+
 public class SortCodeSubstitutionCheck implements ModulusChainCheck{
 
     private final SortCodeSubstitution sortCodeSubstitution;
@@ -16,7 +18,9 @@ public class SortCodeSubstitutionCheck implements ModulusChainCheck{
     @Override
     public ModulusResult check(ModulusCheckParams params) {
         return next.check(new ModulusCheckParams(
-                    sortCodeSubstitution.Apply(params.account),
-                    params.firstWeightRow, params.secondWeightRow));
+                sortCodeSubstitution.Apply(params.getAccount()),
+                params.getFirstWeightRow(),
+                params.getSecondWeightRow(),
+                Optional.empty()));
     }
 }

@@ -58,7 +58,7 @@ public class ChainOfResponsibilityTests {
     public void CanChainTogether() {
         ModulusChainCheck chain = new First(new SecondIsAlwaysResponsible(new Third()));
 
-        ModulusResult result = chain.check(new ModulusCheckParams(null, Optional.empty(), Optional.empty()));
+        ModulusResult result = chain.check(new ModulusCheckParams(null, Optional.empty(), Optional.empty(), Optional.empty()));
 
         assertThat(result.firstCheck.get(), is(equalTo(false)));
         assertThat(firstWasCalled, is(equalTo(true)));

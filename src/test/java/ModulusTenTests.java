@@ -1,10 +1,11 @@
 import com.dambra.paul.moduluschecker.*;
 import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.chain.ModulusTenCheck;
+import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
+import com.google.common.collect.ImmutableList;
 import org.junit.Test;
 
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,17 +18,17 @@ public class ModulusTenTests {
         String an = "66374958";
         WeightRow row = new WeightRow(
                 ModulusAlgorithm.MOD10,
-                Stream.of(0, 0, 0, 0, 0, 0, 7, 1, 3, 7, 1, 3, 7, 1),
+                ImmutableList.of(0, 0, 0, 0, 0, 0, 7, 1, 3, 7, 1, 3, 7, 1),
                 Optional.empty()
         );
 
         ModulusCheckParams params = new ModulusCheckParams(
                 new BankAccount(sc, an),
-                Optional.of(row), Optional.empty());
+                Optional.of(row), Optional.empty(), Optional.empty());
         ModulusTenCheck checker = new ModulusTenCheck();
 
 
-        Boolean result = checker.check(params, x -> x.firstWeightRow.get());
+        Boolean result = checker.check(params, x -> x.getFirstWeightRow().get());
 
         assertThat(result, is(equalTo(true)));
     }

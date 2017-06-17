@@ -1,7 +1,7 @@
-package com.dambra.paul.moduluschecker;
+package com.dambra.paul.moduluschecker.valacdosFile;
 
 import com.dambra.paul.moduluschecker.Account.BankAccount;
-import com.dambra.paul.moduluschecker.Account.SortCodeRange;
+import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
 import com.google.common.collect.*;
@@ -9,6 +9,7 @@ import com.google.common.io.Resources;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -17,35 +18,49 @@ import java.util.stream.Collectors;
 public class ModulusWeightRows {
 
     private static final Splitter newlineSplitter = Splitter.on(Pattern.compile("\r?\n"));
+    private final ImmutableList<ValacdosRow> valacdosRows;
 
-    private final ImmutableListMultimap<String, WeightRow> weights;
-
-    public ModulusWeightRows(ImmutableMap<SortCodeRange, WeightRow> weights) {
-        this.weights = expand(weights);
+    public ModulusWeightRows(List<ValacdosRow> valacdosRows) {
+        this.valacdosRows = ImmutableList.copyOf(valacdosRows);
     }
 
     private ImmutableListMultimap<String, WeightRow> expand(ImmutableMap<SortCodeRange, WeightRow> weights) {
         ListMultimap<String, WeightRow> expandedRows = ArrayListMultimap.create();
-        weights.forEach((scr, weightRow) -> scr.fullRange
+        weights.forEach((scr, weightRow) -> scr.fullRange()
                                                .forEach(sc -> expandedRows.put(sc, weightRow)));
         return ImmutableListMultimap.copyOf(expandedRows);
     }
 
     public ModulusCheckParams FindFor(BankAccount account) {
 
-        if (!weights.containsKey(account.sortCode)) {
-            return new ModulusCheckParams(account, Optional.empty(), Optional.empty());
+        WeightRow first = null;
+        WeightRow second = null;
+
+        for (ValacdosRow vr : this.valacdosRows) {
+            if (!vr.getSortCodeRange().contains(account.sortCode)) {
+                if (first == null) {
+                    continue;
+                } else {
+                    break;
+                }
+            }
+
+            if (first == null) {
+                first = vr.getWeightRow();
+                continue;
+            }
+
+            second = vr.getWeightRow();
         }
 
-        ImmutableList<WeightRow> matchedRows = weights.get(account.sortCode);
+        System.out.println("first: " + first);
+        System.out.println("second: " + second);
 
-        return new ModulusCheckParams(account, getOrDefaultAt(0, matchedRows), getOrDefaultAt(1, matchedRows));
-    }
-
-    private Optional<WeightRow> getOrDefaultAt(int index, ImmutableList<WeightRow> matchedRows) {
-        return matchedRows.size()>=index+1
-                ? Optional.of(matchedRows.get(index))
-                : Optional.empty();
+        return new ModulusCheckParams(
+                account,
+                Optional.ofNullable(first),
+                Optional.ofNullable(second),
+                Optional.empty());
     }
 
     public static Optional<ModulusWeightRows> fromFile(String filePath) {
@@ -55,13 +70,11 @@ public class ModulusWeightRows {
         try {
             text = Resources.toString(url, Charsets.UTF_8);
         } catch (IOException e) {
-            // TODO how do I log?
             System.out.println("NO CONTENTS :( " + e.getMessage());
             return Optional.empty();
         }
 
-        Map<SortCodeRange, WeightRow> rows =
-            newlineSplitter
+        List<ValacdosRow> valacdosRows = newlineSplitter
                 .splitToList(text)
                 .stream()
                 .filter(r -> !r.isEmpty())
@@ -71,11 +84,10 @@ public class ModulusWeightRows {
                 })
                 .filter(r -> r.weightRow.isPresent())
                 .filter(r -> r.sortCodeRange.isPresent())
-                .collect(Collectors.toMap(
-                        c -> c.sortCodeRange.get(),
-                        c -> c.weightRow.get()
-                ));
+                .map(r -> new ValacdosRow(r.sortCodeRange.get(), r.weightRow.get()))
+                .collect(Collectors.toList());
 
-        return Optional.of(new ModulusWeightRows(ImmutableMap.copyOf(rows)));
+        return Optional.of(new ModulusWeightRows(valacdosRows));
     }
+
 }

@@ -6,7 +6,7 @@ import com.dambra.paul.moduluschecker.ModulusChecker;
 import org.junit.Test;
 
 public class VocalinkTestCases {
-    private static ModulusChecker modulusChecker = new ModulusChecker();
+    private static ModulusChecker modulusChecker() {return new ModulusChecker(); };
 
     public static class ExceptionOne {
         @Test
@@ -23,12 +23,15 @@ public class VocalinkTestCases {
     public static class ExceptionTwoAndNine {
         @Test
         public void WhereFirstPassesAndSecondFails() {
+
             assertVocalinkTestCase("309070", "02355688", true);
         }
+
         @Test
         public void WhereFirstFailsAndSecondPassesWithSubstitution() {
             assertVocalinkTestCase("309070", "12345668", true);
         }
+
         @Test
         public void WhereSecondPassesWithNoMatchWeights() {
             assertVocalinkTestCase("309070", "12345677", true);
@@ -175,7 +178,7 @@ public class VocalinkTestCases {
     }
 
     private static void assertVocalinkTestCase(String sortCode, String accountNumber, Boolean expectedValid) {
-        Boolean actual = modulusChecker.checkBankAccount(sortCode, accountNumber);
+        Boolean actual = modulusChecker().checkBankAccount(sortCode, accountNumber);
         assertThat(actual, is(equalTo(expectedValid)));
     }
 }

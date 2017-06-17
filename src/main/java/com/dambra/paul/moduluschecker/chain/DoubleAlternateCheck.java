@@ -2,19 +2,19 @@ package com.dambra.paul.moduluschecker.chain;
 
 import com.dambra.paul.moduluschecker.As;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
-import com.dambra.paul.moduluschecker.WeightRow;
+import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 import com.google.common.collect.Streams;
 
 import java.util.function.Function;
 
-public class DoubleAlternateCheck {
+public final class DoubleAlternateCheck {
 
     public Boolean check(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {
         WeightRow selectedRow = rowSelector.apply(params);
 
         int total = Streams.zip(
-                params.account.allDigits(),
-                selectedRow.weights,
+                params.getAccount().allDigits(),
+                selectedRow.getWeights().stream(),
                         (l, r) -> l * r
                     ).map(String::valueOf)
                     .flatMap(As::integerStream)
