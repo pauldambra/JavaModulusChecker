@@ -1,4 +1,4 @@
-package com.dambra.paul.moduluschecker.chain;
+package com.dambra.paul.moduluschecker.chain.checks;
 
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;

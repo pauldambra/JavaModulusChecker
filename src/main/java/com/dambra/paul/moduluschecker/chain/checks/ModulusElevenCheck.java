@@ -1,4 +1,4 @@
-package com.dambra.paul.moduluschecker.chain;
+package com.dambra.paul.moduluschecker.chain.checks;
 
 import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
@@ -23,8 +23,15 @@ public final class ModulusElevenCheck {
 
         int remainder = total % 11;
 
-        boolean isExceptionFour = selectedRow.isExceptionFour();
-        return isExceptionFour ? remainder == exceptionFourCheckDigit(params) : remainder == 0;
+        if (selectedRow.isExceptionFour()) {
+            return remainder == exceptionFourCheckDigit(params);
+        }
+        else {
+            boolean result = remainder == 0;
+            if (result) { return true; }
+
+            return new LloydsAlternateModulusElevenCheck().check(params, rowSelector);
+        }
     }
 
     private int exceptionFourCheckDigit(ModulusCheckParams params) {
@@ -34,7 +41,7 @@ public final class ModulusElevenCheck {
     }
 
     private ImmutableList<Integer> CheckForExceptionTwoAndNine(ModulusCheckParams params, WeightRow selectedRow) {
-        if (!WeightRow.isExceptionTwoAndNine(java.util.Optional.ofNullable(selectedRow), params.getSecondWeightRow())) {
+        if (!WeightRow.isExceptionTwoAndNine(params.getFirstWeightRow(), params.getSecondWeightRow())) {
             return selectedRow.getWeights();
         }
 
@@ -43,9 +50,9 @@ public final class ModulusElevenCheck {
         }
 
         if (params.getAccount().getNumberAt(BankAccount.G) == 9) {
-            return ImmutableList.of(0, 0, 1, 2, 5, 3, 6, 4, 8, 7, 10, 9, 3, 1);
-        } else {
             return ImmutableList.of(0, 0, 0, 0, 0, 0, 0, 0, 8, 7, 10, 9, 3, 1);
+        } else {
+            return ImmutableList.of(0, 0, 1, 2, 5, 3, 6, 4, 8, 7, 10, 9, 3, 1);
         }
     }
 

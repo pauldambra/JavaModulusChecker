@@ -1,8 +1,12 @@
 package com.dambra.paul.moduluschecker.chain;
 
-import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
+import com.dambra.paul.moduluschecker.chain.checks.DoubleAlternateCheck;
+import com.dambra.paul.moduluschecker.chain.checks.ModulusElevenCheck;
+import com.dambra.paul.moduluschecker.chain.checks.ModulusTenCheck;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
+
+import java.util.function.Function;
 
 public class SecondModulusCheckRouter implements ModulusChainCheck {
     private final DoubleAlternateCheck doubleAlternateCheck;
@@ -27,25 +31,16 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
             return params.getModulusResult().get();
         }
 
-
-        if (isExceptionTwoAndNineWithFailingFirstCheck(params)) {
-            params = new ModulusCheckParams(
-                    new BankAccount(BankAccount.LLOYDS_EURO_SORT_CODE, params.getAccount().accountNumber),
-                    params.getFirstWeightRow(),
-                    params.getSecondWeightRow(),
-                    params.getModulusResult()
-            );
-        }
-
+        Function<ModulusCheckParams, WeightRow> rowSelector = p -> p.getSecondWeightRow().get();
         switch (params.getSecondWeightRow().get().modulusAlgorithm) {
             case DOUBLE_ALTERNATE:
-                result = doubleAlternateCheck.check(params, p -> p.getSecondWeightRow().get());
+                result = doubleAlternateCheck.check(params, rowSelector);
                 break;
             case MOD10:
-                result = modulusTenCheck.check(params, p -> p.getSecondWeightRow().get());
+                result = modulusTenCheck.check(params, rowSelector);
                 break;
             case MOD11:
-                result = modulusElevenCheck.check(params, p -> p.getSecondWeightRow().get());
+                result = modulusElevenCheck.check(params, rowSelector);
                 break;
         }
 
@@ -59,12 +54,5 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
         boolean firstCheckSucceeded = params.getModulusResult().get().firstCheck.get();
 
         return isExceptionTwoAndNine && hasResults && hasFirstCheckResult && firstCheckSucceeded;
-    }
-
-    private boolean isExceptionTwoAndNineWithFailingFirstCheck(ModulusCheckParams params) {
-        return WeightRow.isExceptionTwoAndNine(params.getFirstWeightRow(), params.getSecondWeightRow())
-                && params.getModulusResult().isPresent()
-                && params.getModulusResult().get().firstCheck.isPresent()
-                && !params.getModulusResult().get().firstCheck.get();
     }
 }

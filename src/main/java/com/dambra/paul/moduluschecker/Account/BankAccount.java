@@ -36,6 +36,14 @@ public class BankAccount {
         return allDigits().toArray(Integer[]::new)[i];
     }
 
+    @Override
+    public String toString() {
+        return "BankAccount{" +
+                "sortCode='" + sortCode + '\'' +
+                ", accountNumber='" + accountNumber + '\'' +
+                '}';
+    }
+
     private static class NonStandardAccounts {
         public static String[] corrections(String sortCode, String accountNumber) {
 

@@ -2,7 +2,7 @@ import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusAlgorithm;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
-import com.dambra.paul.moduluschecker.chain.ModulusElevenCheck;
+import com.dambra.paul.moduluschecker.chain.checks.ModulusElevenCheck;
 import com.google.common.collect.ImmutableList;
 import org.junit.Test;
 

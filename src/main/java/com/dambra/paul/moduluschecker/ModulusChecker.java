@@ -2,6 +2,9 @@ package com.dambra.paul.moduluschecker;
 
 import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.chain.*;
+import com.dambra.paul.moduluschecker.chain.checks.DoubleAlternateCheck;
+import com.dambra.paul.moduluschecker.chain.checks.ModulusElevenCheck;
+import com.dambra.paul.moduluschecker.chain.checks.ModulusTenCheck;
 import com.dambra.paul.moduluschecker.valacdosFile.ModulusWeightRows;
 
 import java.util.Optional;
@@ -23,6 +26,7 @@ public class ModulusChecker {
 
         Boolean firstResult = modulusResults.firstCheck.orElse(false);
         Boolean secondResult = modulusResults.secondCheck.orElse(false);
+
         return firstResult || secondResult;
     }
 

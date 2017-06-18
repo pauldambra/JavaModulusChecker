@@ -1,6 +1,6 @@
 import com.dambra.paul.moduluschecker.*;
 import com.dambra.paul.moduluschecker.Account.BankAccount;
-import com.dambra.paul.moduluschecker.chain.DoubleAlternateCheck;
+import com.dambra.paul.moduluschecker.chain.checks.DoubleAlternateCheck;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 import com.google.common.collect.ImmutableList;
 import org.junit.Test;

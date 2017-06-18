@@ -46,14 +46,6 @@ public final class SortCodeRange {
                         parts.get(HIGHEST_SORT_CODE_INDEX)));
     }
 
-    public boolean isAfter(String sortCode) {
-        return asInteger(sortCode) < start;
-    }
-
-    public boolean isBefore(String sortCode) {
-        return end < asInteger(sortCode);
-    }
-
     public boolean contains(String sortCode) {
         int i = asInteger(sortCode);
         return start <= i && i <= end;

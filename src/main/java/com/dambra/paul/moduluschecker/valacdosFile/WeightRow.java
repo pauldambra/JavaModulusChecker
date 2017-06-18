@@ -29,14 +29,12 @@ public final class WeightRow {
     }
 
     public static boolean isExceptionTwoAndNine(Optional<WeightRow> firstRow, Optional<WeightRow> secondWeightRow) {
-        System.out.println("first row: " + firstRow.get().exception);
         return firstRow.isPresent()
                 && firstRow.get().isExceptionTwo()
                 && secondCheckIsExceptionNine(secondWeightRow);
     }
 
     private static boolean secondCheckIsExceptionNine(Optional<WeightRow> secondWeightRow) {
-        System.out.println("second row: " + secondWeightRow.get().exception);
         return secondWeightRow.isPresent()
                 && secondWeightRow.get().isExceptionNine();
     }

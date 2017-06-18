@@ -24,37 +24,29 @@ public class ModulusWeightRows {
         this.valacdosRows = ImmutableList.copyOf(valacdosRows);
     }
 
-    private ImmutableListMultimap<String, WeightRow> expand(ImmutableMap<SortCodeRange, WeightRow> weights) {
-        ListMultimap<String, WeightRow> expandedRows = ArrayListMultimap.create();
-        weights.forEach((scr, weightRow) -> scr.fullRange()
-                                               .forEach(sc -> expandedRows.put(sc, weightRow)));
-        return ImmutableListMultimap.copyOf(expandedRows);
-    }
-
     public ModulusCheckParams FindFor(BankAccount account) {
 
         WeightRow first = null;
         WeightRow second = null;
 
         for (ValacdosRow vr : this.valacdosRows) {
+            boolean stillSeekingFirstMatch = first == null;
+
             if (!vr.getSortCodeRange().contains(account.sortCode)) {
-                if (first == null) {
+                if (stillSeekingFirstMatch) {
                     continue;
                 } else {
                     break;
                 }
             }
 
-            if (first == null) {
+            if (stillSeekingFirstMatch) {
                 first = vr.getWeightRow();
                 continue;
             }
 
             second = vr.getWeightRow();
         }
-
-        System.out.println("first: " + first);
-        System.out.println("second: " + second);
 
         return new ModulusCheckParams(
                 account,

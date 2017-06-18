@@ -1,6 +1,9 @@
 package com.dambra.paul.moduluschecker.chain;
 
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
+import com.dambra.paul.moduluschecker.chain.checks.DoubleAlternateCheck;
+import com.dambra.paul.moduluschecker.chain.checks.ModulusElevenCheck;
+import com.dambra.paul.moduluschecker.chain.checks.ModulusTenCheck;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 
 import java.util.Optional;
