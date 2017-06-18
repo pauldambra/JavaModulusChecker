@@ -15,7 +15,7 @@ public class ModulusResult {
         Optional<Boolean> firstCheck = modulusResult.isPresent()
                                         ? modulusResult.get().firstCheck
                                         : Optional.of(false);
-        return new ModulusResult(firstCheck, Optional.of(secondCheck));
+        return new ModulusResult(firstCheck, Optional.ofNullable(secondCheck));
     }
 
     public static ModulusResult copy(ModulusResult original) {

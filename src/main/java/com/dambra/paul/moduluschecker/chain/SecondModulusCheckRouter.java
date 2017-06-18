@@ -1,5 +1,6 @@
 package com.dambra.paul.moduluschecker.chain;
 
+import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.chain.checks.DoubleAlternateCheck;
 import com.dambra.paul.moduluschecker.chain.checks.ModulusElevenCheck;
@@ -25,7 +26,7 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
     @Override
     public ModulusResult check(ModulusCheckParams params) {
 
-        boolean result = false;
+        Boolean result = false;
 
         if (isExceptionTwoAndNineWithPassingFirstCheck(params)) {
             return params.getModulusResult().get();
@@ -34,7 +35,7 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
         Function<ModulusCheckParams, WeightRow> rowSelector = p -> p.getSecondWeightRow().get();
         switch (params.getSecondWeightRow().get().modulusAlgorithm) {
             case DOUBLE_ALTERNATE:
-                result = doubleAlternateCheck.check(params, rowSelector);
+                result = runOrSkip(params, rowSelector);
                 break;
             case MOD10:
                 result = modulusTenCheck.check(params, rowSelector);
@@ -45,6 +46,15 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
         }
 
         return ModulusResult.WithSecondResult(params.getModulusResult(), result);
+    }
+
+    private Boolean runOrSkip(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {
+        return canSkipForExceptionThree(params) ? null : doubleAlternateCheck.check(params, rowSelector);
+    }
+
+    private boolean canSkipForExceptionThree(ModulusCheckParams params) {
+        int c = params.getAccount().getNumberAt(BankAccount.C);
+        return c == 6 || c ==9;
     }
 
     private boolean isExceptionTwoAndNineWithPassingFirstCheck(ModulusCheckParams params) {
