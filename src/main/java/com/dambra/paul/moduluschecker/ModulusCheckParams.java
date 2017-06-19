@@ -49,4 +49,14 @@ public final class ModulusCheckParams {
                 getModulusResult()
         );
     }
+
+    @Override
+    public String toString() {
+        return "ModulusCheckParams{" +
+                "account=" + account +
+                ", firstWeightRow=" + firstWeightRow +
+                ", secondWeightRow=" + secondWeightRow +
+                ", modulusResult=" + modulusResult +
+                '}';
+    }
 }

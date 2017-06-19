@@ -1,5 +1,6 @@
 package com.dambra.paul.moduluschecker.chain;
 
+import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.SortCodeSubstitution;
 import com.dambra.paul.moduluschecker.chain.checks.DoubleAlternateCheck;
@@ -29,6 +30,12 @@ public final class FirstModulusCheckRouter implements ModulusChainCheck {
         boolean result = false;
 
         Function<ModulusCheckParams, WeightRow> rowSelector = p -> p.getFirstWeightRow().get();
+
+        if (rowSelector.apply(params).isExceptionSeven()) {
+            BankAccount account = params.getAccount().zeroiseUToB();
+            params = params.withAccount(account);
+        }
+
         switch (params.getFirstWeightRow().get().modulusAlgorithm) {
             case DOUBLE_ALTERNATE:
                 result = new DoubleAlternateCheck().check(params, rowSelector);

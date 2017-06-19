@@ -23,13 +23,16 @@ public class ExceptionSixGate implements ModulusChainCheck {
 
     @Override
     public ModulusResult check(ModulusCheckParams params) {
-        int a = params.getAccount().getNumberAt(BankAccount.A);
-        int g = params.getAccount().getNumberAt(BankAccount.G);
-        int h = params.getAccount().getNumberAt(BankAccount.H);
 
-        if (Arrays.asList(4, 5, 6, 7, 8).contains(a)
-                && g == h) {
-            return new ModulusResult(Optional.of(true), Optional.empty());
+        if (params.getFirstWeightRow().isPresent() && params.getFirstWeightRow().get().isExceptionSix()) {
+            int a = params.getAccount().getNumberAt(BankAccount.A);
+            int g = params.getAccount().getNumberAt(BankAccount.G);
+            int h = params.getAccount().getNumberAt(BankAccount.H);
+
+            if (Arrays.asList(4, 5, 6, 7, 8).contains(a)
+                    && g == h) {
+                return new ModulusResult(Optional.of(true), Optional.empty());
+            }
         }
 
         return next.check(params);

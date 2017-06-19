@@ -22,8 +22,11 @@ public final class DoubleAlternateCheck {
 
         if (selectedRow.isExceptionOne()) {
             total += 27;
+            System.out.println("is in exception one making total " + total);
         }
 
-        return total % 10 == 0;
+        final int remainder = total % 10;
+        System.out.println("so remainder is " + remainder);
+        return remainder == 0;
     }
 }

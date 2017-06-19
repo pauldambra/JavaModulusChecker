@@ -44,6 +44,14 @@ public class BankAccount {
                 '}';
     }
 
+    public BankAccount zeroiseUToB() {
+        if (getNumberAt(G) == 9) {
+            String account = Strings.padStart(accountNumber.substring(2), 8, '0');
+            return new BankAccount("000000", account);
+        }
+        return new BankAccount(sortCode, accountNumber);
+    }
+
     private static class NonStandardAccounts {
         public static String[] corrections(String sortCode, String accountNumber) {
 
