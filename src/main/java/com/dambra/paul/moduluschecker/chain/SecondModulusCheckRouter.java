@@ -35,6 +35,11 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
             params = params.withAccount(account);
         }
 
+        if (rowSelector.apply(params).isExceptionEight()) {
+            BankAccount account = new BankAccount("090126", params.getAccount().accountNumber);
+            params = params.withAccount(account);
+        }
+
         switch (params.getSecondWeightRow().get().modulusAlgorithm) {
             case DOUBLE_ALTERNATE:
                 result = runOrSkip(params, rowSelector);

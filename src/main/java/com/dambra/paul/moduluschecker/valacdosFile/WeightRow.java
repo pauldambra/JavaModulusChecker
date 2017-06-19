@@ -63,6 +63,10 @@ public final class WeightRow {
         return isException(7);
     }
 
+    public boolean isExceptionEight() {
+        return isException(8);
+    }
+
     public boolean isExceptionNine() {
         return isException(9);
     }

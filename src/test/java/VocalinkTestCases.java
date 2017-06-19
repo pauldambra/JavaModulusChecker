@@ -112,6 +112,13 @@ public class VocalinkTestCases {
         }
     }
 
+    public static class ExceptionEight {
+        @Test
+        public void WhereTheCheckPasses() throws IOException {
+            assertVocalinkTestCase("086090", "06774744", true);
+        }
+    }
+
     @Test
     public void PASS_MODULUS_10_check() throws IOException {
         assertVocalinkTestCase("089999", "66374958", true);
@@ -141,10 +148,7 @@ public class VocalinkTestCases {
         assertVocalinkTestCase("871427", "99123496", true);
     }
 
-    @Test
-    public void Exception_8_WHERE_the_check_PASSES() throws IOException {
-        assertVocalinkTestCase("086090", "06774744", true);
-    }
+
 
     @Test
     public void PASS_MODULUS_11_check_AND_fail_DOUBLE_alternate_check() throws IOException {
