@@ -1,5 +1,7 @@
 # Modulus Checker
 
+### NB this is currently a work in progress
+
 This is a Java implementation of UK Bank Account Modulus Checking. Modulus Checking is a process used to determine if a given account number could be valid for a given sort code.
 ***
 Receiving a valid modulus check result only means that the Sort Code and Account Number pair **could** exist not that they do!
