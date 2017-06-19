@@ -1,4 +1,4 @@
-# Modulus Checker
+# Modulus Checker [![Build Status](https://travis-ci.org/pauldambra/JavaModulusChecker.svg?branch=master)](https://travis-ci.org/pauldambra/JavaModulusChecker)
 
 ### NB this is currently a work in progress
 
