@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public final class AtLeastOneWeightRowGate implements ModulusChainCheck {
     private final ModulusWeightRows modulusWeightRows;
-    private final FirstModulusCheckRouter next;
+    private final ExceptionSixGate next;
 
-    public AtLeastOneWeightRowGate(ModulusWeightRows modulusWeightRows, FirstModulusCheckRouter next) {
+    public AtLeastOneWeightRowGate(ModulusWeightRows modulusWeightRows, ExceptionSixGate next) {
         this.modulusWeightRows = modulusWeightRows;
         this.next = next;
     }

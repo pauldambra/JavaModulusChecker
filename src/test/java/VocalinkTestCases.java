@@ -98,6 +98,13 @@ public class VocalinkTestCases {
         }
     }
 
+    public static class ExceptionSix {
+        @Test
+        public void WhereTheAccountFailsStandardCheckButIsAForeignCurrencyAccount() throws IOException {
+            assertVocalinkTestCase("200915", "41011166", true);
+        }
+    }
+
     @Test
     public void PASS_MODULUS_10_check() throws IOException {
         assertVocalinkTestCase("089999", "66374958", true);
@@ -125,11 +132,6 @@ public class VocalinkTestCases {
     @Test
     public void Exception_10_WHERE_acc_no_ab_EQUALS_99_AND_g_EQUALS_9_first_check_PASSES_AND_second_FAILS() throws IOException {
         assertVocalinkTestCase("871427", "99123496", true);
-    }
-
-    @Test
-    public void Exception_6_WHERE_the_account_FAILS_standard_check_but_is_a_foreign_currency_account() throws IOException {
-        assertVocalinkTestCase("200915", "41011166", true);
     }
 
     @Test

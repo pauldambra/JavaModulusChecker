@@ -48,6 +48,7 @@ public class ModulusChecker {
                 sortCodeSubstitution,
                 secondModulusCheckGate
         );
-        return new AtLeastOneWeightRowGate(weightRows, firstModulusCheckRouter);
+        ExceptionSixGate exceptionSixGate = new ExceptionSixGate(firstModulusCheckRouter);
+        return new AtLeastOneWeightRowGate(weightRows, exceptionSixGate);
     }
 }
