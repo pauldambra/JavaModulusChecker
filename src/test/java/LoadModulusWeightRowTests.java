@@ -5,16 +5,16 @@ import com.dambra.paul.moduluschecker.valacdosFile.ModulusWeightRows;
 import com.dambra.paul.moduluschecker.valacdosFile.ValacdosRow;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.core.IsEqual.equalTo;
 
@@ -59,12 +59,11 @@ public class LoadModulusWeightRowTests {
     }
 
     @Test
-    public void CanLoadFromFileResource() {
-        Optional<ModulusWeightRows> modulusWeightRows = ModulusWeightRows.fromFile("file/valacdos.txt");
-        assertThat(modulusWeightRows.isPresent(), is(equalTo(true)));
+    public void CanLoadFromFileResource() throws IOException {
+        ModulusWeightRows weightRows = ModulusWeightRows.fromFile("file/valacdos.txt");
 
         BankAccount ba = new BankAccount("938173", "01234567");
-        ModulusWeightRows weightRows = modulusWeightRows.orElse(null);
+
         ModulusCheckParams found = weightRows.FindFor(ba);
 
         List<ModulusAlgorithm> modulusAlgorithms = ImmutableList.of(
@@ -78,12 +77,11 @@ public class LoadModulusWeightRowTests {
      * This was a bug where order of loaded rows was different between debug and run configs o_O
      */
     @Test
-    public void CanLoadFromFileResourceAndGetALloydsAccount() {
-        Optional<ModulusWeightRows> modulusWeightRows = ModulusWeightRows.fromFile("file/valacdos.txt");
-        assertThat(modulusWeightRows.isPresent(), is(equalTo(true)));
+    public void CanLoadFromFileResourceAndGetALloydsAccount() throws IOException {
+        ModulusWeightRows weightRows = ModulusWeightRows.fromFile("file/valacdos.txt");
 
         BankAccount ba = new BankAccount("309070", "12345668");
-        ModulusWeightRows weightRows = modulusWeightRows.orElse(null);
+
         ModulusCheckParams found = weightRows.FindFor(ba);
 
         assertThat(found.getFirstWeightRow().get().exception.get(), is(equalTo(2)));

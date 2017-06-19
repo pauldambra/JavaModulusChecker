@@ -35,16 +35,10 @@ public class SortCodeSubstitution {
                 : new BankAccount(bankAccount);
     }
 
-    public static Optional<SortCodeSubstitution> fromFile(String filePath) {
-        URL url = Resources.getResource(filePath);
+    public static SortCodeSubstitution fromFile(String filePath) throws IOException {
 
-        String text;
-        try {
-            text = Resources.toString(url, Charsets.UTF_8);
-        } catch (IOException e) {
-            // TODO how do I log?
-            return Optional.empty();
-        }
+        URL url = Resources.getResource(filePath);
+        String text = Resources.toString(url, Charsets.UTF_8);
 
         Map<String, String> substitutions = newlineSplitter
                                                 .splitToList(text)
@@ -56,6 +50,6 @@ public class SortCodeSubstitution {
                                                         ss -> ss.get(1)
                                                 ));
 
-        return Optional.of(new SortCodeSubstitution(substitutions));
+        return new SortCodeSubstitution(substitutions);
     }
 }

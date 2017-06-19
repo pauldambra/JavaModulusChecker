@@ -3,6 +3,7 @@ import com.dambra.paul.moduluschecker.SortCodeSubstitution;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -45,11 +46,10 @@ public class SortCodeSubstitutionTests {
     }
 
     @Test
-    public void CanLoadFromFileResource() {
-        Optional<SortCodeSubstitution> sortCodeSubstitution = SortCodeSubstitution.fromFile("file/scsubtab.txt");
-        assertThat(sortCodeSubstitution.isPresent(), is(equalTo(true)));
+    public void CanLoadFromFileResource() throws IOException {
+        SortCodeSubstitution sortCodeSubstitution = SortCodeSubstitution.fromFile("file/scsubtab.txt");
 
         BankAccount ba = new BankAccount("938173", "01234567");
-        assertThat(sortCodeSubstitution.get().Apply(ba).sortCode, is(equalTo("938017")));
+        assertThat(sortCodeSubstitution.Apply(ba).sortCode, is(equalTo("938017")));
     }
 }

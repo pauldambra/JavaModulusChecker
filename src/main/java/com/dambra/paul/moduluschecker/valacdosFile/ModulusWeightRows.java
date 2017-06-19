@@ -55,16 +55,10 @@ public class ModulusWeightRows {
                 Optional.empty());
     }
 
-    public static Optional<ModulusWeightRows> fromFile(String filePath) {
-        URL url = Resources.getResource(filePath);
+    public static ModulusWeightRows fromFile(String filePath) throws IOException {
 
-        String text;
-        try {
-            text = Resources.toString(url, Charsets.UTF_8);
-        } catch (IOException e) {
-            System.out.println("NO CONTENTS :( " + e.getMessage());
-            return Optional.empty();
-        }
+        URL url = Resources.getResource(filePath);
+        String text = Resources.toString(url, Charsets.UTF_8);
 
         List<ValacdosRow> valacdosRows = newlineSplitter
                 .splitToList(text)
@@ -79,7 +73,7 @@ public class ModulusWeightRows {
                 .map(r -> new ValacdosRow(r.sortCodeRange.get(), r.weightRow.get()))
                 .collect(Collectors.toList());
 
-        return Optional.of(new ModulusWeightRows(valacdosRows));
+        return new ModulusWeightRows(valacdosRows);
     }
 
 }

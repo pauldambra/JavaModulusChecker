@@ -40,4 +40,13 @@ public final class ModulusCheckParams {
     public Optional<ModulusResult> getModulusResult() {
         return Optional.ofNullable(ModulusResult.copy(modulusResult.orElse(null)));
     }
+
+    public ModulusCheckParams withAccount(BankAccount bankAccount) {
+        return new ModulusCheckParams(
+                bankAccount,
+                getFirstWeightRow(),
+                getSecondWeightRow(),
+                getModulusResult()
+        );
+    }
 }

@@ -2,7 +2,9 @@ package com.dambra.paul.moduluschecker.chain;
 
 import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
+import com.dambra.paul.moduluschecker.SortCodeSubstitution;
 import com.dambra.paul.moduluschecker.chain.checks.DoubleAlternateCheck;
+import com.dambra.paul.moduluschecker.chain.checks.ExceptionFiveDoubleAlternateCheck;
 import com.dambra.paul.moduluschecker.chain.checks.ModulusElevenCheck;
 import com.dambra.paul.moduluschecker.chain.checks.ModulusTenCheck;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
@@ -10,17 +12,11 @@ import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 import java.util.function.Function;
 
 public class SecondModulusCheckRouter implements ModulusChainCheck {
-    private final DoubleAlternateCheck doubleAlternateCheck;
-    private final ModulusTenCheck modulusTenCheck;
-    private final ModulusElevenCheck modulusElevenCheck;
 
-    public SecondModulusCheckRouter(
-            DoubleAlternateCheck doubleAlternateCheck,
-            ModulusTenCheck modulusTenCheck,
-            ModulusElevenCheck modulusElevenCheck) {
-        this.doubleAlternateCheck = doubleAlternateCheck;
-        this.modulusTenCheck = modulusTenCheck;
-        this.modulusElevenCheck = modulusElevenCheck;
+    private final SortCodeSubstitution sortCodeSubstitution;
+
+    public SecondModulusCheckRouter(SortCodeSubstitution sortCodeSubstitution) {
+        this.sortCodeSubstitution = sortCodeSubstitution;
     }
 
     @Override
@@ -38,10 +34,10 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
                 result = runOrSkip(params, rowSelector);
                 break;
             case MOD10:
-                result = modulusTenCheck.check(params, rowSelector);
+                result = new ModulusTenCheck().check(params, rowSelector);
                 break;
             case MOD11:
-                result = modulusElevenCheck.check(params, rowSelector);
+                result = new ModulusElevenCheck().check(params, rowSelector);
                 break;
         }
 
@@ -49,7 +45,14 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
     }
 
     private Boolean runOrSkip(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {
-        return canSkipForExceptionThree(params) ? null : doubleAlternateCheck.check(params, rowSelector);
+        return canSkipForExceptionThree(params) ? null : runStandardOrExceptionFiveCheck(params, rowSelector);
+    }
+
+    private Boolean runStandardOrExceptionFiveCheck(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {
+        if (params.getSecondWeightRow().get().isExceptionFive()) {
+            return new ExceptionFiveDoubleAlternateCheck(sortCodeSubstitution).check(params, rowSelector);
+        }
+        return new DoubleAlternateCheck().check(params, rowSelector);
     }
 
     private boolean canSkipForExceptionThree(ModulusCheckParams params) {
