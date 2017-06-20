@@ -71,6 +71,10 @@ public final class WeightRow {
         return isException(9);
     }
 
+    public boolean isExceptionTen() {
+        return isException(10);
+    }
+
     private boolean isException(int exceptionNumber) {
         return exception.isPresent() && exception.get() == exceptionNumber;
     }

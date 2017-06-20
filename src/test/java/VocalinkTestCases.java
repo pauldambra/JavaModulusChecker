@@ -119,6 +119,28 @@ public class VocalinkTestCases {
         }
     }
 
+    public static class ExceptionTenAndEleven {
+        @Test
+        public void WhereAccountNumberABEqualsZeroNineAndGEquals9FirstCheckPassesAndSecondFails() throws IOException {
+            assertVocalinkTestCase("871427", "09123496", true);
+        }
+
+        @Test
+        public void WhereAccountNumberABEqualsNineNineAndGEquals9FirstCheckPassesAndSecondFailsE() throws IOException {
+            assertVocalinkTestCase("871427", "99123496", true);
+        }
+
+        @Test
+        public void WhereFirstCheckPassesAndSecondFails() throws IOException {
+            assertVocalinkTestCase("871427", "46238510", true);
+        }
+
+        @Test
+        public void WhereFirstCheckFailsAndSecondPasses() throws IOException {
+            assertVocalinkTestCase("872427", "46238510", true);
+        }
+    }
+
     @Test
     public void PASS_MODULUS_10_check() throws IOException {
         assertVocalinkTestCase("089999", "66374958", true);
@@ -131,24 +153,6 @@ public class VocalinkTestCases {
     public void PASS_MODULUS_11_AND_double_alternate_checks() throws IOException {
         assertVocalinkTestCase("202959", "63748472", true);
     }
-    @Test
-    public void Exception_10_and_11_WHERE_first_check_PASSES_AND_second_FAILS() throws IOException {
-        assertVocalinkTestCase("871427", "46238510", true);
-    }
-    @Test
-    public void Exception_10_and_11_WHERE_first_check_FAILS_AND_SECOND_PASSES() throws IOException {
-        assertVocalinkTestCase("872427", "46238510", true);
-    }
-    @Test
-    public void Exception_10_WHERE_acc_no_ab_EQUALS_09_AND_g_EQUALS_9_first_check_PASSES_AND_second_FAILS() throws IOException {
-        assertVocalinkTestCase("871427", "09123496", true);
-    }
-    @Test
-    public void Exception_10_WHERE_acc_no_ab_EQUALS_99_AND_g_EQUALS_9_first_check_PASSES_AND_second_FAILS() throws IOException {
-        assertVocalinkTestCase("871427", "99123496", true);
-    }
-
-
 
     @Test
     public void PASS_MODULUS_11_check_AND_fail_DOUBLE_alternate_check() throws IOException {

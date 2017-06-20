@@ -34,6 +34,11 @@ public class ModulusChecker {
                     && modulusResults.secondCheck.orElse(false);
         }
 
+        if (modulusResults.isExceptionTen) {
+            return modulusResults.firstCheck.orElse(false)
+                    || modulusResults.secondCheck.orElse(false);
+        }
+
         if (modulusResults.secondCheck.isPresent()) {
             return modulusResults.secondCheck.get();
         }

@@ -41,6 +41,19 @@ public final class FirstModulusCheckRouter implements ModulusChainCheck {
             params = params.withAccount(account);
         }
 
+        if (rowSelector.apply(params).isExceptionTen()) {
+            //For the exception 10 check, if ab = 09 or ab = 99 and g = 9, zeroise weighting positions u-b.
+            int a = params.getAccount().getNumberAt(BankAccount.A);
+            int b = params.getAccount().getNumberAt(BankAccount.B);
+            int g = params.getAccount().getNumberAt(BankAccount.G);
+            if (a == 0 || a == 9
+                && b == 9
+                && g == 9) {
+                BankAccount account = params.getAccount().zeroiseUToB();
+                params = params.withAccount(account);
+            }
+        }
+
         switch (params.getFirstWeightRow().get().modulusAlgorithm) {
             case DOUBLE_ALTERNATE:
                 result = new DoubleAlternateCheck().check(params, rowSelector);
@@ -53,10 +66,9 @@ public final class FirstModulusCheckRouter implements ModulusChainCheck {
                 break;
         }
 
-        boolean isExceptionFive = params.getFirstWeightRow().get().isExceptionFive();
         ModulusResult modulusResult = new ModulusResult(Optional.of(result), Optional.empty());
-        if (isExceptionFive)
-            modulusResult = ModulusResult.WasProcessedAsExceptionFive(modulusResult);
+        modulusResult = wasExceptionFive(params, modulusResult);
+        modulusResult = wasExceptionTen(params, modulusResult);
 
         return next.check(new ModulusCheckParams(
                 params.getAccount(),
@@ -64,6 +76,20 @@ public final class FirstModulusCheckRouter implements ModulusChainCheck {
                 params.getSecondWeightRow(),
                 Optional.of(modulusResult)
         ));
+    }
+
+    private ModulusResult wasExceptionFive(ModulusCheckParams params, ModulusResult modulusResult) {
+        boolean isExceptionFive = params.getFirstWeightRow().get().isExceptionFive();
+        if (isExceptionFive)
+            modulusResult = ModulusResult.WasProcessedAsExceptionFive(modulusResult);
+        return modulusResult;
+    }
+
+    private ModulusResult wasExceptionTen(ModulusCheckParams params, ModulusResult modulusResult) {
+        boolean isExceptionTen = params.getFirstWeightRow().get().isExceptionTen();
+        if (isExceptionTen)
+            modulusResult = ModulusResult.WasProcessedAsExceptionTen(modulusResult);
+        return modulusResult;
     }
 
     private boolean runStandardOrExceptionFiveCheck(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {
