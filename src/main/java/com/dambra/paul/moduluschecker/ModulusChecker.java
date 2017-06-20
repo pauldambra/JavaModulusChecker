@@ -25,25 +25,7 @@ public class ModulusChecker {
 
         ModulusResult modulusResults = chain.check(startingParams);
 
-        return processResults(modulusResults);
-    }
-
-    private Boolean processResults(ModulusResult modulusResults) {
-        if (modulusResults.isExceptionFive) {
-            return modulusResults.firstCheck.orElse(false)
-                    && modulusResults.secondCheck.orElse(false);
-        }
-
-        if (modulusResults.isExceptionTen) {
-            return modulusResults.firstCheck.orElse(false)
-                    || modulusResults.secondCheck.orElse(false);
-        }
-
-        if (modulusResults.secondCheck.isPresent()) {
-            return modulusResults.secondCheck.get();
-        }
-
-        return modulusResults.firstCheck.orElse(false);
+        return modulusResults.processResults();
     }
 
     private ModulusChainCheck makeModulusChainCheck() {

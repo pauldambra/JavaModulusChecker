@@ -141,6 +141,21 @@ public class VocalinkTestCases {
         }
     }
 
+    public static class ExceptionTwelveAndThirteen {
+        @Test
+        public void WherePassesModulusElevenButWouldFailModulusTen() throws IOException {
+            assertVocalinkTestCase("074456", "12345112", true);
+        }
+        @Test
+        public void WherePassesModulusElevenButWouldPassModulusTen() throws IOException {
+            assertVocalinkTestCase("070116", "34012583", true);
+        }
+        @Test
+        public void WhereFailsModulusElevenButPassesModulusTen() throws IOException {
+            assertVocalinkTestCase("074456", "11104102", true);
+        }
+    }
+
     @Test
     public void PASS_MODULUS_10_check() throws IOException {
         assertVocalinkTestCase("089999", "66374958", true);
@@ -170,18 +185,7 @@ public class VocalinkTestCases {
     public void FAIL_modulus_11_check() throws IOException {
         assertVocalinkTestCase("107999", "88837493", false);
     }
-    @Test
-    public void Exception_12_AND_13_WHERE_passes_MODULUS_11_BUT_WOULD_FAIL_modulus_10() throws IOException {
-        assertVocalinkTestCase("074456", "12345112", true);
-    }
-    @Test
-    public void Exception_12_AND_13_WHERE_passes_MODULUS_11_BUT_would_PASS_MODULUS_10() throws IOException {
-        assertVocalinkTestCase("070116", "34012583", true);
-    }
-    @Test
-    public void Exception_12_AND_13_WHERE_fails_MODULUS_11_BUT_passes_MODULUS_10() throws IOException {
-        assertVocalinkTestCase("074456", "11104102", true);
-    }
+
     @Test
     public void Exception_14_WHERE_THE_FIRST_check_FAILS_AND_the_second_check_PASSES() throws IOException {
         assertVocalinkTestCase("180002", "00000190", true);
