@@ -15,13 +15,13 @@ import java.util.function.Function;
 
 public final class FirstModulusCheckRouter implements ModulusChainCheck {
     private final SortCodeSubstitution sortCodeSubstitution;
-    private final SecondModulusCheckGate next;
+    private final ExceptionTwoGate next;
 
     public FirstModulusCheckRouter(
             SortCodeSubstitution sortCodeSubstitution,
-            SecondModulusCheckGate secondModulusCheckGate) {
+            ExceptionTwoGate exceptionTwoGate) {
         this.sortCodeSubstitution = sortCodeSubstitution;
-        this.next = secondModulusCheckGate;
+        this.next = exceptionTwoGate;
     }
 
     @Override
@@ -71,12 +71,14 @@ public final class FirstModulusCheckRouter implements ModulusChainCheck {
         modulusResult = wasExceptionTen(params, modulusResult);
         modulusResult = wasExceptionTwelve(params, modulusResult);
 
-        return next.check(new ModulusCheckParams(
+        final ModulusCheckParams nextCheckparams = new ModulusCheckParams(
                 params.getAccount(),
                 params.getFirstWeightRow(),
                 params.getSecondWeightRow(),
                 Optional.of(modulusResult)
-        ));
+        );
+
+        return next.check(nextCheckparams);
     }
 
     private ModulusResult wasExceptionFive(ModulusCheckParams params, ModulusResult modulusResult) {

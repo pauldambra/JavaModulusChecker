@@ -156,6 +156,19 @@ public class VocalinkTestCases {
         }
     }
 
+    public static class ExceptionFourteen {
+        /**Listed in the pdf as example one on page 19 of v 4.30 **/
+        @Test
+        public void WhereTheFirstCheckPasses() throws IOException {
+            assertVocalinkTestCase("180002", "98093517", true);
+        }
+
+        @Test
+        public void WhereTheFirstCheckFailsAndTheSecondPasses() throws IOException {
+            assertVocalinkTestCase("180002", "00000190", true);
+        }
+    }
+
     @Test
     public void PASS_MODULUS_10_check() throws IOException {
         assertVocalinkTestCase("089999", "66374958", true);
@@ -184,11 +197,6 @@ public class VocalinkTestCases {
     @Test
     public void FAIL_modulus_11_check() throws IOException {
         assertVocalinkTestCase("107999", "88837493", false);
-    }
-
-    @Test
-    public void Exception_14_WHERE_THE_FIRST_check_FAILS_AND_the_second_check_PASSES() throws IOException {
-        assertVocalinkTestCase("180002", "00000190", true);
     }
 
     private static void assertVocalinkTestCase(String sortCode, String accountNumber, Boolean expectedValid) throws IOException {

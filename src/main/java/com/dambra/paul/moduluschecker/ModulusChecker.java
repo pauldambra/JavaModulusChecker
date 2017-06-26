@@ -30,10 +30,11 @@ public class ModulusChecker {
 
     private ModulusChainCheck makeModulusChainCheck() {
         SecondModulusCheckRouter secondModulusCheckRouter = new SecondModulusCheckRouter(sortCodeSubstitution);
-        SecondModulusCheckGate secondModulusCheckGate = new SecondModulusCheckGate(secondModulusCheckRouter);
+        ExceptionFourteenGate exceptionFourteenGate = new ExceptionFourteenGate(secondModulusCheckRouter);
+        ExceptionTwoGate exceptionTwoGate = new ExceptionTwoGate(exceptionFourteenGate);
         FirstModulusCheckRouter firstModulusCheckRouter = new FirstModulusCheckRouter(
                 sortCodeSubstitution,
-                secondModulusCheckGate
+                exceptionTwoGate
         );
         ExceptionSixGate exceptionSixGate = new ExceptionSixGate(firstModulusCheckRouter);
         return new AtLeastOneWeightRowGate(weightRows, exceptionSixGate);

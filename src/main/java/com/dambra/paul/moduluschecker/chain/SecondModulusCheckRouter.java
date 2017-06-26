@@ -3,10 +3,7 @@ package com.dambra.paul.moduluschecker.chain;
 import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.SortCodeSubstitution;
-import com.dambra.paul.moduluschecker.chain.checks.DoubleAlternateCheck;
-import com.dambra.paul.moduluschecker.chain.checks.ExceptionFiveDoubleAlternateCheck;
-import com.dambra.paul.moduluschecker.chain.checks.ModulusElevenCheck;
-import com.dambra.paul.moduluschecker.chain.checks.ModulusTenCheck;
+import com.dambra.paul.moduluschecker.chain.checks.*;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 
 import java.util.function.Function;
@@ -23,6 +20,11 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
     public ModulusResult check(ModulusCheckParams params) {
 
         Boolean result = false;
+
+        if (params.getFirstWeightRow().get().isExceptionFourteen()) {
+            final Boolean secondCheckResult = new ExceptionFourteenModulusElevenCheck().check(params);
+            return ModulusResult.WithSecondResult(params.getModulusResult(), secondCheckResult);
+        }
 
         if (isExceptionTwoAndNineWithPassingFirstCheck(params)) {
             return params.getModulusResult().get();
@@ -48,7 +50,7 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
                 result = new ModulusTenCheck().check(params, rowSelector);
                 break;
             case MOD11:
-                result = new ModulusElevenCheck().check(params, rowSelector);
+                result = runStandardOrExceptionFourteenCheck(params, rowSelector);
                 break;
         }
 
@@ -69,6 +71,10 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
     private boolean canSkipForExceptionThree(ModulusCheckParams params) {
         int c = params.getAccount().getNumberAt(BankAccount.C);
         return c == 6 || c ==9;
+    }
+
+    private Boolean runStandardOrExceptionFourteenCheck(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {
+        return new ModulusElevenCheck().check(params, rowSelector);
     }
 
     private boolean isExceptionTwoAndNineWithPassingFirstCheck(ModulusCheckParams params) {
