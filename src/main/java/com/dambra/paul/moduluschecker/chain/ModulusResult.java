@@ -1,91 +1,127 @@
 package com.dambra.paul.moduluschecker.chain;
 
+import com.google.common.collect.ImmutableList;
+
+import java.util.List;
 import java.util.Optional;
 
 public class ModulusResult {
-    public final Optional<Boolean> firstCheck;
-    public final Optional<Boolean> secondCheck;
-    public final boolean isExceptionFive;
-    public final boolean isExceptionTen;
-    public final boolean isExceptionTwelve;
 
-    public ModulusResult(Optional<Boolean> firstCheck, Optional<Boolean> secondCheck) {
-        this.firstCheck = firstCheck;
-        this.secondCheck = secondCheck;
-        this.isExceptionFive = false;
-        this.isExceptionTen = false;
-        this.isExceptionTwelve = false;
+    /** the default is for a check to pass **/
+    static final ModulusResult PASSES = new ModulusResult(Optional.of(true), Optional.of(true));
+
+    static final List<Integer> exceptionsThatRequireSecondCheck = ImmutableList.of(2, 5, 9, 10, 11, 12, 13, 14);
+
+    public final Optional<Boolean> firstCheckResult;
+    public final Optional<Boolean> secondCheckResult;
+    public final Optional<Integer> firstException;
+    public final Optional<Integer> secondException;
+
+    public ModulusResult(Optional<Boolean> firstCheckResult, Optional<Boolean> secondCheckResult) {
+        this.firstCheckResult = firstCheckResult;
+        this.secondCheckResult = secondCheckResult;
+
+        firstException = Optional.empty();
+        secondException = Optional.empty();
     }
 
     private ModulusResult(
-            Optional<Boolean> firstCheck,
-            Optional<Boolean> secondCheck,
-            boolean isExceptionFive,
-            boolean isExceptionTen,
-            boolean isExceptionTwelve) {
-        this.firstCheck = firstCheck;
-        this.secondCheck = secondCheck;
-        this.isExceptionFive = isExceptionFive;
-        this.isExceptionTen = isExceptionTen;
-        this.isExceptionTwelve = isExceptionTwelve;
+            Optional<Boolean> firstCheckResult,
+            Optional<Boolean> secondCheckResult,
+            Optional<Integer> firstException,
+            Optional<Integer> secondException) {
+        this.firstCheckResult = firstCheckResult;
+        this.secondCheckResult = secondCheckResult;
+        this.firstException = firstException;
+        this.secondException = secondException;
     }
 
-    public static ModulusResult WithSecondResult(Optional<ModulusResult> modulusResult, Boolean secondCheck) {
-        Optional<Boolean> firstCheck = modulusResult.map(mr -> mr.firstCheck)
+    public static ModulusResult withSecondResult(Optional<ModulusResult> modulusResult, Boolean secondCheck) {
+        Optional<Boolean> firstCheck = modulusResult.map(mr -> mr.firstCheckResult)
                                                     .orElseGet(() -> Optional.of(false));
+        Optional<Integer> firstException = modulusResult.flatMap(mr -> mr.firstException);
+        Optional<Integer> secondException = modulusResult.flatMap(mr -> mr.secondException);
 
-        boolean isExceptionFive = modulusResult.isPresent() && modulusResult.get().isExceptionFive;
-        boolean isExceptionTen = modulusResult.isPresent() && modulusResult.get().isExceptionTen;
-        boolean isExceptionTwelve = modulusResult.isPresent() && modulusResult.get().isExceptionTwelve;
-
-        return new ModulusResult(firstCheck, Optional.ofNullable(secondCheck), isExceptionFive, isExceptionTen, isExceptionTwelve);
+        return new ModulusResult(firstCheck, Optional.ofNullable(secondCheck), firstException, secondException);
     }
 
-    public static ModulusResult WasProcessedAsExceptionFive(ModulusResult original) {
-        return new ModulusResult(original.firstCheck, original.secondCheck, true, false, false);
+    public ModulusResult withFirstException(Optional<Integer> rowException) {
+        System.out.println("adding: " + rowException);
+        return new ModulusResult(firstCheckResult, secondCheckResult, rowException, Optional.empty());
     }
 
-    public static ModulusResult WasProcessedAsExceptionTen(ModulusResult original) {
-        return new ModulusResult(original.firstCheck, original.secondCheck, false, true, false);
+    public ModulusResult withSecondException(Optional<Integer> rowException) {
+        return new ModulusResult(firstCheckResult, secondCheckResult, firstException, rowException);
     }
 
-    public static ModulusResult WasProcessedAsExceptionTwelve(ModulusResult original) {
-        return new ModulusResult(original.firstCheck, original.secondCheck, false, false, true);
+    public Boolean processResults() {
+        if (firstCheck()) {
+            return secondCheckResult.isPresent()
+                ? processTwoCheckResult()
+                : firstCheck();
+        }
+
+        return exceptionsThatRequireSecondCheck.contains(firstException.orElse(-1))
+            ? processTwoCheckResult()
+            : false;
+    }
+
+    private Boolean processTwoCheckResult() {
+        if (isExceptionFive()) {
+            return bothMustPass();
+        }
+
+        if (isExceptionTen() || isExceptionTwelve()) {
+            return firstOrSecond();
+        }
+
+        return secondCheck();
+    }
+
+    private boolean isExceptionFive() {
+        return firstException.isPresent() && firstException.get() == 5;
+    }
+
+    private boolean isExceptionTen() {
+        return firstException.isPresent() && firstException.get() == 10;
+    }
+
+    private boolean isExceptionTwelve() {
+        return firstException.isPresent() && firstException.get() == 12;
+    }
+
+    private boolean firstCheck() {
+        return firstCheckResult.orElse(false);
+    }
+
+    private boolean secondCheck() {
+        return secondCheckResult.orElse(false);
+    }
+
+    private boolean firstOrSecond() {
+        return firstCheck()
+                || secondCheck();
+    }
+
+    private boolean bothMustPass() {
+        return firstCheck()
+                && secondCheck();
     }
 
     public static ModulusResult copy(ModulusResult original) {
         if (original == null) { return null; }
         return new ModulusResult(
-          original.firstCheck, original.secondCheck, original.isExceptionFive, original.isExceptionTen, original.isExceptionTwelve
+          original.firstCheckResult, original.secondCheckResult, original.firstException, original.secondException
         );
-    }
-
-    public Boolean processResults() {
-        if (isExceptionFive) {
-            return firstCheck.orElse(false)
-                    && secondCheck.orElse(false);
-        }
-
-        if (isExceptionTen || isExceptionTwelve) {
-            return firstCheck.orElse(false)
-                    || secondCheck.orElse(false);
-        }
-
-        if (secondCheck.isPresent()) {
-            return secondCheck.get();
-        }
-
-        return firstCheck.orElse(false);
     }
 
     @Override
     public String toString() {
         return "ModulusResult{" +
-                "firstCheck=" + firstCheck +
-                ", secondCheck=" + secondCheck +
-                ", isExceptionFive=" + isExceptionFive +
-                ", isExceptionTen=" + isExceptionTen +
-                ", isExceptionTwelve=" + isExceptionTwelve +
+                "firstCheckResult=" + firstCheckResult +
+                ", secondCheckResult=" + secondCheckResult +
+                ", firstException=" + firstException +
+                ", secondException=" + secondException +
                 '}';
     }
 }

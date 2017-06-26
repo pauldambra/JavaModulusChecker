@@ -17,7 +17,7 @@ public class ExceptionTwoGate implements ModulusChainCheck {
         }
 
         if (params.getFirstWeightRow().get().isExceptionTwo()) {
-            if (params.getModulusResult().get().firstCheck.get()) {
+            if (params.getModulusResult().get().firstCheckResult.get()) {
                 return params.getModulusResult().get();
             }
         }

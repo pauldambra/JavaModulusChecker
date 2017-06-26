@@ -6,6 +6,7 @@ import com.dambra.paul.moduluschecker.SortCodeSubstitution;
 import com.dambra.paul.moduluschecker.chain.checks.*;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 public class SecondModulusCheckRouter implements ModulusChainCheck {
@@ -23,7 +24,7 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
 
         if (params.getFirstWeightRow().get().isExceptionFourteen()) {
             final Boolean secondCheckResult = new ExceptionFourteenModulusElevenCheck().check(params);
-            return ModulusResult.WithSecondResult(params.getModulusResult(), secondCheckResult);
+            return ModulusResult.withSecondResult(params.getModulusResult(), secondCheckResult);
         }
 
         if (isExceptionTwoAndNineWithPassingFirstCheck(params)) {
@@ -54,7 +55,10 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
                 break;
         }
 
-        return ModulusResult.WithSecondResult(params.getModulusResult(), result);
+        final ModulusResult modulusResult = ModulusResult.withSecondResult(params.getModulusResult(), result);
+        return modulusResult.withSecondException(
+                params.getSecondWeightRow().flatMap(weightRow -> weightRow.exception)
+        );
     }
 
     private Boolean runOrSkip(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {
@@ -80,8 +84,8 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
     private boolean isExceptionTwoAndNineWithPassingFirstCheck(ModulusCheckParams params) {
         boolean isExceptionTwoAndNine = WeightRow.isExceptionTwoAndNine(params.getFirstWeightRow(), params.getSecondWeightRow());
         boolean hasResults = params.getModulusResult().isPresent();
-        boolean hasFirstCheckResult = params.getModulusResult().get().firstCheck.isPresent();
-        boolean firstCheckSucceeded = params.getModulusResult().get().firstCheck.get();
+        boolean hasFirstCheckResult = params.getModulusResult().get().firstCheckResult.isPresent();
+        boolean firstCheckSucceeded = params.getModulusResult().get().firstCheckResult.get();
 
         return isExceptionTwoAndNine && hasResults && hasFirstCheckResult && firstCheckSucceeded;
     }

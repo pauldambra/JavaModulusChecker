@@ -11,122 +11,79 @@ public class ModulusResultTests {
     public void CanCopyFirstResult() {
         ModulusResult original = new ModulusResult(Optional.of(true), Optional.empty());
 
-        ModulusResult modulusResult = ModulusResult.copy(original);
+        ModulusResult copy = ModulusResult.copy(original);
 
-        assertThat(modulusResult.isExceptionFive, is(false));
-        assertThat(modulusResult.isExceptionTen, is(false));
-        assertThat(modulusResult.isExceptionTwelve, is(false));
-        assertThat(modulusResult.firstCheck.orElse(false), is(true));
-        assertThat(modulusResult.secondCheck.isPresent(), is(false));
+        assertThat(copy.firstException.isPresent(), is(false));
+        assertThat(copy.secondException.isPresent(), is(false));
+
+        assertThat(copy.firstCheckResult.orElse(false), is(true));
+        assertThat(copy.secondCheckResult.isPresent(), is(false));
     }
 
     @Test
     public void CanCopySecondResult() {
         ModulusResult original = new ModulusResult(Optional.of(true), Optional.of(false));
 
-        ModulusResult modulusResult = ModulusResult.copy(original);
+        ModulusResult copy = ModulusResult.copy(original);
 
-        assertThat(modulusResult.isExceptionFive, is(false));
-        assertThat(modulusResult.isExceptionTen, is(false));
-        assertThat(modulusResult.isExceptionTwelve, is(false));
-        assertThat(modulusResult.firstCheck.orElse(false), is(true));
-        assertThat(modulusResult.secondCheck.orElse(true), is(false));
+        assertThat(copy.firstException.isPresent(), is(false));
+        assertThat(copy.secondException.isPresent(), is(false));
+
+        assertThat(copy.firstCheckResult.orElse(false), is(true));
+        assertThat(copy.secondCheckResult.orElse(true), is(false));
     }
 
     @Test
-    public void CanCopyExceptionFive() {
-        ModulusResult original = ModulusResult.WasProcessedAsExceptionFive(
-                new ModulusResult(Optional.of(true), Optional.of(false)));
+    public void CanCopyFirstException() {
+        ModulusResult original = new ModulusResult(Optional.of(true), Optional.of(false));
+        final ModulusResult modulusResult = original.withFirstException(Optional.of(5));
+        ModulusResult copy = ModulusResult.copy(modulusResult);
 
-        ModulusResult modulusResult = ModulusResult.copy(original);
+        assertThat(copy.firstException.get(), is(5));
+        assertThat(copy.secondException.isPresent(), is(false));
 
-        assertThat(modulusResult.isExceptionFive, is(true));
-        assertThat(modulusResult.isExceptionTen, is(false));
-        assertThat(modulusResult.isExceptionTwelve, is(false));
-        assertThat(modulusResult.firstCheck.orElse(false), is(true));
-        assertThat(modulusResult.secondCheck.orElse(true), is(false));
+        assertThat(copy.firstCheckResult.orElse(false), is(true));
+        assertThat(copy.secondCheckResult.orElse(true), is(false));
     }
 
     @Test
-    public void CanCopyExceptionTen() {
-        ModulusResult original = ModulusResult.WasProcessedAsExceptionTen(
-                new ModulusResult(Optional.of(true), Optional.of(false)));
+    public void CanCopySecondException() {
+        ModulusResult original = new ModulusResult(Optional.of(true), Optional.of(false));
+        final ModulusResult modulusResult = original.withSecondException(Optional.of(10));
+        ModulusResult copy = ModulusResult.copy(modulusResult);
 
-        ModulusResult modulusResult = ModulusResult.copy(original);
+        assertThat(copy.firstException.isPresent(), is(false));
+        assertThat(copy.secondException.get(), is(10));
 
-        assertThat(modulusResult.isExceptionFive, is(false));
-        assertThat(modulusResult.isExceptionTen, is(true));
-        assertThat(modulusResult.isExceptionTwelve, is(false));
-        assertThat(modulusResult.firstCheck.orElse(false), is(true));
-        assertThat(modulusResult.secondCheck.orElse(true), is(false));
+        assertThat(copy.firstCheckResult.orElse(false), is(true));
+        assertThat(copy.secondCheckResult.orElse(true), is(false));
     }
 
     @Test
-    public void CanCopyExceptionTwelve() {
-        ModulusResult original = ModulusResult.WasProcessedAsExceptionTwelve(
-                new ModulusResult(Optional.of(true), Optional.of(false)));
+    public void CanCopyBothExceptions() {
+        ModulusResult original = new ModulusResult(Optional.of(true), Optional.of(false));
+        final ModulusResult x = original.withFirstException(Optional.of(3));
+        final ModulusResult y = x.withSecondException(Optional.of(4));
+        ModulusResult copy = ModulusResult.copy(y);
 
-        ModulusResult modulusResult = ModulusResult.copy(original);
+        assertThat(copy.firstException.get(), is(3));
+        assertThat(copy.secondException.get(), is(4));
 
-        assertThat(modulusResult.isExceptionFive, is(false));
-        assertThat(modulusResult.isExceptionTen, is(false));
-        assertThat(modulusResult.isExceptionTwelve, is(true));
-        assertThat(modulusResult.firstCheck.orElse(false), is(true));
-        assertThat(modulusResult.secondCheck.orElse(true), is(false));
+        assertThat(copy.firstCheckResult.orElse(false), is(true));
+        assertThat(copy.secondCheckResult.orElse(true), is(false));
     }
 
     @Test
     public void CanCopyWithSecondResult() {
         ModulusResult original = new ModulusResult(Optional.of(true), Optional.empty());
+        final ModulusResult x = original.withFirstException(Optional.of(6));
+        final ModulusResult y = x.withSecondException(Optional.of(7));
+        ModulusResult copy = ModulusResult.withSecondResult(Optional.ofNullable(y), true);
 
-        ModulusResult modulusResult = ModulusResult.WithSecondResult(Optional.ofNullable(original), true);
+        assertThat(copy.firstException.get(), is(6));
+        assertThat(copy.secondException.get(), is(7));
 
-        assertThat(modulusResult.isExceptionFive, is(false));
-        assertThat(modulusResult.isExceptionTen, is(false));
-        assertThat(modulusResult.isExceptionTwelve, is(false));
-        assertThat(modulusResult.firstCheck.orElse(false), is(true));
-        assertThat(modulusResult.secondCheck.orElse(false), is(true));
-    }
-
-    @Test
-    public void CanCopyExceptionFiveWithSecondResult() {
-        ModulusResult original = ModulusResult.WasProcessedAsExceptionFive(
-                new ModulusResult(Optional.of(true), Optional.empty()));
-
-        ModulusResult modulusResult = ModulusResult.WithSecondResult(Optional.ofNullable(original), true);
-
-        assertThat(modulusResult.isExceptionFive, is(true));
-        assertThat(modulusResult.isExceptionTen, is(false));
-        assertThat(modulusResult.isExceptionTwelve, is(false));
-        assertThat(modulusResult.firstCheck.orElse(false), is(true));
-        assertThat(modulusResult.secondCheck.orElse(false), is(true));
-    }
-
-    @Test
-    public void CanCopyExceptionTenWithSecondResult() {
-        ModulusResult original = ModulusResult.WasProcessedAsExceptionTen(
-                new ModulusResult(Optional.of(true), Optional.empty()));
-
-        ModulusResult modulusResult = ModulusResult.WithSecondResult(Optional.ofNullable(original), true);
-
-        assertThat(modulusResult.isExceptionFive, is(false));
-        assertThat(modulusResult.isExceptionTen, is(true));
-        assertThat(modulusResult.isExceptionTwelve, is(false));
-        assertThat(modulusResult.firstCheck.orElse(false), is(true));
-        assertThat(modulusResult.secondCheck.orElse(false), is(true));
-    }
-
-    @Test
-    public void CanCopyExceptionTwelveWithSecondResult() {
-        ModulusResult original = ModulusResult.WasProcessedAsExceptionTwelve(
-                new ModulusResult(Optional.of(true), Optional.empty()));
-
-        ModulusResult modulusResult = ModulusResult.WithSecondResult(Optional.ofNullable(original), true);
-
-        assertThat(modulusResult.isExceptionFive, is(false));
-        assertThat(modulusResult.isExceptionTen, is(false));
-        assertThat(modulusResult.isExceptionTwelve, is(true));
-        assertThat(modulusResult.firstCheck.orElse(false), is(true));
-        assertThat(modulusResult.secondCheck.orElse(false), is(true));
+        assertThat(copy.firstCheckResult.orElse(false), is(true));
+        assertThat(copy.secondCheckResult.orElse(false), is(true));
     }
 }

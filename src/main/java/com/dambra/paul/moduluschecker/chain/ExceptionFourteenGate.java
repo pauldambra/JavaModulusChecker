@@ -22,7 +22,7 @@ public class ExceptionFourteenGate implements ModulusChainCheck {
     public ModulusResult check(ModulusCheckParams params) {
 
         if(isExceptionFourteen(params) && firstCheckPassed(params)) {
-            return new ModulusResult(params.getModulusResult().get().firstCheck, Optional.empty());
+            return new ModulusResult(params.getModulusResult().get().firstCheckResult, Optional.empty());
         }
         return next.check(params);
     }
@@ -32,6 +32,6 @@ public class ExceptionFourteenGate implements ModulusChainCheck {
     }
 
     private boolean firstCheckPassed(ModulusCheckParams params) {
-        return params.getModulusResult().isPresent() && params.getModulusResult().get().firstCheck.orElse(false);
+        return params.getModulusResult().isPresent() && params.getModulusResult().get().firstCheckResult.orElse(false);
     }
 }

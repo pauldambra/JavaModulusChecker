@@ -32,9 +32,10 @@ public class ModulusChecker {
         SecondModulusCheckRouter secondModulusCheckRouter = new SecondModulusCheckRouter(sortCodeSubstitution);
         ExceptionFourteenGate exceptionFourteenGate = new ExceptionFourteenGate(secondModulusCheckRouter);
         ExceptionTwoGate exceptionTwoGate = new ExceptionTwoGate(exceptionFourteenGate);
+        SecondCheckRequiredGate secondCheckRequiredGate = new SecondCheckRequiredGate(exceptionTwoGate);
         FirstModulusCheckRouter firstModulusCheckRouter = new FirstModulusCheckRouter(
                 sortCodeSubstitution,
-                exceptionTwoGate
+                secondCheckRequiredGate
         );
         ExceptionSixGate exceptionSixGate = new ExceptionSixGate(firstModulusCheckRouter);
         return new AtLeastOneWeightRowGate(weightRows, exceptionSixGate);

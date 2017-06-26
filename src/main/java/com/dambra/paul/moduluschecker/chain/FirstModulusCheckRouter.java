@@ -15,11 +15,11 @@ import java.util.function.Function;
 
 public final class FirstModulusCheckRouter implements ModulusChainCheck {
     private final SortCodeSubstitution sortCodeSubstitution;
-    private final ExceptionTwoGate next;
+    private final SecondCheckRequiredGate next;
 
     public FirstModulusCheckRouter(
             SortCodeSubstitution sortCodeSubstitution,
-            ExceptionTwoGate exceptionTwoGate) {
+            SecondCheckRequiredGate exceptionTwoGate) {
         this.sortCodeSubstitution = sortCodeSubstitution;
         this.next = exceptionTwoGate;
     }
@@ -67,39 +67,18 @@ public final class FirstModulusCheckRouter implements ModulusChainCheck {
         }
 
         ModulusResult modulusResult = new ModulusResult(Optional.of(result), Optional.empty());
-        modulusResult = wasExceptionFive(params, modulusResult);
-        modulusResult = wasExceptionTen(params, modulusResult);
-        modulusResult = wasExceptionTwelve(params, modulusResult);
+        modulusResult = modulusResult.withFirstException(
+                params.getFirstWeightRow().flatMap(weightRow -> weightRow.exception)
+        );
 
-        final ModulusCheckParams nextCheckparams = new ModulusCheckParams(
+        final ModulusCheckParams nextCheckParams = new ModulusCheckParams(
                 params.getAccount(),
                 params.getFirstWeightRow(),
                 params.getSecondWeightRow(),
                 Optional.of(modulusResult)
         );
 
-        return next.check(nextCheckparams);
-    }
-
-    private ModulusResult wasExceptionFive(ModulusCheckParams params, ModulusResult modulusResult) {
-        boolean isExceptionFive = params.getFirstWeightRow().get().isExceptionFive();
-        if (isExceptionFive)
-            modulusResult = ModulusResult.WasProcessedAsExceptionFive(modulusResult);
-        return modulusResult;
-    }
-
-    private ModulusResult wasExceptionTen(ModulusCheckParams params, ModulusResult modulusResult) {
-        boolean isExceptionTen = params.getFirstWeightRow().get().isExceptionTen();
-        if (isExceptionTen)
-            modulusResult = ModulusResult.WasProcessedAsExceptionTen(modulusResult);
-        return modulusResult;
-    }
-
-    private ModulusResult wasExceptionTwelve(ModulusCheckParams params, ModulusResult modulusResult) {
-        boolean isExceptionTwelve = params.getFirstWeightRow().get().isExceptionTwelve();
-        if (isExceptionTwelve)
-            modulusResult = ModulusResult.WasProcessedAsExceptionTwelve(modulusResult);
-        return modulusResult;
+        return next.check(nextCheckParams);
     }
 
     private boolean runStandardOrExceptionFiveCheck(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {

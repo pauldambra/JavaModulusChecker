@@ -3,7 +3,6 @@ import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.chain.ModulusResult;
 import org.junit.Test;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -60,7 +59,7 @@ public class ChainOfResponsibilityTests {
 
         ModulusResult result = chain.check(new ModulusCheckParams(null, Optional.empty(), Optional.empty(), Optional.empty()));
 
-        assertThat(result.firstCheck.get(), is(equalTo(false)));
+        assertThat(result.firstCheckResult.get(), is(equalTo(false)));
         assertThat(firstWasCalled, is(equalTo(true)));
         assertThat(secondWasCalled, is(equalTo(true)));
         assertThat(thirdWasCalled, is(equalTo(false)));
