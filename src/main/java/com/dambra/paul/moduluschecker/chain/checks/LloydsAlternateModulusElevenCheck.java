@@ -17,12 +17,7 @@ public final class LloydsAlternateModulusElevenCheck {
 
         BankAccount account = new BankAccount(BankAccount.LLOYDS_EURO_SORT_CODE, params.getAccount().accountNumber);
 
-        int total = Streams.zip(
-                account.allDigits(),
-                selectedRow.getWeights().stream(),
-                (l, r) -> l * r
-        ).reduce(0, Integer::sum);
-
+        int total = ModulusTotal.calculate(account, selectedRow.getWeights());
         return total % 11 == 0;
     }
 }

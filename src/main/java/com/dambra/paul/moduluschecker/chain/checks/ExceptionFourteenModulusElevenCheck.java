@@ -34,12 +34,9 @@ public final class ExceptionFourteenModulusElevenCheck {
         final String newAccountNumber = "0" + params.getAccount().accountNumber.substring(0, 7);
         final BankAccount correctedAccount = new BankAccount(params.getAccount().sortCode, newAccountNumber);
 
-        int total = Streams.zip(
-                correctedAccount.allDigits(),
-                params.getFirstWeightRow().get().getWeights().stream(),
-                (l, r) -> l * r
-        ).reduce(0, Integer::sum);
-
+        int total = ModulusTotal.calculate(
+                correctedAccount,
+                params.getFirstWeightRow().get().getWeights());
         int remainder = total % 11;
 
         return remainder == 0;

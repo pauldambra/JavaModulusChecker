@@ -23,14 +23,7 @@ public final class ExceptionFiveDoubleAlternateCheck {
         BankAccount bankAccount = sortCodeSubstitution.Apply(params.getAccount());
         params = params.withAccount(bankAccount);
 
-        int total = Streams.zip(
-                params.getAccount().allDigits(),
-                selectedRow.getWeights().stream(),
-                (l, r) -> l * r
-        ).map(String::valueOf)
-                .flatMap(As::integerStream)
-                .reduce(0, Integer::sum);
-
+        int total = ModulusTotal.calculateDoubleAlternate(params.getAccount(), selectedRow.getWeights());
         final int remainder = total % 10;
         final int checkDigit = params.getAccount().getNumberAt(BankAccount.H);
 

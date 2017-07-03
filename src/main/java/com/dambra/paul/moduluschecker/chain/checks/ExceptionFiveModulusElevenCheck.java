@@ -19,16 +19,10 @@ public final class ExceptionFiveModulusElevenCheck {
     public Boolean check(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {
         WeightRow selectedRow = rowSelector.apply(params);
 
-
         BankAccount bankAccount = sortCodeSubstitution.Apply(params.getAccount());
         params = params.withAccount(bankAccount);
 
-        int total = Streams.zip(
-                params.getAccount().allDigits(),
-                selectedRow.getWeights().stream(),
-                (l, r) -> l * r
-        ).reduce(0, Integer::sum);
-
+        int total = ModulusTotal.calculate(params.getAccount(), selectedRow.getWeights());
         int remainder = total % 11;
 
         int checkDigit = params.getAccount().getNumberAt(BankAccount.G);

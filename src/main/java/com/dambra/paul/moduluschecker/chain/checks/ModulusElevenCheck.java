@@ -4,7 +4,6 @@ import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Streams;
 
 import java.util.function.Function;
 
@@ -15,12 +14,7 @@ public final class ModulusElevenCheck {
 
         ImmutableList<Integer> weights = CheckForExceptionTwoAndNine(params, selectedRow);
 
-        int total = Streams.zip(
-                params.getAccount().allDigits(),
-                weights.stream(),
-                (l, r) -> l * r
-        ).reduce(0, Integer::sum);
-
+        int total = ModulusTotal.calculate(params.getAccount(), weights);
         int remainder = total % 11;
 
         if (selectedRow.isExceptionFour()) {

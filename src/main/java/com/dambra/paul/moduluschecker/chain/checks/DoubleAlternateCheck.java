@@ -12,21 +12,13 @@ public final class DoubleAlternateCheck {
     public Boolean check(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {
         WeightRow selectedRow = rowSelector.apply(params);
 
-        int total = Streams.zip(
-                params.getAccount().allDigits(),
-                selectedRow.getWeights().stream(),
-                        (l, r) -> l * r
-                    ).map(String::valueOf)
-                    .flatMap(As::integerStream)
-                    .reduce(0, Integer::sum);
+        int total = ModulusTotal.calculateDoubleAlternate(params.getAccount(), selectedRow.getWeights());
 
         if (selectedRow.isExceptionOne()) {
             total += 27;
-            System.out.println("is in exception one making total " + total);
         }
 
         final int remainder = total % 10;
-        System.out.println("so remainder is " + remainder);
         return remainder == 0;
     }
 }
