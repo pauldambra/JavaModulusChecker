@@ -10,7 +10,7 @@ public class ModulusTenCheck {
     public Boolean check(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {
         WeightRow selectedRow = rowSelector.apply(params);
 
-        int total = ModulusTotal.calculate(params.getAccount(), selectedRow.getWeights());
+        int total = ModulusTotal.calculate(params.account, selectedRow.getWeights());
 
         return total % 10 == 0;
     }

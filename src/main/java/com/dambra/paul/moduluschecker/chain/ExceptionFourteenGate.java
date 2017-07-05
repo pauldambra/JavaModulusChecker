@@ -1,6 +1,7 @@
 package com.dambra.paul.moduluschecker.chain;
 
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
+import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 
 import java.util.Optional;
 
@@ -28,10 +29,12 @@ public class ExceptionFourteenGate implements ModulusChainCheck {
     }
 
     private boolean isExceptionFourteen(ModulusCheckParams params) {
-        return params.getFirstWeightRow().isPresent() && params.getFirstWeightRow().get().isExceptionFourteen();
+        return Optional.ofNullable(
+                WeightRow.copy(params.firstWeightRow.orElse(null))).isPresent() && Optional.ofNullable(
+                WeightRow.copy(params.firstWeightRow.orElse(null))).get().isException(14);
     }
 
     private boolean firstCheckResult(ModulusCheckParams params) {
-        return params.getModulusResult().isPresent() && params.getModulusResult().get().firstCheckResult.orElse(false);
+        return Optional.ofNullable(ModulusResult.copy(params.modulusResult.orElse(null))).isPresent() && Optional.ofNullable(ModulusResult.copy(params.modulusResult.orElse(null))).get().firstCheckResult.orElse(false);
     }
 }

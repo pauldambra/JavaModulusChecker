@@ -30,7 +30,8 @@ public class ModulusElevenTests {
                 Optional.empty());
         ModulusElevenCheck checker = new ModulusElevenCheck();
 
-        Boolean result = checker.check(params, x -> x.getFirstWeightRow().get());
+        Boolean result = checker.check(params, x -> Optional.ofNullable(
+                WeightRow.copy(x.firstWeightRow.orElse(null))).get());
 
         assertThat(result, is(equalTo(true)));
     }

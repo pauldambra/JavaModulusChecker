@@ -3,11 +3,10 @@ package com.dambra.paul.moduluschecker.chain.checks;
 import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
-import com.google.common.collect.Streams;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
+import java.util.Optional;
 
 /**
  * Second check:
@@ -26,17 +25,18 @@ public final class ExceptionFourteenModulusElevenCheck {
 
     public Boolean check(ModulusCheckParams params) {
 
-        int h = params.getAccount().getNumberAt(BankAccount.H);
+        int h = params.account.getNumberAt(BankAccount.H);
         if (!allowedValuesAtH.contains(h)) {
             return false;
         }
 
-        final String newAccountNumber = "0" + params.getAccount().accountNumber.substring(0, 7);
-        final BankAccount correctedAccount = new BankAccount(params.getAccount().sortCode, newAccountNumber);
+        final String newAccountNumber = "0" + params.account.accountNumber.substring(0, 7);
+        final BankAccount correctedAccount = new BankAccount(params.account.sortCode, newAccountNumber);
 
         int total = ModulusTotal.calculate(
                 correctedAccount,
-                params.getFirstWeightRow().get().getWeights());
+                Optional.ofNullable(
+                        WeightRow.copy(params.firstWeightRow.orElse(null))).get().getWeights());
         int remainder = total % 11;
 
         return remainder == 0;

@@ -9,11 +9,11 @@ public final class ValacdosRow {
         this.weightRow = weightRow;
     }
 
-    public SortCodeRange getSortCodeRange() {
+    SortCodeRange getSortCodeRange() {
         return sortCodeRange;
     }
 
-    public WeightRow getWeightRow() {
+    WeightRow getWeightRow() {
         return weightRow;
     }
 }

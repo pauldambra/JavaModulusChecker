@@ -28,62 +28,15 @@ public final class WeightRow {
         this.weights = ImmutableList.copyOf(weights);
     }
 
-    public static boolean isExceptionTwoAndNine(Optional<WeightRow> firstRow, Optional<WeightRow> secondWeightRow) {
-        return firstRow.isPresent()
-                && firstRow.get().isExceptionTwo()
-                && secondCheckIsExceptionNine(secondWeightRow);
+    public static boolean isExceptionTwoAndNine(Optional<WeightRow> firstRow, Optional<WeightRow> secondRow) {
+        return isException(2, firstRow) && isException(9, secondRow);
     }
 
-    private static boolean secondCheckIsExceptionNine(Optional<WeightRow> secondWeightRow) {
-        return secondWeightRow.isPresent()
-                && secondWeightRow.get().isExceptionNine();
+    private static boolean isException(int exceptionNumber, Optional<WeightRow> weightRow) {
+        return weightRow.isPresent() && weightRow.get().isException(exceptionNumber);
     }
 
-    public boolean isExceptionOne() {
-        return isException(1);
-    }
-
-    public boolean isExceptionTwo() {
-        return isException(2);
-    }
-
-    public boolean isExceptionFour() {
-        return isException(4);
-    }
-
-    public boolean isExceptionFive() {
-        return isException(5);
-    }
-
-    public boolean isExceptionSix() {
-        return isException(6);
-    }
-
-    public boolean isExceptionSeven() {
-        return isException(7);
-    }
-
-    public boolean isExceptionEight() {
-        return isException(8);
-    }
-
-    public boolean isExceptionNine() {
-        return isException(9);
-    }
-
-    public boolean isExceptionTen() {
-        return isException(10);
-    }
-
-    public boolean isExceptionTwelve() {
-        return isException(12);
-    }
-
-    public boolean isExceptionFourteen() {
-        return isException(14);
-    }
-
-    private boolean isException(int exceptionNumber) {
+    public boolean isException(int exceptionNumber) {
         return exception.isPresent() && exception.get() == exceptionNumber;
     }
 

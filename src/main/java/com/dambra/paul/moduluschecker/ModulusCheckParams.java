@@ -7,10 +7,10 @@ import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 import java.util.Optional;
 
 public final class ModulusCheckParams {
-    private final BankAccount account;
-    private final Optional<WeightRow> firstWeightRow;
-    private final Optional<WeightRow> secondWeightRow;
-    private final Optional<ModulusResult> modulusResult;
+    public final BankAccount account;
+    public final Optional<WeightRow> firstWeightRow;
+    public final Optional<WeightRow> secondWeightRow;
+    public final Optional<ModulusResult> modulusResult;
 
     public ModulusCheckParams(
             BankAccount account,
@@ -23,30 +23,14 @@ public final class ModulusCheckParams {
         this.modulusResult = modulusResult;
     }
 
-    public BankAccount getAccount() {
-        return account;
-    }
-
-    public Optional<WeightRow> getFirstWeightRow() {
-        return Optional.ofNullable(
-                WeightRow.copy(firstWeightRow.orElse(null)));
-    }
-
-    public Optional<WeightRow> getSecondWeightRow() {
-        return Optional.ofNullable(
-                WeightRow.copy(secondWeightRow.orElse(null)));
-    }
-
-    public Optional<ModulusResult> getModulusResult() {
-        return Optional.ofNullable(ModulusResult.copy(modulusResult.orElse(null)));
-    }
-
     public ModulusCheckParams withAccount(BankAccount bankAccount) {
         return new ModulusCheckParams(
                 bankAccount,
-                getFirstWeightRow(),
-                getSecondWeightRow(),
-                getModulusResult()
+                Optional.ofNullable(
+                        WeightRow.copy(firstWeightRow.orElse(null))),
+                Optional.ofNullable(
+                        WeightRow.copy(secondWeightRow.orElse(null))),
+                Optional.ofNullable(ModulusResult.copy(modulusResult.orElse(null)))
         );
     }
 

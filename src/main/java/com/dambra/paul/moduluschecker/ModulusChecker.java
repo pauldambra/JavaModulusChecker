@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class ModulusChecker {
-    SortCodeSubstitution sortCodeSubstitution = SortCodeSubstitution.fromFile("file/scsubtab.txt");
+    private SortCodeSubstitution sortCodeSubstitution = SortCodeSubstitution.fromFile("file/scsubtab.txt");
 
-    ModulusWeightRows weightRows = ModulusWeightRows.fromFile("file/valacdos.txt");
+    private ModulusWeightRows weightRows = ModulusWeightRows.fromFile("file/valacdos.txt");
 
     public ModulusChecker() throws IOException {
     }

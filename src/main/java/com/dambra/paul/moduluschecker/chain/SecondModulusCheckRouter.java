@@ -22,28 +22,31 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
 
         Boolean result = false;
 
-        if (params.getFirstWeightRow().get().isExceptionFourteen()) {
+        if (Optional.ofNullable(
+                WeightRow.copy(params.firstWeightRow.orElse(null))).get().isException(14)) {
             final Boolean secondCheckResult = new ExceptionFourteenModulusElevenCheck().check(params);
-            return ModulusResult.withSecondResult(params.getModulusResult(), secondCheckResult);
+            return ModulusResult.withSecondResult(Optional.ofNullable(ModulusResult.copy(params.modulusResult.orElse(null))), secondCheckResult);
         }
 
         if (isExceptionTwoAndNineWithPassingFirstCheck(params)) {
-            return params.getModulusResult().get();
+            return Optional.ofNullable(ModulusResult.copy(params.modulusResult.orElse(null))).get();
         }
 
-        Function<ModulusCheckParams, WeightRow> rowSelector = p -> p.getSecondWeightRow().get();
+        Function<ModulusCheckParams, WeightRow> rowSelector = p -> Optional.ofNullable(
+                WeightRow.copy(p.secondWeightRow.orElse(null))).get();
 
-        if (rowSelector.apply(params).isExceptionSeven()) {
-            BankAccount account = params.getAccount().zeroiseUToB();
+        if (rowSelector.apply(params).isException(7)) {
+            BankAccount account = params.account.zeroiseUToB();
             params = params.withAccount(account);
         }
 
-        if (rowSelector.apply(params).isExceptionEight()) {
-            BankAccount account = new BankAccount("090126", params.getAccount().accountNumber);
+        if (rowSelector.apply(params).isException(8)) {
+            BankAccount account = new BankAccount("090126", params.account.accountNumber);
             params = params.withAccount(account);
         }
 
-        switch (params.getSecondWeightRow().get().modulusAlgorithm) {
+        switch (Optional.ofNullable(
+                WeightRow.copy(params.secondWeightRow.orElse(null))).get().modulusAlgorithm) {
             case DOUBLE_ALTERNATE:
                 result = runOrSkip(params, rowSelector);
                 break;
@@ -55,9 +58,10 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
                 break;
         }
 
-        final ModulusResult modulusResult = ModulusResult.withSecondResult(params.getModulusResult(), result);
+        final ModulusResult modulusResult = ModulusResult.withSecondResult(Optional.ofNullable(ModulusResult.copy(params.modulusResult.orElse(null))), result);
         return modulusResult.withSecondException(
-                params.getSecondWeightRow().flatMap(weightRow -> weightRow.exception)
+                Optional.ofNullable(
+                        WeightRow.copy(params.secondWeightRow.orElse(null))).flatMap(weightRow -> weightRow.exception)
         );
     }
 
@@ -66,14 +70,15 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
     }
 
     private Boolean runStandardOrExceptionFiveCheck(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {
-        if (params.getSecondWeightRow().get().isExceptionFive()) {
+        if (Optional.ofNullable(
+                WeightRow.copy(params.secondWeightRow.orElse(null))).get().isException(5)) {
             return new ExceptionFiveDoubleAlternateCheck(sortCodeSubstitution).check(params, rowSelector);
         }
         return new DoubleAlternateCheck().check(params, rowSelector);
     }
 
     private boolean canSkipForExceptionThree(ModulusCheckParams params) {
-        int c = params.getAccount().getNumberAt(BankAccount.C);
+        int c = params.account.getNumberAt(BankAccount.C);
         return c == 6 || c ==9;
     }
 
@@ -82,10 +87,12 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
     }
 
     private boolean isExceptionTwoAndNineWithPassingFirstCheck(ModulusCheckParams params) {
-        boolean isExceptionTwoAndNine = WeightRow.isExceptionTwoAndNine(params.getFirstWeightRow(), params.getSecondWeightRow());
-        boolean hasResults = params.getModulusResult().isPresent();
-        boolean hasFirstCheckResult = params.getModulusResult().get().firstCheckResult.isPresent();
-        boolean firstCheckSucceeded = params.getModulusResult().get().firstCheckResult.get();
+        boolean isExceptionTwoAndNine = WeightRow.isExceptionTwoAndNine(Optional.ofNullable(
+                WeightRow.copy(params.firstWeightRow.orElse(null))), Optional.ofNullable(
+                WeightRow.copy(params.secondWeightRow.orElse(null))));
+        boolean hasResults = Optional.ofNullable(ModulusResult.copy(params.modulusResult.orElse(null))).isPresent();
+        boolean hasFirstCheckResult = Optional.ofNullable(ModulusResult.copy(params.modulusResult.orElse(null))).get().firstCheckResult.isPresent();
+        boolean firstCheckSucceeded = Optional.ofNullable(ModulusResult.copy(params.modulusResult.orElse(null))).get().firstCheckResult.get();
 
         return isExceptionTwoAndNine && hasResults && hasFirstCheckResult && firstCheckSucceeded;
     }

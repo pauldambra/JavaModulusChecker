@@ -2,6 +2,7 @@ package com.dambra.paul.moduluschecker.chain;
 
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.valacdosFile.ModulusWeightRows;
+import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 
 import java.util.Optional;
 
@@ -16,9 +17,10 @@ public final class AtLeastOneWeightRowGate implements ModulusChainCheck {
 
     @Override
     public ModulusResult check(ModulusCheckParams params) {
-        params = modulusWeightRows.FindFor(params.getAccount());
+        params = modulusWeightRows.FindFor(params.account);
 
-        return params.getFirstWeightRow().isPresent()
+        return Optional.ofNullable(
+                WeightRow.copy(params.firstWeightRow.orElse(null))).isPresent()
             ? next.check(params)
             : new ModulusResult(Optional.of(false), Optional.empty());
     }
