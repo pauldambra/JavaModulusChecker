@@ -16,20 +16,15 @@ public class SecondCheckRequiredGate implements  ModulusChainCheck {
     @Override
     public ModulusResult check(ModulusCheckParams params) {
 
-        System.out.println(params);
-
         if (exceptionRequiresSecondCheck(params)) {
-            System.out.println("running next check");
             return next.check(params);
         }
 
         if (Optional.ofNullable(
                 WeightRow.copy(params.secondWeightRow.orElse(null))).isPresent()) {
-            System.out.println("running second check");
             return next.check(params);
         }
 
-        System.out.println("not running next check");
         return Optional.ofNullable(ModulusResult.copy(params.modulusResult.orElse(null))).orElse(ModulusResult.PASSES);
     }
 

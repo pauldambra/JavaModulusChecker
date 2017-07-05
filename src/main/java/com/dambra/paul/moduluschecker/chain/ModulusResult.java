@@ -46,7 +46,6 @@ public class ModulusResult {
     }
 
     public ModulusResult withFirstException(Optional<Integer> rowException) {
-        System.out.println("adding: " + rowException);
         return new ModulusResult(firstCheckResult, secondCheckResult, rowException, Optional.empty());
     }
 
