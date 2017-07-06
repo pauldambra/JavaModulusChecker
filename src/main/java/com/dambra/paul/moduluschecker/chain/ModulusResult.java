@@ -37,12 +37,11 @@ public class ModulusResult {
     }
 
     public static ModulusResult withSecondResult(Optional<ModulusResult> modulusResult, Boolean secondCheck) {
-        Optional<Boolean> firstCheck = modulusResult.map(mr -> mr.firstCheckResult)
-                                                    .orElseGet(() -> Optional.of(false));
-        Optional<Integer> firstException = modulusResult.flatMap(mr -> mr.firstException);
-        Optional<Integer> secondException = modulusResult.flatMap(mr -> mr.secondException);
-
-        return new ModulusResult(firstCheck, Optional.ofNullable(secondCheck), firstException, secondException);
+        return new ModulusResult(
+                modulusResult.map(mr -> mr.firstCheckResult).orElseGet(() -> Optional.of(false)),
+                Optional.ofNullable(secondCheck),
+                modulusResult.flatMap(mr -> mr.firstException),
+                modulusResult.flatMap(mr -> mr.secondException));
     }
 
     public ModulusResult withFirstException(Optional<Integer> rowException) {
@@ -98,13 +97,11 @@ public class ModulusResult {
     }
 
     private boolean firstOrSecond() {
-        return firstCheck()
-                || secondCheck();
+        return firstCheck() || secondCheck();
     }
 
     private boolean bothMustPass() {
-        return firstCheck()
-                && secondCheck();
+        return firstCheck() && secondCheck();
     }
 
     public static ModulusResult copy(ModulusResult original) {
