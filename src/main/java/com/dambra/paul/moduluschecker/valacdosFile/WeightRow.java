@@ -28,16 +28,20 @@ public final class WeightRow {
         this.weights = ImmutableList.copyOf(weights);
     }
 
-    public static boolean isExceptionTwoAndNine(Optional<WeightRow> firstRow, Optional<WeightRow> secondRow) {
-        return isException(2, firstRow) && isException(9, secondRow);
-    }
-
     private static boolean isException(int exceptionNumber, Optional<WeightRow> weightRow) {
         return weightRow.isPresent() && weightRow.get().isException(exceptionNumber);
     }
 
     public boolean isException(int exceptionNumber) {
         return exception.isPresent() && exception.get() == exceptionNumber;
+    }
+
+    public static boolean isExceptionTwoAndNine(Optional<WeightRow> firstRow, Optional<WeightRow> secondRow) {
+        return isException(2, firstRow) && isException(9, secondRow);
+    }
+
+    public static boolean isExceptionFourteen(Optional<WeightRow> weightRow) {
+        return isException(14, weightRow);
     }
 
     public static Optional<WeightRow> parse(String input) {
