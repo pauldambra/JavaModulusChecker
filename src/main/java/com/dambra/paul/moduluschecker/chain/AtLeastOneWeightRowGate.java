@@ -19,8 +19,7 @@ public final class AtLeastOneWeightRowGate implements ModulusChainCheck {
     public ModulusResult check(ModulusCheckParams params) {
         params = modulusWeightRows.FindFor(params.account);
 
-        return Optional.ofNullable(
-                WeightRow.copy(params.firstWeightRow.orElse(null))).isPresent()
+        return params.firstWeightRow.isPresent()
             ? next.check(params)
             : new ModulusResult(Optional.of(false), Optional.empty());
     }
