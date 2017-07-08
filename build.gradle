@@ -1,7 +1,8 @@
-group 'com.dambra.paul'
+group 'com.github.pauldambra'
 version '0.0.0'
 
 apply plugin: 'java'
+apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.8
 
@@ -13,4 +14,18 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'com.google.guava', name: 'guava', version: '22.0'
     testCompile 'org.hamcrest:hamcrest-library:1.3'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url "$buildDir/repo"
+        }
+    }
 }
