@@ -38,14 +38,21 @@ final class ModulusCheckingChain {
      * ExceptionSevenAccountTransformer
      *         |
      *         V
+     * ExceptionEightAccountTransformer
+     *         |
+     *         V
+     * ExceptionThreeGate
+     *         |
+     *         V
      * SecondModulusCheckRouter
      */
     static ModulusChainLink create(ModulusWeightRows weightRows, SortCodeSubstitution sortCodeSubstitution) {
         final SecondModulusCheckRouter secondModulusCheckRouter = new SecondModulusCheckRouter(sortCodeSubstitution);
-        final ExceptionEightAccountTransformer exceptionEightAccountTransformer
-                = new ExceptionEightAccountTransformer(secondModulusCheckRouter, p -> p.secondWeightRow.get());
+        final ExceptionThreeGate exceptionThreeGate = new ExceptionThreeGate(secondModulusCheckRouter);
+        final ExceptionEightAccountTransformer secondExceptionEightAccountTransformer
+                = new ExceptionEightAccountTransformer(exceptionThreeGate, p -> p.secondWeightRow.get());
         final ExceptionSevenAccountTransformer secondExceptionSevenAccountTransformer
-                = new ExceptionSevenAccountTransformer(exceptionEightAccountTransformer, p -> p.secondWeightRow.get());
+                = new ExceptionSevenAccountTransformer(secondExceptionEightAccountTransformer, p -> p.secondWeightRow.get());
         final ExceptionTwoAndNineGate exceptionTwoAndNineGate = new ExceptionTwoAndNineGate(secondExceptionSevenAccountTransformer);
         final ExceptionFourteenGate exceptionFourteenGate = new ExceptionFourteenGate(exceptionTwoAndNineGate);
         final ExceptionTwoGate exceptionTwoGate = new ExceptionTwoGate(exceptionFourteenGate);
