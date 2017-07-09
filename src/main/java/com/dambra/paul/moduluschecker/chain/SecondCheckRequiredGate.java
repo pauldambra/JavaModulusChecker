@@ -5,7 +5,7 @@ import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 
 import java.util.Optional;
 
-public class SecondCheckRequiredGate implements  ModulusChainCheck {
+public class SecondCheckRequiredGate implements ModulusChainLink {
 
     private final ExceptionTwoGate next;
 

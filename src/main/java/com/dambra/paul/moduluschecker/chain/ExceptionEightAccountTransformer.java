@@ -3,7 +3,7 @@ package com.dambra.paul.moduluschecker.chain;
 import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 
-public final class ExceptionEightAccountTransformer implements ModulusChainCheck {
+public final class ExceptionEightAccountTransformer implements ModulusChainLink {
 
     private final ExceptionTenAccountTransformer next;
 

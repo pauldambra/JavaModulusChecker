@@ -32,11 +32,15 @@ final class ModulusCheckingChain {
      * ExceptionFourteenGate
      *         |
      *         V
+     * ExceptionTwoAndNineGate
+     *         |
+     *         V
      * SecondModulusCheckRouter
      */
-    static ModulusChainCheck create(ModulusWeightRows weightRows, SortCodeSubstitution sortCodeSubstitution) {
+    static ModulusChainLink create(ModulusWeightRows weightRows, SortCodeSubstitution sortCodeSubstitution) {
         final SecondModulusCheckRouter secondModulusCheckRouter = new SecondModulusCheckRouter(sortCodeSubstitution);
-        final ExceptionFourteenGate exceptionFourteenGate = new ExceptionFourteenGate(secondModulusCheckRouter);
+        final ExceptionTwoAndNineGate exceptionTwoAndNineGate = new ExceptionTwoAndNineGate(secondModulusCheckRouter);
+        final ExceptionFourteenGate exceptionFourteenGate = new ExceptionFourteenGate(exceptionTwoAndNineGate);
         final ExceptionTwoGate exceptionTwoGate = new ExceptionTwoGate(exceptionFourteenGate);
         final SecondCheckRequiredGate secondCheckRequiredGate = new SecondCheckRequiredGate(exceptionTwoGate);
         final FirstModulusCheckRouter firstModulusCheckRouter = new FirstModulusCheckRouter(

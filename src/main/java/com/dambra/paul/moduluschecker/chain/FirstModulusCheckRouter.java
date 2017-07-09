@@ -8,10 +8,9 @@ import com.dambra.paul.moduluschecker.chain.checks.ModulusElevenCheck;
 import com.dambra.paul.moduluschecker.chain.checks.ModulusTenCheck;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 
-import java.util.Optional;
 import java.util.function.Function;
 
-public final class FirstModulusCheckRouter implements ModulusChainCheck {
+public final class FirstModulusCheckRouter implements ModulusChainLink {
     private final SortCodeSubstitution sortCodeSubstitution;
     private final SecondCheckRequiredGate next;
 

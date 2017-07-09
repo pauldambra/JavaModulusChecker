@@ -1,4 +1,4 @@
-import com.dambra.paul.moduluschecker.chain.ModulusChainCheck;
+import com.dambra.paul.moduluschecker.chain.ModulusChainLink;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.chain.ModulusResult;
 import org.junit.Test;
@@ -15,11 +15,11 @@ public class ChainOfResponsibilityTests {
     private boolean secondWasCalled = false;
     private boolean thirdWasCalled = false;
 
-    private class First implements ModulusChainCheck {
+    private class First implements ModulusChainLink {
 
-        private final ModulusChainCheck next;
+        private final ModulusChainLink next;
 
-        public First(ModulusChainCheck next) {
+        public First(ModulusChainLink next) {
 
             this.next = next;
         }
@@ -30,11 +30,11 @@ public class ChainOfResponsibilityTests {
         }
     }
 
-    private class SecondIsAlwaysResponsible implements ModulusChainCheck {
+    private class SecondIsAlwaysResponsible implements ModulusChainLink {
 
-        private final ModulusChainCheck next;
+        private final ModulusChainLink next;
 
-        public SecondIsAlwaysResponsible(ModulusChainCheck next) {
+        public SecondIsAlwaysResponsible(ModulusChainLink next) {
 
             this.next = next;
         }
@@ -45,7 +45,7 @@ public class ChainOfResponsibilityTests {
         }
     }
 
-    private class Third implements ModulusChainCheck {
+    private class Third implements ModulusChainLink {
 
         public ModulusResult check(ModulusCheckParams params) {
             thirdWasCalled = true;
@@ -55,7 +55,7 @@ public class ChainOfResponsibilityTests {
 
     @Test
     public void CanChainTogether() {
-        ModulusChainCheck chain = new First(new SecondIsAlwaysResponsible(new Third()));
+        ModulusChainLink chain = new First(new SecondIsAlwaysResponsible(new Third()));
 
         ModulusResult result = chain.check(new ModulusCheckParams(null, Optional.empty(), Optional.empty(), Optional.empty()));
 

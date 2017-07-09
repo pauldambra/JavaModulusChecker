@@ -13,7 +13,7 @@ import java.util.Optional;
  * • If a = 4, 5, 6, 7 or 8, and g and h are the same, the accounts are for a foreign currency and the
  * checks cannot be used.
  */
-public class ExceptionSixGate implements ModulusChainCheck {
+public class ExceptionSixGate implements ModulusChainLink {
 
     private final ExceptionSevenAccountTransformer next;
 

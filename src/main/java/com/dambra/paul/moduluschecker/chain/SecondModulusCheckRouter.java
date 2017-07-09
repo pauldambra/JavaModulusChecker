@@ -6,10 +6,9 @@ import com.dambra.paul.moduluschecker.SortCodeSubstitution;
 import com.dambra.paul.moduluschecker.chain.checks.*;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 
-import java.util.Optional;
 import java.util.function.Function;
 
-public class SecondModulusCheckRouter implements ModulusChainCheck {
+public class SecondModulusCheckRouter implements ModulusChainLink {
 
     private final SortCodeSubstitution sortCodeSubstitution;
 
@@ -25,10 +24,6 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
         if (WeightRow.isExceptionFourteen(params.firstWeightRow)) {
             final Boolean secondCheckResult = new ExceptionFourteenModulusElevenCheck().check(params);
             return ModulusResult.withSecondResult(params.modulusResult, secondCheckResult);
-        }
-
-        if (isExceptionTwoAndNineWithPassingFirstCheck(params)) {
-            return params.modulusResult.get();
         }
 
         Function<ModulusCheckParams, WeightRow> rowSelector = p -> p.secondWeightRow.get();
@@ -79,16 +74,5 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
 
     private Boolean runStandardOrExceptionFourteenCheck(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {
         return new ModulusElevenCheck().check(params, rowSelector);
-    }
-
-    private boolean isExceptionTwoAndNineWithPassingFirstCheck(ModulusCheckParams params) {
-        boolean isExceptionTwoAndNine = WeightRow.isExceptionTwoAndNine(
-                params.firstWeightRow,
-                params.secondWeightRow);
-        boolean hasResults = params.modulusResult.isPresent();
-        boolean hasFirstCheckResult = params.modulusResult.get().firstCheckResult.isPresent();
-        boolean firstCheckSucceeded = params.modulusResult.get().firstCheckResult.get();
-
-        return isExceptionTwoAndNine && hasResults && hasFirstCheckResult && firstCheckSucceeded;
     }
 }

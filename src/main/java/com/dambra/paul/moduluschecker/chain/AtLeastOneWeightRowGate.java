@@ -2,11 +2,10 @@ package com.dambra.paul.moduluschecker.chain;
 
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.valacdosFile.ModulusWeightRows;
-import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 
 import java.util.Optional;
 
-public final class AtLeastOneWeightRowGate implements ModulusChainCheck {
+public final class AtLeastOneWeightRowGate implements ModulusChainLink {
     private final ModulusWeightRows modulusWeightRows;
     private final ExceptionSixGate next;
 

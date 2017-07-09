@@ -3,7 +3,7 @@ package com.dambra.paul.moduluschecker.chain;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 
-public class ExceptionTwoGate implements ModulusChainCheck {
+public class ExceptionTwoGate implements ModulusChainLink {
 
     private final ExceptionFourteenGate next;
 

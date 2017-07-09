@@ -11,11 +11,11 @@ import java.util.Optional;
  * • If the check passes (that is, there is no remainder), then the account number should be
  * considered valid. Do not perform the second check
  */
-public class ExceptionFourteenGate implements ModulusChainCheck {
+public class ExceptionFourteenGate implements ModulusChainLink {
 
-    private final SecondModulusCheckRouter next;
+    private final ExceptionTwoAndNineGate next;
 
-    public ExceptionFourteenGate(SecondModulusCheckRouter next) {
+    public ExceptionFourteenGate(ExceptionTwoAndNineGate next) {
         this.next = next;
     }
 
