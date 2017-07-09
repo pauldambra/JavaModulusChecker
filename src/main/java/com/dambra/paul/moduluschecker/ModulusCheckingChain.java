@@ -14,6 +14,12 @@ final class ModulusCheckingChain {
      * ExceptionSevenAccountTransformer
      *         |
      *         V
+     * ExceptionEightAccountTransformer
+     *         |
+     *         V
+     * ExceptionTenAccountTransformer
+     *         |
+     *         V
      * FirstModulusCheckRouter
      *         |
      *         V
@@ -37,7 +43,12 @@ final class ModulusCheckingChain {
                 sortCodeSubstitution,
                 secondCheckRequiredGate
         );
-        final ExceptionSevenAccountTransformer exceptionSevenAccountTransformer = new ExceptionSevenAccountTransformer(firstModulusCheckRouter);
+        final ExceptionTenAccountTransformer exceptionTenAccountTransformer
+                = new ExceptionTenAccountTransformer(firstModulusCheckRouter);
+        final ExceptionEightAccountTransformer exceptionEightAccountTransformer
+                = new ExceptionEightAccountTransformer(exceptionTenAccountTransformer);
+        final ExceptionSevenAccountTransformer exceptionSevenAccountTransformer
+                = new ExceptionSevenAccountTransformer(exceptionEightAccountTransformer);
         final ExceptionSixGate exceptionSixGate = new ExceptionSixGate(exceptionSevenAccountTransformer);
         return new AtLeastOneWeightRowGate(weightRows, exceptionSixGate);
     }

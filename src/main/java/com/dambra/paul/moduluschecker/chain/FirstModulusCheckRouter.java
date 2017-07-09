@@ -30,24 +30,6 @@ public final class FirstModulusCheckRouter implements ModulusChainCheck {
 
         Function<ModulusCheckParams, WeightRow> rowSelector = p -> p.firstWeightRow.get();
 
-        if (rowSelector.apply(params).isException(8)) {
-            BankAccount account = BankAccount.Of("090126", params.account.accountNumber);
-            params = params.withAccount(account);
-        }
-
-        if (rowSelector.apply(params).isException(10)) {
-            //Of the exception 10 check, if ab = 09 or ab = 99 and g = 9, zeroise weighting positions u-b.
-            int a = params.account.getNumberAt(BankAccount.A);
-            int b = params.account.getNumberAt(BankAccount.B);
-            int g = params.account.getNumberAt(BankAccount.G);
-            if (a == 0 || a == 9
-                && b == 9
-                && g == 9) {
-                BankAccount account = params.account.zeroiseUToB();
-                params = params.withAccount(account);
-            }
-        }
-
         switch (params.firstWeightRow.get().modulusAlgorithm) {
             case DOUBLE_ALTERNATE:
                 result = new DoubleAlternateCheck().check(params, rowSelector);
