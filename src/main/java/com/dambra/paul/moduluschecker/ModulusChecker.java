@@ -15,13 +15,14 @@ public class ModulusChecker {
     }
 
     public Boolean checkBankAccount(String sortCode, String accountNumber) {
-        BankAccount account = BankAccount.Of(sortCode, accountNumber);
-        ModulusChainCheck chain = makeModulusChainCheck();
-        ModulusResult modulusResults = chain.check(ModulusCheckParams.startingParams(account));
-        return modulusResults.processResults();
+        final ModulusCheckParams params = ModulusCheckParams.startingParams(
+                BankAccount.Of(sortCode, accountNumber));
+        return modulusCheckingChain()
+                .check(params)
+                .processResults();
     }
 
-    private ModulusChainCheck makeModulusChainCheck() {
+    private ModulusChainCheck modulusCheckingChain() {
         SecondModulusCheckRouter secondModulusCheckRouter = new SecondModulusCheckRouter(sortCodeSubstitution);
         ExceptionFourteenGate exceptionFourteenGate = new ExceptionFourteenGate(secondModulusCheckRouter);
         ExceptionTwoGate exceptionTwoGate = new ExceptionTwoGate(exceptionFourteenGate);
