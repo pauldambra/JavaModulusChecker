@@ -31,7 +31,7 @@ public class ModulusWeightRows {
         for (ValacdosRow vr : this.valacdosRows) {
             boolean stillSeekingFirstMatch = first == null;
 
-            if (!vr.getSortCodeRange().contains(account.sortCode)) {
+            if (!vr.sortCodeRange.contains(account.sortCode)) {
                 if (stillSeekingFirstMatch) {
                     continue;
                 } else {
@@ -40,11 +40,11 @@ public class ModulusWeightRows {
             }
 
             if (stillSeekingFirstMatch) {
-                first = vr.getWeightRow();
+                first = vr.weightRow;
                 continue;
             }
 
-            second = vr.getWeightRow();
+            second = vr.weightRow;
         }
 
         return new ModulusCheckParams(

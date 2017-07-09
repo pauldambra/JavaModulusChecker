@@ -38,7 +38,7 @@ public class LoadModulusWeightRowTests {
 
         ModulusWeightRows modulusRows = new ModulusWeightRows(Arrays.asList(new ValacdosRow(sortCodeRange, weightRow)));
 
-        BankAccount originalAccount = new BankAccount("012345", "01234567");
+        BankAccount originalAccount = BankAccount.Of("012345", "01234567");
         ModulusCheckParams modulusCheckParams = modulusRows.FindFor(originalAccount);
 
         assertThat(modulusCheckParams.account, is(equalTo(originalAccount)));
@@ -53,7 +53,7 @@ public class LoadModulusWeightRowTests {
 
         ModulusWeightRows modulusRows = new ModulusWeightRows(Arrays.asList(new ValacdosRow(sortCodeRange, weightRow)));
 
-        BankAccount originalAccount = new BankAccount("012345", "01234567");
+        BankAccount originalAccount = BankAccount.Of("012345", "01234567");
         ModulusCheckParams modulusCheckParams = modulusRows.FindFor(originalAccount);
 
         assertThat(Optional.ofNullable(
@@ -64,7 +64,7 @@ public class LoadModulusWeightRowTests {
     public void CanLoadFromFileResource() throws IOException {
         ModulusWeightRows weightRows = ModulusWeightRows.fromFile("file/valacdos.txt");
 
-        BankAccount ba = new BankAccount("938173", "01234567");
+        BankAccount ba = BankAccount.Of("938173", "01234567");
 
         ModulusCheckParams found = weightRows.FindFor(ba);
 
@@ -84,7 +84,7 @@ public class LoadModulusWeightRowTests {
     public void CanLoadFromFileResourceAndGetALloydsAccount() throws IOException {
         ModulusWeightRows weightRows = ModulusWeightRows.fromFile("file/valacdos.txt");
 
-        BankAccount ba = new BankAccount("309070", "12345668");
+        BankAccount ba = BankAccount.Of("309070", "12345668");
 
         ModulusCheckParams found = weightRows.FindFor(ba);
 

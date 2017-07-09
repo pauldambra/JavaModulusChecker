@@ -5,7 +5,6 @@ import com.dambra.paul.moduluschecker.chain.*;
 import com.dambra.paul.moduluschecker.valacdosFile.ModulusWeightRows;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public class ModulusChecker {
     private SortCodeSubstitution sortCodeSubstitution = SortCodeSubstitution.fromFile("file/scsubtab.txt");
@@ -16,15 +15,9 @@ public class ModulusChecker {
     }
 
     public Boolean checkBankAccount(String sortCode, String accountNumber) {
-
-        BankAccount account = new BankAccount(sortCode, accountNumber);
-
-        ModulusCheckParams startingParams = new ModulusCheckParams(account, Optional.empty(), Optional.empty(), Optional.empty());
-
+        BankAccount account = BankAccount.Of(sortCode, accountNumber);
         ModulusChainCheck chain = makeModulusChainCheck();
-
-        ModulusResult modulusResults = chain.check(startingParams);
-
+        ModulusResult modulusResults = chain.check(ModulusCheckParams.startingParams(account));
         return modulusResults.processResults();
     }
 

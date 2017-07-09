@@ -31,7 +31,7 @@ public final class ExceptionFourteenModulusElevenCheck {
         }
 
         final String newAccountNumber = "0" + params.account.accountNumber.substring(0, 7);
-        final BankAccount correctedAccount = new BankAccount(params.account.sortCode, newAccountNumber);
+        final BankAccount correctedAccount = BankAccount.Of(params.account.sortCode, newAccountNumber);
 
         int total = ModulusTotal.calculate(
                 correctedAccount,

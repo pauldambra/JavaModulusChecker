@@ -23,7 +23,7 @@ public class ModulusTenTests {
         );
 
         ModulusCheckParams params = new ModulusCheckParams(
-                new BankAccount(sc, an),
+                BankAccount.Of(sc, an),
                 Optional.of(row), Optional.empty(), Optional.empty());
         ModulusTenCheck checker = new ModulusTenCheck();
 

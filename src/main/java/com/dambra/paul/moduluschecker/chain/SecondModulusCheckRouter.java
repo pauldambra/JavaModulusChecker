@@ -41,7 +41,7 @@ public class SecondModulusCheckRouter implements ModulusChainCheck {
         }
 
         if (rowSelector.apply(params).isException(8)) {
-            BankAccount account = new BankAccount("090126", params.account.accountNumber);
+            BankAccount account = BankAccount.Of("090126", params.account.accountNumber);
             params = params.withAccount(account);
         }
 

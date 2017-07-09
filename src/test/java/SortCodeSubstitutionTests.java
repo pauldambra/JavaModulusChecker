@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.theInstance;
@@ -21,7 +20,7 @@ public class SortCodeSubstitutionTests {
                                                 .build();
 
         SortCodeSubstitution sortCodeSubstitution = new SortCodeSubstitution(substitutions);
-        BankAccount originalAccount = new BankAccount("012345", "01234567");
+        BankAccount originalAccount = BankAccount.Of("012345", "01234567");
         BankAccount account = sortCodeSubstitution.Apply(originalAccount);
 
         assertThat(account.sortCode, is(equalTo("012345")));
@@ -37,7 +36,7 @@ public class SortCodeSubstitutionTests {
                 .build();
 
         SortCodeSubstitution sortCodeSubstitution = new SortCodeSubstitution(substitutions);
-        BankAccount originalAccount = new BankAccount("012345", "01234567");
+        BankAccount originalAccount = BankAccount.Of("012345", "01234567");
         BankAccount account = sortCodeSubstitution.Apply(originalAccount);
 
         assertThat(account.sortCode, is(equalTo("543210")));
@@ -49,7 +48,7 @@ public class SortCodeSubstitutionTests {
     public void CanLoadFromFileResource() throws IOException {
         SortCodeSubstitution sortCodeSubstitution = SortCodeSubstitution.fromFile("file/scsubtab.txt");
 
-        BankAccount ba = new BankAccount("938173", "01234567");
+        BankAccount ba = BankAccount.Of("938173", "01234567");
         assertThat(sortCodeSubstitution.Apply(ba).sortCode, is(equalTo("938017")));
     }
 }

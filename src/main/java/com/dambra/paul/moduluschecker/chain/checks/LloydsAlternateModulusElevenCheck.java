@@ -17,7 +17,7 @@ public final class LloydsAlternateModulusElevenCheck {
             return false;
         }
 
-        BankAccount account = new BankAccount(BankAccount.LLOYDS_EURO_SORT_CODE, params.account.accountNumber);
+        BankAccount account = BankAccount.Of(BankAccount.LLOYDS_EURO_SORT_CODE, params.account.accountNumber);
 
         int total = ModulusTotal.calculate(account, selectedRow.getWeights());
         return total % 11 == 0;

@@ -23,6 +23,10 @@ public final class ModulusCheckParams {
         this.modulusResult = modulusResult;
     }
 
+    static ModulusCheckParams startingParams(BankAccount account) {
+        return new ModulusCheckParams(account, Optional.empty(), Optional.empty(), Optional.empty());
+    }
+
     public ModulusCheckParams withAccount(BankAccount bankAccount) {
         return new ModulusCheckParams(
                 bankAccount,

@@ -14,13 +14,14 @@ import java.util.stream.Collectors;
 public final class WeightRow {
     private static final Splitter splitter = Splitter.on(CharMatcher.whitespace())
                                               .omitEmptyStrings();
+    static final int LOWEST_SORT_CODE_INDEX = 0;
+    static final int HIGHEST_SORT_CODE_INDEX = 1;
+    private static final int MODULUS_INDEX = 2;
+    private static final int EXCEPTION_INDEX = 17;
 
     public final ModulusAlgorithm modulusAlgorithm;
     public final Optional<Integer> exception;
     private final ImmutableList<Integer> weights;
-
-    private static final int MODULUS_INDEX = 2;
-    private static final int EXCEPTION_INDEX = 17;
 
     public WeightRow(ModulusAlgorithm modulusAlgorithm, List<Integer> weights, Optional<Integer> exception) {
         this.modulusAlgorithm = modulusAlgorithm;

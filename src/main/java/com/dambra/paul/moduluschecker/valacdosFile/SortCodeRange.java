@@ -10,8 +10,6 @@ public final class SortCodeRange {
     private static final Splitter splitter = Splitter.on(CharMatcher.whitespace())
             .omitEmptyStrings();
 
-    private static final int LOWEST_SORT_CODE_INDEX = 0;
-    private static final int HIGHEST_SORT_CODE_INDEX = 1;
     private final int start;
     private final int end;
 
@@ -33,8 +31,8 @@ public final class SortCodeRange {
 
         return Optional.of(
                 new SortCodeRange(
-                        parts.get(LOWEST_SORT_CODE_INDEX),
-                        parts.get(HIGHEST_SORT_CODE_INDEX)));
+                        parts.get(WeightRow.LOWEST_SORT_CODE_INDEX),
+                        parts.get(WeightRow.HIGHEST_SORT_CODE_INDEX)));
     }
 
     public boolean contains(String sortCode) {

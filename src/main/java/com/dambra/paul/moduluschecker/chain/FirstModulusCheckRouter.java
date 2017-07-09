@@ -38,12 +38,12 @@ public final class FirstModulusCheckRouter implements ModulusChainCheck {
         }
 
         if (rowSelector.apply(params).isException(8)) {
-            BankAccount account = new BankAccount("090126", params.account.accountNumber);
+            BankAccount account = BankAccount.Of("090126", params.account.accountNumber);
             params = params.withAccount(account);
         }
 
         if (rowSelector.apply(params).isException(10)) {
-            //For the exception 10 check, if ab = 09 or ab = 99 and g = 9, zeroise weighting positions u-b.
+            //Of the exception 10 check, if ab = 09 or ab = 99 and g = 9, zeroise weighting positions u-b.
             int a = params.account.getNumberAt(BankAccount.A);
             int b = params.account.getNumberAt(BankAccount.B);
             int g = params.account.getNumberAt(BankAccount.G);

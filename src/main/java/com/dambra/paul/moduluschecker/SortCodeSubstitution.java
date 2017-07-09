@@ -10,7 +10,6 @@ import com.google.common.io.Resources;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
-import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -25,13 +24,13 @@ public class SortCodeSubstitution {
         this.sortCodeSubstitutionTable = sortCodeSubstitutionTable;
     }
 
-    public SortCodeSubstitution(Map<String, String> sortCodeSubstitutionTable) {
+    private SortCodeSubstitution(Map<String, String> sortCodeSubstitutionTable) {
         this.sortCodeSubstitutionTable = ImmutableMap.copyOf(sortCodeSubstitutionTable);
     }
 
     public BankAccount Apply(BankAccount bankAccount) {
         return sortCodeSubstitutionTable.containsKey(bankAccount.sortCode)
-                ? new BankAccount(sortCodeSubstitutionTable.get(bankAccount.sortCode), bankAccount.accountNumber)
+                ? BankAccount.Of(sortCodeSubstitutionTable.get(bankAccount.sortCode), bankAccount.accountNumber)
                 : new BankAccount(bankAccount);
     }
 
