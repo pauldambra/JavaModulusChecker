@@ -23,15 +23,15 @@ public class ModulusChecker {
     }
 
     private ModulusChainCheck modulusCheckingChain() {
-        SecondModulusCheckRouter secondModulusCheckRouter = new SecondModulusCheckRouter(sortCodeSubstitution);
-        ExceptionFourteenGate exceptionFourteenGate = new ExceptionFourteenGate(secondModulusCheckRouter);
-        ExceptionTwoGate exceptionTwoGate = new ExceptionTwoGate(exceptionFourteenGate);
-        SecondCheckRequiredGate secondCheckRequiredGate = new SecondCheckRequiredGate(exceptionTwoGate);
-        FirstModulusCheckRouter firstModulusCheckRouter = new FirstModulusCheckRouter(
+        final SecondModulusCheckRouter secondModulusCheckRouter = new SecondModulusCheckRouter(sortCodeSubstitution);
+        final ExceptionFourteenGate exceptionFourteenGate = new ExceptionFourteenGate(secondModulusCheckRouter);
+        final ExceptionTwoGate exceptionTwoGate = new ExceptionTwoGate(exceptionFourteenGate);
+        final SecondCheckRequiredGate secondCheckRequiredGate = new SecondCheckRequiredGate(exceptionTwoGate);
+        final FirstModulusCheckRouter firstModulusCheckRouter = new FirstModulusCheckRouter(
                 sortCodeSubstitution,
                 secondCheckRequiredGate
         );
-        ExceptionSixGate exceptionSixGate = new ExceptionSixGate(firstModulusCheckRouter);
+        final ExceptionSixGate exceptionSixGate = new ExceptionSixGate(firstModulusCheckRouter);
         return new AtLeastOneWeightRowGate(weightRows, exceptionSixGate);
     }
 }
