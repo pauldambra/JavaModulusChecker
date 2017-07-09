@@ -43,7 +43,7 @@ public final class ModulusCheckParams {
                 && firstWeightRow.get().isException(6);
     }
 
-    public boolean firstCheck() {
+    public boolean firstCheckPassed() {
         return modulusResult.isPresent()
                 && modulusResult.get().firstCheckResult.orElse(false);
     }

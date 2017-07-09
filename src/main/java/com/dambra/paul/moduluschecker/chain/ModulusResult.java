@@ -114,7 +114,7 @@ public class ModulusResult {
     @Override
     public String toString() {
         return "ModulusResult{" +
-                "firstCheck=" + firstCheckResult +
+                "firstCheckPassed=" + firstCheckResult +
                 ", secondCheckResult=" + secondCheckResult +
                 ", firstException=" + firstException +
                 ", secondException=" + secondException +

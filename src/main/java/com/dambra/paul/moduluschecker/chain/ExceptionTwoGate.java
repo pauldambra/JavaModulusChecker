@@ -3,8 +3,6 @@ package com.dambra.paul.moduluschecker.chain;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 
-import java.util.Optional;
-
 public class ExceptionTwoGate implements ModulusChainCheck {
 
     private final ExceptionFourteenGate next;
@@ -16,26 +14,22 @@ public class ExceptionTwoGate implements ModulusChainCheck {
     @Override
     public ModulusResult check(ModulusCheckParams params) {
         if (hasNoSecondWeightRowToCheck(params) && isNotExceptionFourteen(params)) {
-            return Optional.ofNullable(ModulusResult.copy(params.modulusResult.orElse(null))).get();
+            return params.modulusResult.get();
         }
 
-        if (Optional.ofNullable(
-                WeightRow.copy(params.firstWeightRow.orElse(null))).get().isException(2)) {
-            if (Optional.ofNullable(ModulusResult.copy(params.modulusResult.orElse(null))).get().firstCheckResult.get()) {
-                return Optional.ofNullable(ModulusResult.copy(params.modulusResult.orElse(null))).get();
-            }
+        if (WeightRow.isExceptionTwo(params.firstWeightRow) && params.firstCheckPassed()) {
+            return params.modulusResult.get();
         }
 
         return next.check(params);
+
     }
 
     private boolean hasNoSecondWeightRowToCheck(ModulusCheckParams params) {
-        return !Optional.ofNullable(
-                WeightRow.copy(params.secondWeightRow.orElse(null))).isPresent();
+        return !params.secondWeightRow.isPresent();
     }
 
     private boolean isNotExceptionFourteen(ModulusCheckParams params) {
-        return !Optional.ofNullable(
-                WeightRow.copy(params.firstWeightRow.orElse(null))).get().isException(14);
+        return !WeightRow.isExceptionFourteen(params.firstWeightRow);
     }
 }
