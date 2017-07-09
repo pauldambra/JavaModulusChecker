@@ -1,6 +1,5 @@
 package com.dambra.paul.moduluschecker.chain;
 
-import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
 import com.dambra.paul.moduluschecker.SortCodeSubstitution;
 import com.dambra.paul.moduluschecker.chain.checks.DoubleAlternateCheck;
@@ -38,7 +37,9 @@ public final class FirstModulusCheckRouter implements ModulusChainCheck {
                 result = new ModulusTenCheck().check(params, rowSelector);
                 break;
             case MOD11:
-                result = runStandardOrExceptionFiveCheck(params, rowSelector);
+                result = params.firstWeightRow.get().isException(5)
+                        ? new ExceptionFiveModulusElevenCheck(sortCodeSubstitution).check(params, rowSelector)
+                        : new ModulusElevenCheck().check(params, rowSelector);
                 break;
         }
 
@@ -61,17 +62,4 @@ public final class FirstModulusCheckRouter implements ModulusChainCheck {
         );
     }
 
-    private boolean runStandardOrExceptionFiveCheck(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {
-        boolean isExceptionFive = Optional.ofNullable(
-                WeightRow.copy(params.firstWeightRow.orElse(null))).get().isException(5);
-
-        if (isExceptionFive)
-        {
-            return new ExceptionFiveModulusElevenCheck(sortCodeSubstitution).check(params, rowSelector);
-        }
-        else
-        {
-            return new ModulusElevenCheck().check(params, rowSelector);
-        }
-    }
 }
