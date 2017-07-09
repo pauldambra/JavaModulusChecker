@@ -20,12 +20,39 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+
+            pom.withXml {
+                asNode().with {
+                    appendNode('packaging', 'jar')
+                    appendNode('name', 'ModulusChecker')
+                    appendNode('description', 'Java implementation of UK Bank Account Modulus Checking. Modulus Checking is a process used to determine if a given account number could be valid for a given sort code.')
+                    appendNode('url', 'https://github.com/pauldambra/JavaModulusChecker')
+                    appendNode('scm').with {
+                        appendNode('url', 'https://github.com/pauldambra/JavaModulusChecker')
+                        appendNode('connection', 'git@github.com:pauldambra/JavaModulusChecker.git')
+                    }
+                    appendNode('issueManagement').with {
+                        appendNode('url', 'https://github.com/pauldambra/JavaModulusChecker/issues')
+                        appendNode('system', 'GitHub')
+                    }
+                    appendNode('licenses').with {
+                        appendNode('license').with {
+                            appendNode('name', 'MIT')
+                            appendNode('url', 'https://github.com/pauldambra/JavaModulusChecker/blob/master/MIT-license.txt')
+                        }
+                    }
+                    appendNode('developers').with {
+                        appendNode('developer').with {
+                            appendNode('id', 'pauldambra')
+                            appendNode('name', 'Paul D\'Ambra')
+                            appendNode('email', 'paul.dambra@gmail.com')
+                        }
+                    }
+                }
+            }
         }
     }
     repositories {
-        maven {
-            // change to point to your repo, e.g. http://my.org/repo
-            url "$buildDir/repo"
-        }
+        mavenLocal()
     }
 }
