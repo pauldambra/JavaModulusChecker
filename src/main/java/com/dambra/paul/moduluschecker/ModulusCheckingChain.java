@@ -35,11 +35,16 @@ final class ModulusCheckingChain {
      * ExceptionTwoAndNineGate
      *         |
      *         V
+     * ExceptionSevenAccountTransformer
+     *         |
+     *         V
      * SecondModulusCheckRouter
      */
     static ModulusChainLink create(ModulusWeightRows weightRows, SortCodeSubstitution sortCodeSubstitution) {
         final SecondModulusCheckRouter secondModulusCheckRouter = new SecondModulusCheckRouter(sortCodeSubstitution);
-        final ExceptionTwoAndNineGate exceptionTwoAndNineGate = new ExceptionTwoAndNineGate(secondModulusCheckRouter);
+        final ExceptionSevenAccountTransformer secondExceptionSevenAccountTransformer
+                = new ExceptionSevenAccountTransformer(secondModulusCheckRouter, p -> p.secondWeightRow.get());
+        final ExceptionTwoAndNineGate exceptionTwoAndNineGate = new ExceptionTwoAndNineGate(secondExceptionSevenAccountTransformer);
         final ExceptionFourteenGate exceptionFourteenGate = new ExceptionFourteenGate(exceptionTwoAndNineGate);
         final ExceptionTwoGate exceptionTwoGate = new ExceptionTwoGate(exceptionFourteenGate);
         final SecondCheckRequiredGate secondCheckRequiredGate = new SecondCheckRequiredGate(exceptionTwoGate);
@@ -51,9 +56,9 @@ final class ModulusCheckingChain {
                 = new ExceptionTenAccountTransformer(firstModulusCheckRouter);
         final ExceptionEightAccountTransformer exceptionEightAccountTransformer
                 = new ExceptionEightAccountTransformer(exceptionTenAccountTransformer);
-        final ExceptionSevenAccountTransformer exceptionSevenAccountTransformer
-                = new ExceptionSevenAccountTransformer(exceptionEightAccountTransformer);
-        final ExceptionSixGate exceptionSixGate = new ExceptionSixGate(exceptionSevenAccountTransformer);
+        final ExceptionSevenAccountTransformer firstExceptionSevenAccountTransformer
+                = new ExceptionSevenAccountTransformer(exceptionEightAccountTransformer, p -> p.firstWeightRow.get());
+        final ExceptionSixGate exceptionSixGate = new ExceptionSixGate(firstExceptionSevenAccountTransformer);
         return new AtLeastOneWeightRowGate(weightRows, exceptionSixGate);
     }
 }

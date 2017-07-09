@@ -21,17 +21,7 @@ public class SecondModulusCheckRouter implements ModulusChainLink {
 
         Boolean result = false;
 
-        if (WeightRow.isExceptionFourteen(params.firstWeightRow)) {
-            final Boolean secondCheckResult = new ExceptionFourteenModulusElevenCheck().check(params);
-            return ModulusResult.withSecondResult(params.modulusResult, secondCheckResult);
-        }
-
         Function<ModulusCheckParams, WeightRow> rowSelector = p -> p.secondWeightRow.get();
-
-        if (rowSelector.apply(params).isException(7)) {
-            BankAccount account = params.account.zeroiseUToB();
-            params = params.withAccount(account);
-        }
 
         if (rowSelector.apply(params).isException(8)) {
             BankAccount account = BankAccount.Of("090126", params.account.accountNumber);

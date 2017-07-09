@@ -5,9 +5,9 @@ import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 
 public final class ExceptionTwoAndNineGate implements ModulusChainLink {
 
-    private final SecondModulusCheckRouter next;
+    private final ExceptionSevenAccountTransformer next;
 
-    public ExceptionTwoAndNineGate(SecondModulusCheckRouter next) {
+    public ExceptionTwoAndNineGate(ExceptionSevenAccountTransformer next) {
         this.next = next;
     }
 
