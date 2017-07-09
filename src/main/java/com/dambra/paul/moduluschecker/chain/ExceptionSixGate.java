@@ -15,9 +15,9 @@ import java.util.Optional;
  */
 public class ExceptionSixGate implements ModulusChainCheck {
 
-    private final FirstModulusCheckRouter next;
+    private final ExceptionSevenAccountTransformer next;
 
-    public ExceptionSixGate(FirstModulusCheckRouter next) {
+    public ExceptionSixGate(ExceptionSevenAccountTransformer next) {
         this.next = next;
     }
 

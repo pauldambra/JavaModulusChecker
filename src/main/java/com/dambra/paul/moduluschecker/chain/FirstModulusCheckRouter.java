@@ -12,7 +12,6 @@ import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 import java.util.Optional;
 import java.util.function.Function;
 
-
 public final class FirstModulusCheckRouter implements ModulusChainCheck {
     private final SortCodeSubstitution sortCodeSubstitution;
     private final SecondCheckRequiredGate next;
@@ -29,13 +28,7 @@ public final class FirstModulusCheckRouter implements ModulusChainCheck {
 
         boolean result = false;
 
-        Function<ModulusCheckParams, WeightRow> rowSelector = p -> Optional.ofNullable(
-                WeightRow.copy(p.firstWeightRow.orElse(null))).get();
-
-        if (rowSelector.apply(params).isException(7)) {
-            BankAccount account = params.account.zeroiseUToB();
-            params = params.withAccount(account);
-        }
+        Function<ModulusCheckParams, WeightRow> rowSelector = p -> p.firstWeightRow.get();
 
         if (rowSelector.apply(params).isException(8)) {
             BankAccount account = BankAccount.Of("090126", params.account.accountNumber);
@@ -55,8 +48,7 @@ public final class FirstModulusCheckRouter implements ModulusChainCheck {
             }
         }
 
-        switch (Optional.ofNullable(
-                WeightRow.copy(params.firstWeightRow.orElse(null))).get().modulusAlgorithm) {
+        switch (params.firstWeightRow.get().modulusAlgorithm) {
             case DOUBLE_ALTERNATE:
                 result = new DoubleAlternateCheck().check(params, rowSelector);
                 break;
@@ -68,22 +60,23 @@ public final class FirstModulusCheckRouter implements ModulusChainCheck {
                 break;
         }
 
-        ModulusResult modulusResult = new ModulusResult(Optional.of(result), Optional.empty());
-        modulusResult = modulusResult.withFirstException(
-                Optional.ofNullable(
-                        WeightRow.copy(params.firstWeightRow.orElse(null))).flatMap(weightRow -> weightRow.exception)
-        );
-
-        final ModulusCheckParams nextCheckParams = new ModulusCheckParams(
-                params.account,
-                Optional.ofNullable(
-                        WeightRow.copy(params.firstWeightRow.orElse(null))),
-                Optional.ofNullable(
-                        WeightRow.copy(params.secondWeightRow.orElse(null))),
-                Optional.of(modulusResult)
-        );
+        final ModulusCheckParams nextCheckParams = addResultToParamsForNextCheck(params, result);
 
         return next.check(nextCheckParams);
+    }
+
+    private ModulusCheckParams addResultToParamsForNextCheck(ModulusCheckParams params, boolean result) {
+        ModulusResult modulusResult = new ModulusResult(Optional.of(result), Optional.empty());
+        modulusResult = modulusResult.withFirstException(
+                params.firstWeightRow.flatMap(weightRow -> weightRow.exception)
+        );
+
+        return new ModulusCheckParams(
+                params.account,
+                params.firstWeightRow,
+                params.secondWeightRow,
+                Optional.of(modulusResult)
+        );
     }
 
     private boolean runStandardOrExceptionFiveCheck(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {
