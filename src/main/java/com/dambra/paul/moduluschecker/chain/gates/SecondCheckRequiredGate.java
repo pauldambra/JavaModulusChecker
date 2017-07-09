@@ -37,6 +37,6 @@ public class SecondCheckRequiredGate implements ModulusChainLink {
     private boolean rowExceptionRequiresSecondCheck(Optional<WeightRow> row) {
         return row.isPresent()
                 && ModulusResult.exceptionsThatRequireSecondCheck.contains(
-                row.get().exception.orElse(-1));
+                    row.get().exception.orElse(-1));
     }
 }

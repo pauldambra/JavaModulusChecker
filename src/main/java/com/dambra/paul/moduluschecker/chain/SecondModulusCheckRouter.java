@@ -24,7 +24,7 @@ public class SecondModulusCheckRouter implements ModulusChainLink {
 
         switch (rowSelector.apply(params).modulusAlgorithm) {
             case DOUBLE_ALTERNATE:
-                result = params.secondWeightRow.get().isException(5)
+                result = WeightRow.isExceptionFive(params.secondWeightRow)
                         ? new ExceptionFiveDoubleAlternateCheck(sortCodeSubstitution).check(params, rowSelector)
                         : new DoubleAlternateCheck().check(params, rowSelector);
                 break;
