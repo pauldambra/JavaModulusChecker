@@ -36,7 +36,7 @@ public class ModulusResult {
         this.secondException = secondException;
     }
 
-    public static ModulusResult WithFirstResult(boolean result) {
+    static ModulusResult WithFirstResult(boolean result) {
         return new ModulusResult(Optional.of(result), Optional.empty());
     }
 
