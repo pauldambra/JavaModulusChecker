@@ -23,11 +23,6 @@ public class SecondModulusCheckRouter implements ModulusChainLink {
 
         Function<ModulusCheckParams, WeightRow> rowSelector = p -> p.secondWeightRow.get();
 
-        if (rowSelector.apply(params).isException(8)) {
-            BankAccount account = BankAccount.Of("090126", params.account.accountNumber);
-            params = params.withAccount(account);
-        }
-
         switch (params.secondWeightRow.get().modulusAlgorithm) {
             case DOUBLE_ALTERNATE:
                 result = runOrSkip(params, rowSelector);
