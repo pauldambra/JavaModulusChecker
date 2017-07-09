@@ -1,6 +1,10 @@
 package com.dambra.paul.moduluschecker;
 
 import com.dambra.paul.moduluschecker.chain.*;
+import com.dambra.paul.moduluschecker.chain.gates.*;
+import com.dambra.paul.moduluschecker.chain.transformers.ExceptionEightAccountTransformer;
+import com.dambra.paul.moduluschecker.chain.transformers.ExceptionSevenAccountTransformer;
+import com.dambra.paul.moduluschecker.chain.transformers.ExceptionTenAccountTransformer;
 import com.dambra.paul.moduluschecker.valacdosFile.ModulusWeightRows;
 
 final class ModulusCheckingChain {
@@ -57,6 +61,7 @@ final class ModulusCheckingChain {
         final ExceptionFourteenGate exceptionFourteenGate = new ExceptionFourteenGate(exceptionTwoAndNineGate);
         final ExceptionTwoGate exceptionTwoGate = new ExceptionTwoGate(exceptionFourteenGate);
         final SecondCheckRequiredGate secondCheckRequiredGate = new SecondCheckRequiredGate(exceptionTwoGate);
+
         final FirstModulusCheckRouter firstModulusCheckRouter = new FirstModulusCheckRouter(
                 sortCodeSubstitution,
                 secondCheckRequiredGate

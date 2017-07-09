@@ -1,17 +1,19 @@
-package com.dambra.paul.moduluschecker.chain;
+package com.dambra.paul.moduluschecker.chain.transformers;
 
 import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
+import com.dambra.paul.moduluschecker.chain.ModulusChainLink;
+import com.dambra.paul.moduluschecker.chain.ModulusResult;
 import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 
 import java.util.function.Function;
 
-public final class ExceptionSevenAccountTransformer implements ModulusChainLink {
+public final class ExceptionEightAccountTransformer implements ModulusChainLink {
 
     private final ModulusChainLink next;
     private final Function<ModulusCheckParams, WeightRow> rowSelector;
 
-    public ExceptionSevenAccountTransformer(
+    public ExceptionEightAccountTransformer(
             ModulusChainLink next,
             Function<ModulusCheckParams, WeightRow> rowSelector) {
         this.next = next;
@@ -20,8 +22,8 @@ public final class ExceptionSevenAccountTransformer implements ModulusChainLink 
 
     @Override
     public ModulusResult check(ModulusCheckParams params) {
-        if (rowSelector.apply(params).isException(7)) {
-            BankAccount account = params.account.zeroiseUToB();
+        if (rowSelector.apply(params).isException(8)) {
+            BankAccount account = BankAccount.Of("090126", params.account.accountNumber);
             params = params.withAccount(account);
         }
         return next.check(params);

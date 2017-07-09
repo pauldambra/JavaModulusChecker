@@ -1,7 +1,10 @@
-package com.dambra.paul.moduluschecker.chain;
+package com.dambra.paul.moduluschecker.chain.gates;
 
 import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
+import com.dambra.paul.moduluschecker.chain.ModulusChainLink;
+import com.dambra.paul.moduluschecker.chain.ModulusResult;
+import com.dambra.paul.moduluschecker.chain.transformers.ExceptionSevenAccountTransformer;
 
 import java.util.Arrays;
 import java.util.Optional;

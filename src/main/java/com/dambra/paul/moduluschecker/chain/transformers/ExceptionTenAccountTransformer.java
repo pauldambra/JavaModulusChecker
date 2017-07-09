@@ -1,7 +1,10 @@
-package com.dambra.paul.moduluschecker.chain;
+package com.dambra.paul.moduluschecker.chain.transformers;
 
 import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
+import com.dambra.paul.moduluschecker.chain.FirstModulusCheckRouter;
+import com.dambra.paul.moduluschecker.chain.ModulusChainLink;
+import com.dambra.paul.moduluschecker.chain.ModulusResult;
 
 public final class ExceptionTenAccountTransformer implements ModulusChainLink {
 

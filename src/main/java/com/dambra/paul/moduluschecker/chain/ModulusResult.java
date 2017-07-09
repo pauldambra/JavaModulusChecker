@@ -8,9 +8,9 @@ import java.util.Optional;
 public class ModulusResult {
 
     /** the default is for a check to pass **/
-    static final ModulusResult PASSES = new ModulusResult(Optional.of(true), Optional.of(true));
+    public static final ModulusResult PASSES = new ModulusResult(Optional.of(true), Optional.of(true));
 
-    static final List<Integer> exceptionsThatRequireSecondCheck = ImmutableList.of(2, 5, 9, 10, 11, 12, 13, 14);
+    public static final List<Integer> exceptionsThatRequireSecondCheck = ImmutableList.of(2, 5, 9, 10, 11, 12, 13, 14);
 
     public final Optional<Boolean> firstCheckResult;
     public final Optional<Boolean> secondCheckResult;
