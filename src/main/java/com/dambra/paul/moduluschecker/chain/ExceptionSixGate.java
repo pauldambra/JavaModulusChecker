@@ -2,7 +2,6 @@ package com.dambra.paul.moduluschecker.chain;
 
 import com.dambra.paul.moduluschecker.Account.BankAccount;
 import com.dambra.paul.moduluschecker.ModulusCheckParams;
-import com.dambra.paul.moduluschecker.valacdosFile.WeightRow;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -25,9 +24,7 @@ public class ExceptionSixGate implements ModulusChainCheck {
     @Override
     public ModulusResult check(ModulusCheckParams params) {
 
-        if (Optional.ofNullable(
-                WeightRow.copy(params.firstWeightRow.orElse(null))).isPresent() && Optional.ofNullable(
-                WeightRow.copy(params.firstWeightRow.orElse(null))).get().isException(6)) {
+        if (params.isExceptionSix()) {
             int a = params.account.getNumberAt(BankAccount.A);
             int g = params.account.getNumberAt(BankAccount.G);
             int h = params.account.getNumberAt(BankAccount.H);
@@ -40,4 +37,5 @@ public class ExceptionSixGate implements ModulusChainCheck {
 
         return next.check(params);
     }
+
 }

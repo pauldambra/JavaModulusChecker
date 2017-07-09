@@ -38,6 +38,16 @@ public final class ModulusCheckParams {
         );
     }
 
+    public boolean isExceptionSix() {
+        return firstWeightRow.isPresent()
+                && firstWeightRow.get().isException(6);
+    }
+
+    public boolean firstCheck() {
+        return modulusResult.isPresent()
+                && modulusResult.get().firstCheckResult.orElse(false);
+    }
+
     @Override
     public String toString() {
         return "ModulusCheckParams{" +
