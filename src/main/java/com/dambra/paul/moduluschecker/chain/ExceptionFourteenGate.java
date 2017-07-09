@@ -29,6 +29,7 @@ public class ExceptionFourteenGate implements ModulusChainCheck {
     }
 
     private boolean firstCheckResult(ModulusCheckParams params) {
-        return Optional.ofNullable(ModulusResult.copy(params.modulusResult.orElse(null))).isPresent() && Optional.ofNullable(ModulusResult.copy(params.modulusResult.orElse(null))).get().firstCheckResult.orElse(false);
+        return params.modulusResult.isPresent()
+                && params.modulusResult.get().firstCheckResult.orElse(false);
     }
 }
