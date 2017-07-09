@@ -37,29 +37,17 @@ public final class FirstModulusCheckRouter implements ModulusChainCheck {
                 result = new ModulusTenCheck().check(params, rowSelector);
                 break;
             case MOD11:
-                result = params.firstWeightRow.get().isException(5)
+                result = WeightRow.isExceptionFive(params.firstWeightRow)
                         ? new ExceptionFiveModulusElevenCheck(sortCodeSubstitution).check(params, rowSelector)
                         : new ModulusElevenCheck().check(params, rowSelector);
                 break;
         }
 
-        final ModulusCheckParams nextCheckParams = addResultToParamsForNextCheck(params, result);
+        final ModulusResult modulusResult = ModulusResult
+                    .WithFirstResult(result)
+                    .withFirstException(params.firstWeightRow.flatMap(weightRow -> weightRow.exception));
 
-        return next.check(nextCheckParams);
-    }
-
-    private ModulusCheckParams addResultToParamsForNextCheck(ModulusCheckParams params, boolean result) {
-        ModulusResult modulusResult = new ModulusResult(Optional.of(result), Optional.empty());
-        modulusResult = modulusResult.withFirstException(
-                params.firstWeightRow.flatMap(weightRow -> weightRow.exception)
-        );
-
-        return new ModulusCheckParams(
-                params.account,
-                params.firstWeightRow,
-                params.secondWeightRow,
-                Optional.of(modulusResult)
-        );
+        return next.check(params.withResult(modulusResult));
     }
 
 }

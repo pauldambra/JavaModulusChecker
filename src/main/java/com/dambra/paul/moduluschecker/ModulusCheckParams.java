@@ -38,6 +38,15 @@ public final class ModulusCheckParams {
         );
     }
 
+    public ModulusCheckParams withResult(ModulusResult result) {
+        return new ModulusCheckParams(
+                account,
+                firstWeightRow,
+                secondWeightRow,
+                Optional.ofNullable(result)
+        );
+    }
+
     public boolean isExceptionSix() {
         return firstWeightRow.isPresent()
                 && firstWeightRow.get().isException(6);

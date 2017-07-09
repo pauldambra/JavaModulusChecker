@@ -49,6 +49,10 @@ public final class WeightRow {
         return isException(2, weightRow);
     }
 
+    public static boolean isExceptionFive(Optional<WeightRow> weightRow) {
+        return isException(5, weightRow);
+    }
+
     public static Optional<WeightRow> parse(String input) {
         List<String> parts = splitter.splitToList(input);
 

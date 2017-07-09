@@ -36,10 +36,14 @@ public class ModulusResult {
         this.secondException = secondException;
     }
 
-    public static ModulusResult withSecondResult(Optional<ModulusResult> modulusResult, Boolean secondCheck) {
+    public static ModulusResult WithFirstResult(boolean result) {
+        return new ModulusResult(Optional.of(result), Optional.empty());
+    }
+
+    public static ModulusResult withSecondResult(Optional<ModulusResult> modulusResult, Boolean result) {
         return new ModulusResult(
                 modulusResult.map(mr -> mr.firstCheckResult).orElseGet(() -> Optional.of(false)),
-                Optional.ofNullable(secondCheck),
+                Optional.ofNullable(result),
                 modulusResult.flatMap(mr -> mr.firstException),
                 modulusResult.flatMap(mr -> mr.secondException));
     }
