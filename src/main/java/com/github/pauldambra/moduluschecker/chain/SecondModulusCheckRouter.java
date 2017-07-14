@@ -2,7 +2,6 @@ package com.github.pauldambra.moduluschecker.chain;
 
 import com.github.pauldambra.moduluschecker.ModulusCheckParams;
 import com.github.pauldambra.moduluschecker.SortCodeSubstitution;
-import com.dambra.paul.moduluschecker.chain.checks.*;
 import com.github.pauldambra.moduluschecker.chain.checks.DoubleAlternateCheck;
 import com.github.pauldambra.moduluschecker.chain.checks.ExceptionFiveDoubleAlternateCheck;
 import com.github.pauldambra.moduluschecker.chain.checks.ModulusElevenCheck;

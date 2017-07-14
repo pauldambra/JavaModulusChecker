@@ -1,4 +1,3 @@
-import com.dambra.paul.moduluschecker.*;
 import com.github.pauldambra.moduluschecker.Account.BankAccount;
 import com.github.pauldambra.moduluschecker.ModulusAlgorithm;
 import com.github.pauldambra.moduluschecker.ModulusCheckParams;

@@ -1,7 +1,5 @@
 package com.github.pauldambra.moduluschecker;
 
-import com.dambra.paul.moduluschecker.chain.*;
-import com.dambra.paul.moduluschecker.chain.gates.*;
 import com.github.pauldambra.moduluschecker.chain.gates.*;
 import com.github.pauldambra.moduluschecker.chain.transformers.ExceptionEightAccountTransformer;
 import com.github.pauldambra.moduluschecker.chain.transformers.ExceptionSevenAccountTransformer;
