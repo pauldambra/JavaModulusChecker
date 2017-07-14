@@ -1,4 +1,4 @@
-import com.dambra.paul.moduluschecker.Account.BankAccount;
+import com.github.pauldambra.moduluschecker.Account.BankAccount;
 
 import org.junit.Test;
 

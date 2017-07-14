@@ -1,6 +1,6 @@
-import com.dambra.paul.moduluschecker.chain.ModulusChainLink;
-import com.dambra.paul.moduluschecker.ModulusCheckParams;
-import com.dambra.paul.moduluschecker.chain.ModulusResult;
+import com.github.pauldambra.moduluschecker.chain.ModulusChainLink;
+import com.github.pauldambra.moduluschecker.ModulusCheckParams;
+import com.github.pauldambra.moduluschecker.chain.ModulusResult;
 import org.junit.Test;
 
 import java.util.Optional;

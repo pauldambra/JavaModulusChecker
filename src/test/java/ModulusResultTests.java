@@ -1,4 +1,4 @@
-import com.dambra.paul.moduluschecker.chain.ModulusResult;
+import com.github.pauldambra.moduluschecker.chain.ModulusResult;
 import org.junit.Test;
 
 import java.util.Optional;

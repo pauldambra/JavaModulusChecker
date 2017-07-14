@@ -1,5 +1,5 @@
-import com.dambra.paul.moduluschecker.Account.BankAccount;
-import com.dambra.paul.moduluschecker.SortCodeSubstitution;
+import com.github.pauldambra.moduluschecker.Account.BankAccount;
+import com.github.pauldambra.moduluschecker.SortCodeSubstitution;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 

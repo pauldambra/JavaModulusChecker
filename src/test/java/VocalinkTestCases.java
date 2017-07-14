@@ -2,7 +2,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-import com.dambra.paul.moduluschecker.ModulusChecker;
+import com.github.pauldambra.moduluschecker.ModulusChecker;
 import org.junit.Test;
 
 import java.io.IOException;

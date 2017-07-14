@@ -1,4 +1,4 @@
-import com.dambra.paul.moduluschecker.valacdosFile.SortCodeRange;
+import com.github.pauldambra.moduluschecker.valacdosFile.SortCodeRange;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
