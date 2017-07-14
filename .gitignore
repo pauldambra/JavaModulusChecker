@@ -9,6 +9,7 @@
 .gradle/
 build/
 bin/
+artifacts/
 
 # built application files
 *.apk
