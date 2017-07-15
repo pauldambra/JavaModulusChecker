@@ -11,9 +11,9 @@ public final class LloydsAlternateModulusElevenCheck {
     public Boolean check(ModulusCheckParams params, Function<ModulusCheckParams, WeightRow> rowSelector) {
         WeightRow selectedRow = rowSelector.apply(params);
 
-        if (!WeightRow.isExceptionTwoAndNine(Optional.ofNullable(
-                WeightRow.copy(params.firstWeightRow.orElse(null))), Optional.ofNullable(
-                WeightRow.copy(params.secondWeightRow.orElse(null))))) {
+        if (!WeightRow.isExceptionTwoAndNine(
+                params.firstWeightRow,
+                params.secondWeightRow)) {
             return false;
         }
 

@@ -44,8 +44,7 @@ public class LoadModulusWeightRowTests {
         ModulusCheckParams modulusCheckParams = modulusRows.FindFor(originalAccount);
 
         assertThat(modulusCheckParams.account, is(equalTo(originalAccount)));
-        assertThat(Optional.ofNullable(
-                WeightRow.copy(modulusCheckParams.firstWeightRow.orElse(null))).orElse(null), is(equalTo(weightRow)));
+        assertThat(modulusCheckParams.firstWeightRow.get(), is(equalTo(weightRow)));
     }
 
     @Test
@@ -58,8 +57,7 @@ public class LoadModulusWeightRowTests {
         BankAccount originalAccount = BankAccount.Of("012345", "01234567");
         ModulusCheckParams modulusCheckParams = modulusRows.FindFor(originalAccount);
 
-        assertThat(Optional.ofNullable(
-                WeightRow.copy(modulusCheckParams.firstWeightRow.orElse(null))).isPresent(), is(equalTo(false)));
+        assertThat(modulusCheckParams.firstWeightRow.isPresent(), is(equalTo(false)));
     }
 
     @Test
@@ -71,10 +69,8 @@ public class LoadModulusWeightRowTests {
         ModulusCheckParams found = weightRows.FindFor(ba);
 
         List<ModulusAlgorithm> modulusAlgorithms = ImmutableList.of(
-                Optional.ofNullable(
-                        WeightRow.copy(found.firstWeightRow.orElse(null))).orElse(null).modulusAlgorithm,
-                Optional.ofNullable(
-                        WeightRow.copy(found.secondWeightRow.orElse(null))).orElse(null).modulusAlgorithm
+                found.firstWeightRow.get().modulusAlgorithm,
+                found.secondWeightRow.get().modulusAlgorithm
         );
         assertThat(modulusAlgorithms, containsInAnyOrder(ModulusAlgorithm.MOD11, ModulusAlgorithm.DOUBLE_ALTERNATE));
     }
@@ -90,9 +86,7 @@ public class LoadModulusWeightRowTests {
 
         ModulusCheckParams found = weightRows.FindFor(ba);
 
-        assertThat(Optional.ofNullable(
-                WeightRow.copy(found.firstWeightRow.orElse(null))).get().exception.get(), is(equalTo(2)));
-        assertThat(Optional.ofNullable(
-                WeightRow.copy(found.secondWeightRow.orElse(null))).get().exception.get(), is(equalTo(9)));
+        assertThat(found.firstWeightRow.get().exception.get(), is(equalTo(2)));
+        assertThat(found.secondWeightRow.get().exception.get(), is(equalTo(9)));
     }
 }

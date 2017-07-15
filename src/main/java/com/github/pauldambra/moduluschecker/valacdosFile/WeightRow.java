@@ -3,7 +3,6 @@ package com.github.pauldambra.moduluschecker.valacdosFile;
 import com.github.pauldambra.moduluschecker.ModulusAlgorithm;
 import com.github.pauldambra.moduluschecker.UnknownAlgorithmException;
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 
@@ -12,8 +11,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public final class WeightRow {
-    private static final Splitter splitter = Splitter.on(CharMatcher.whitespace())
-                                              .omitEmptyStrings();
+    private static final Splitter splitter =
+            Splitter.on(CharMatcher.whitespace()).omitEmptyStrings();
+
     static final int LOWEST_SORT_CODE_INDEX = 0;
     static final int HIGHEST_SORT_CODE_INDEX = 1;
     private static final int MODULUS_INDEX = 2;
@@ -89,37 +89,5 @@ public final class WeightRow {
 
     public ImmutableList<Integer> getWeights() {
         return ImmutableList.copyOf(weights);
-    }
-
-    public static WeightRow copy(WeightRow original) {
-        if (original == null) { return null; }
-        return new WeightRow(
-                original.modulusAlgorithm,
-                original.getWeights(),
-                original.exception);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        WeightRow weightRow = (WeightRow) o;
-        return modulusAlgorithm == weightRow.modulusAlgorithm &&
-                Objects.equal(exception, weightRow.exception) &&
-                Objects.equal(getWeights(), weightRow.getWeights());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(modulusAlgorithm, exception, getWeights());
-    }
-
-    @Override
-    public String toString() {
-        return "WeightRow{" +
-                "modulusAlgorithm=" + modulusAlgorithm +
-                " weights=" + weights +
-                " exception=" + exception +
-                '}';
     }
 }

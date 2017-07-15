@@ -35,8 +35,7 @@ public final class ExceptionFourteenModulusElevenCheck {
 
         int total = ModulusTotal.calculate(
                 correctedAccount,
-                Optional.ofNullable(
-                        WeightRow.copy(params.firstWeightRow.orElse(null))).get().getWeights());
+                params.firstWeightRow.get().getWeights());
         int remainder = total % 11;
 
         return remainder == 0;
