@@ -28,15 +28,15 @@ public final class FirstModulusCheckRouter implements ModulusChainLink {
         checkAlgorithm = ImmutableMap.<ModulusAlgorithm, Function<ModulusCheckParams, Boolean>>builder()
                 .put(
                         ModulusAlgorithm.DOUBLE_ALTERNATE,
-                        p -> new DoubleAlternateCheck().check(p, rowSelector))
+                        params -> new DoubleAlternateCheck().check(params, rowSelector))
                 .put(
                         ModulusAlgorithm.MOD10,
-                        p -> new ModulusTenCheck().check(p, rowSelector))
+                        params -> new ModulusTenCheck().check(params, rowSelector))
                 .put(
                         ModulusAlgorithm.MOD11,
-                        p -> WeightRow.isExceptionFive(p.firstWeightRow)
-                                ? new ExceptionFiveModulusElevenCheck(sortCodeSubstitution).check(p, rowSelector)
-                                : new ModulusElevenCheck().check(p, rowSelector))
+                        params -> WeightRow.isExceptionFive(params.firstWeightRow)
+                                ? new ExceptionFiveModulusElevenCheck(sortCodeSubstitution).check(params, rowSelector)
+                                : new ModulusElevenCheck().check(params, rowSelector))
                 .build();
     }
 
