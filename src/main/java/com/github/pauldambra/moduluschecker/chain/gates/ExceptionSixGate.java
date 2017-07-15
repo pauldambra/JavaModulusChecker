@@ -5,6 +5,7 @@ import com.github.pauldambra.moduluschecker.ModulusCheckParams;
 import com.github.pauldambra.moduluschecker.chain.ModulusChainLink;
 import com.github.pauldambra.moduluschecker.chain.ModulusResult;
 import com.github.pauldambra.moduluschecker.chain.transformers.ExceptionSevenAccountTransformer;
+import com.github.pauldambra.moduluschecker.valacdosFile.WeightRow;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -27,7 +28,7 @@ public class ExceptionSixGate implements ModulusChainLink {
     @Override
     public ModulusResult check(ModulusCheckParams params) {
 
-        if (params.isExceptionSix()) {
+        if (WeightRow.isExceptionSix(params.firstWeightRow)) {
             int a = params.account.getNumberAt(BankAccount.A);
             int g = params.account.getNumberAt(BankAccount.G);
             int h = params.account.getNumberAt(BankAccount.H);

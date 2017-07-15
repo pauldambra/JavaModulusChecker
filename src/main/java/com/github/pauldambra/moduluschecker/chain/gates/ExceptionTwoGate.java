@@ -15,23 +15,12 @@ public class ExceptionTwoGate implements ModulusChainLink {
 
     @Override
     public ModulusResult check(ModulusCheckParams params) {
-        if (hasNoSecondWeightRowToCheck(params) && isNotExceptionFourteen(params)) {
-            return params.modulusResult.get();
-        }
-
-        if (WeightRow.isExceptionTwo(params.firstWeightRow) && params.firstCheckPassed()) {
+        if (WeightRow.isExceptionTwo(params.firstWeightRow)
+                && ModulusResult.firstCheckPassed(params.modulusResult)) {
             return params.modulusResult.get();
         }
 
         return next.check(params);
 
-    }
-
-    private boolean hasNoSecondWeightRowToCheck(ModulusCheckParams params) {
-        return !params.secondWeightRow.isPresent();
-    }
-
-    private boolean isNotExceptionFourteen(ModulusCheckParams params) {
-        return !WeightRow.isExceptionFourteen(params.firstWeightRow);
     }
 }

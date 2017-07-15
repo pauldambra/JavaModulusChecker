@@ -29,12 +29,10 @@ public final class ModulusCheckParams {
 
     public ModulusCheckParams withAccount(BankAccount bankAccount) {
         return new ModulusCheckParams(
-                bankAccount,
-                Optional.ofNullable(
-                        WeightRow.copy(firstWeightRow.orElse(null))),
-                Optional.ofNullable(
-                        WeightRow.copy(secondWeightRow.orElse(null))),
-                Optional.ofNullable(ModulusResult.copy(modulusResult.orElse(null)))
+            bankAccount,
+            firstWeightRow,
+            secondWeightRow,
+            modulusResult
         );
     }
 
@@ -45,16 +43,6 @@ public final class ModulusCheckParams {
                 secondWeightRow,
                 Optional.ofNullable(result)
         );
-    }
-
-    public boolean isExceptionSix() {
-        return firstWeightRow.isPresent()
-                && firstWeightRow.get().isException(6);
-    }
-
-    public boolean firstCheckPassed() {
-        return modulusResult.isPresent()
-                && modulusResult.get().firstCheckResult.orElse(false);
     }
 
     @Override

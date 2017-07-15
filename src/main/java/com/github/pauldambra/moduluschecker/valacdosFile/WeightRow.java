@@ -53,15 +53,20 @@ public final class WeightRow {
         return isException(5, weightRow);
     }
 
+    public static boolean isExceptionSix(Optional<WeightRow> weightRow) {
+        return isException(6, weightRow);
+    }
+
     public static Optional<WeightRow> parse(String input) {
         List<String> parts = splitter.splitToList(input);
 
-        List<Integer> weights = parts.stream()
-                                .skip(MODULUS_INDEX + 1)
-                                .limit(EXCEPTION_INDEX - MODULUS_INDEX - 1)
-                                .mapToInt(Integer::parseInt)
-                                .boxed()
-                                .collect(Collectors.toList());
+        List<Integer> weights = parts
+                .stream()
+                .skip(MODULUS_INDEX + 1)
+                .limit(EXCEPTION_INDEX - MODULUS_INDEX - 1)
+                .mapToInt(Integer::parseInt)
+                .boxed()
+                .collect(Collectors.toList());
 
         Integer exception = null;
         if (parts.size() == EXCEPTION_INDEX + 1) {

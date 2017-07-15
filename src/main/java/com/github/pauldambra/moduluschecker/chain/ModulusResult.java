@@ -92,6 +92,10 @@ public class ModulusResult {
         return firstException.isPresent() && firstException.get() == 12;
     }
 
+    public static boolean firstCheckPassed(Optional<ModulusResult> modulusResult) {
+        return modulusResult.isPresent() && modulusResult.get().firstCheck();
+    }
+
     private boolean firstCheck() {
         return firstCheckResult.orElse(false);
     }
