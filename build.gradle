@@ -3,7 +3,9 @@ group 'com.github.pauldambra'
 version System.getenv("VERSION") ?: '0.0.0-SNAPSHOT'
 
 apply plugin: 'java'
-apply plugin: 'maven-publish'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
 
 sourceCompatibility = 1.8
 
@@ -24,68 +26,65 @@ tasks.withType(Jar) {
     }
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            artifact sourceJar
-            artifact javadocJar
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
 
-            pom.withXml {
-                asNode().with {
-                    appendNode('packaging', 'jar')
-                    appendNode('name', 'ModulusChecker')
-                    appendNode('description', 'Java implementation of UK Bank Account Modulus Checking. Modulus Checking is a process used to determine if a given account number could be valid for a given sort code.')
-                    appendNode('url', 'https://github.com/pauldambra/JavaModulusChecker')
-                    appendNode('scm').with {
-                        appendNode('url', 'https://github.com/pauldambra/JavaModulusChecker')
-                        appendNode('connection', 'git@github.com:pauldambra/JavaModulusChecker.git')
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: System.getenv('MAVEN_USER'), password: System.getenv('MAVEN_PASS'))
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: System.getenv('MAVEN_USER'), password: System.getenv('MAVEN_PASS'))
+            }
+
+            pom.project {
+                name 'ModulusChecker'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'Java implementation of UK Bank Account Modulus Checking. Modulus Checking is a process used to determine if a given account number could be valid for a given sort code.'
+                url 'https://github.com/pauldambra/JavaModulusChecker'
+
+                scm {
+                    connection 'git@github.com:pauldambra/JavaModulusChecker.git'
+                    developerConnection 'git@github.com:pauldambra/JavaModulusChecker.git'
+                    url 'https://github.com/pauldambra/JavaModulusChecker'
+                }
+
+                licenses {
+                    license {
+                        name 'MIT'
+                        url 'https://github.com/pauldambra/JavaModulusChecker/blob/master/MIT-license.txt'
                     }
-                    appendNode('issueManagement').with {
-                        appendNode('url', 'https://github.com/pauldambra/JavaModulusChecker/issues')
-                        appendNode('system', 'GitHub')
-                    }
-                    appendNode('licenses').with {
-                        appendNode('license').with {
-                            appendNode('name', 'MIT')
-                            appendNode('url', 'https://github.com/pauldambra/JavaModulusChecker/blob/master/MIT-license.txt')
-                        }
-                    }
-                    appendNode('developers').with {
-                        appendNode('developer').with {
-                            appendNode('id', 'pauldambra')
-                            appendNode('name', 'Paul D\'Ambra')
-                            appendNode('email', 'paul.dambra@gmail.com')
-                        }
+                }
+
+                developers {
+                    developer {
+                        id 'pauldambra'
+                        name 'Paul D\'Ambra'
+                        email 'paul.dambra@gmail.com'
                     }
                 }
             }
         }
     }
-    repositories {
-        maven {
-            url "file:/${project.projectDir}/artifacts"
-        }
-        maven {
-            if(project.version.endsWith('-SNAPSHOT')) {
-                url 'https://oss.sonatype.org/content/repositories/snapshots/'
-            } else {
-                url 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
-            }
-            credentials {
-                username System.getenv('MAVEN_USER')
-                password System.getenv('MAVEN_PASS')
-            }
-        }
-    }
-}
-
-task sourceJar(type: Jar, dependsOn: classes) {
-    classifier 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
 }
