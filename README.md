@@ -1,4 +1,4 @@
-# Modulus Checker [![Build Status](https://travis-ci.org/pauldambra/JavaModulusChecker.svg?branch=master)](https://travis-ci.org/pauldambra/JavaModulusChecker) [![Maven Central](https://img.shields.io/maven-central/v/com.github.pauldambra/moduluschecker.svg)](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22moduluschecker%22)
+# Modulus Checker [![Build Status](https://travis-ci.org/pauldambra/JavaModulusChecker.svg?branch=master)](https://travis-ci.org/pauldambra/JavaModulusChecker) [![Maven Central](https://img.shields.io/maven-central/v/com.github.pauldambra/moduluschecker.svg)](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22moduluschecker%22) [![Codecov](https://img.shields.io/codecov/c/github/pauldambra/javamoduluschecker.svg)](https://codecov.io/gh/pauldambra/JavaModulusChecker)
 This is a Java implementation of UK Bank Account Modulus Checking. Modulus Checking is a process used to determine if a given account number could be valid for a given sort code.
 ***
 Receiving a valid modulus check result only means that the Sort Code and Account Number pair **could** exist not that they do!

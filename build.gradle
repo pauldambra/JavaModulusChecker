@@ -9,6 +9,16 @@ allprojects { ext."signing.password" = System.getenv("SECRING_PASSWORD") }
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
+apply plugin: 'jacoco'
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
+
+check.dependsOn jacocoTestReport
 
 sourceCompatibility = 1.8
 
