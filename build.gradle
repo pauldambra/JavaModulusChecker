@@ -2,10 +2,13 @@ group 'com.github.pauldambra'
 
 version System.getenv("VERSION") ?: '0.0.0-SNAPSHOT'
 
+allprojects { ext."signing.keyId" = '1FE3FC71' }
+allprojects { ext."signing.secretKeyRingFile" = './secring.gpg' }
+allprojects { ext."signing.password" = System.getenv("SECRING_PASSWORD") }
+
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
-
 
 sourceCompatibility = 1.8
 
