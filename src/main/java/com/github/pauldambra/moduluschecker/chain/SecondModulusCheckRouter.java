@@ -39,10 +39,9 @@ public class SecondModulusCheckRouter implements ModulusChainLink {
                 break;
         }
 
-        final ModulusResult modulusResult = ModulusResult.withSecondResult(params.modulusResult, result);
-        return modulusResult.withSecondException(
-                params.secondWeightRow.flatMap(weightRow -> weightRow.exception)
-        );
+        return ModulusResult
+                .withSecondResult(params.modulusResult, result)
+                .withSecondException(params.secondWeightRow.flatMap(weightRow -> weightRow.exception));
     }
 
 }

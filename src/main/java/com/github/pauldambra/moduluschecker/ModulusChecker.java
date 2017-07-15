@@ -14,8 +14,9 @@ public class ModulusChecker {
     }
 
     public Boolean checkBankAccount(String sortCode, String accountNumber) {
-        final ModulusCheckParams params = ModulusCheckParams.startingParams(
-                BankAccount.Of(sortCode, accountNumber));
+        final BankAccount account = BankAccount.Of(sortCode, accountNumber);
+        final ModulusCheckParams params = ModulusCheckParams.startingParams(account);
+
         return ModulusCheckingChain
                 .create(weightRows, sortCodeSubstitution)
                 .check(params)
