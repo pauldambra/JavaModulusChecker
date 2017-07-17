@@ -26,18 +26,20 @@ public final class FirstModulusCheckRouter implements ModulusChainLink {
         this.next = exceptionTwoGate;
 
         checkAlgorithm = ImmutableMap.<ModulusAlgorithm, Function<ModulusCheckParams, Boolean>>builder()
-                .put(
-                        ModulusAlgorithm.DOUBLE_ALTERNATE,
-                        params -> new DoubleAlternateCheck().check(params, rowSelector))
-                .put(
-                        ModulusAlgorithm.MOD10,
-                        params -> new ModulusTenCheck().check(params, rowSelector))
-                .put(
-                        ModulusAlgorithm.MOD11,
-                        params -> WeightRow.isExceptionFive(params.firstWeightRow)
-                                ? new ExceptionFiveModulusElevenCheck(sortCodeSubstitution).check(params, rowSelector)
-                                : new ModulusElevenCheck().check(params, rowSelector))
-                .build();
+            .put(
+                ModulusAlgorithm.DOUBLE_ALTERNATE,
+                params -> new DoubleAlternateCheck().check(params, rowSelector)
+            )
+            .put(
+               ModulusAlgorithm.MOD10,
+               params -> new ModulusTenCheck().check(params, rowSelector)
+            )
+            .put(
+                ModulusAlgorithm.MOD11,
+                params -> WeightRow.isExceptionFive(params.firstWeightRow)
+                   ? new ExceptionFiveModulusElevenCheck(sortCodeSubstitution).check(params, rowSelector)
+                   : new ModulusElevenCheck().check(params, rowSelector))
+            .build();
     }
 
     @Override

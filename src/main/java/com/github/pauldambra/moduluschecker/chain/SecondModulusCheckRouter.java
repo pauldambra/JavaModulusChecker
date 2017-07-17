@@ -21,21 +21,21 @@ public class SecondModulusCheckRouter implements ModulusChainLink {
     public SecondModulusCheckRouter(SortCodeSubstitution sortCodeSubstitution) {
 
         checkAlgorithm = ImmutableMap.<ModulusAlgorithm, Function<ModulusCheckParams, Boolean>>builder()
-                .put(
-                        ModulusAlgorithm.DOUBLE_ALTERNATE,
-                        params -> WeightRow.isExceptionFive(params.secondWeightRow)
-                                ? new ExceptionFiveDoubleAlternateCheck(sortCodeSubstitution).check(params, rowSelector)
-                                : new DoubleAlternateCheck().check(params, rowSelector)
-                )
-                .put(
-                        ModulusAlgorithm.MOD10,
-                        params -> new ModulusTenCheck().check(params, rowSelector)
-                )
-                .put(
-                     ModulusAlgorithm.MOD11,
-                        params -> new ModulusElevenCheck().check(params, rowSelector)
-                )
-                .build();
+            .put(
+                ModulusAlgorithm.DOUBLE_ALTERNATE,
+                params -> WeightRow.isExceptionFive(params.secondWeightRow)
+                    ? new ExceptionFiveDoubleAlternateCheck(sortCodeSubstitution).check(params, rowSelector)
+                    : new DoubleAlternateCheck().check(params, rowSelector)
+            )
+            .put(
+                ModulusAlgorithm.MOD10,
+                params -> new ModulusTenCheck().check(params, rowSelector)
+            )
+            .put(
+              ModulusAlgorithm.MOD11,
+              params -> new ModulusElevenCheck().check(params, rowSelector)
+            )
+            .build();
     }
 
     @Override
