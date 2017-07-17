@@ -15,12 +15,10 @@ import java.util.function.Function;
 
 public class SecondModulusCheckRouter implements ModulusChainLink {
 
-    private final SortCodeSubstitution sortCodeSubstitution;
     private static final Function<ModulusCheckParams, WeightRow> rowSelector = p -> p.secondWeightRow.get();
     private static Map<ModulusAlgorithm, Function<ModulusCheckParams, Boolean>> checkAlgorithm;
 
     public SecondModulusCheckRouter(SortCodeSubstitution sortCodeSubstitution) {
-        this.sortCodeSubstitution = sortCodeSubstitution;
 
         checkAlgorithm = ImmutableMap.<ModulusAlgorithm, Function<ModulusCheckParams, Boolean>>builder()
                 .put(
