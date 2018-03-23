@@ -59,9 +59,9 @@ public final class FirstModulusCheckRouter implements ModulusChainLink {
 
     private ModulusCheckParams updateParamsWithResult(ModulusCheckParams params, boolean result) {
         final ModulusResult modulusResult =
-                ModulusResult
-                        .WithFirstResult(result)
-                        .withFirstException(params.firstWeightRow.flatMap(weightRow -> weightRow.exception));
+            ModulusResult
+                    .WithFirstResult(result)
+                    .withFirstException(params.firstWeightRow.flatMap(weightRow -> weightRow.exception));
 
         return params.withResult(modulusResult);
     }
