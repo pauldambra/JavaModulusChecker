@@ -19,4 +19,4 @@
 
 `MAVEN_USER=ausername MAVEN_PASS=asupersecretpassword VERSION='0.0.0-SNAPSHOT' gradle uploadArchives`
 
-NB gpg secrets/gradle config are on my MBP in ~/me/gradle.properties and ~/.gunpg/* that's not sustainable :( 
+NB gpg secrets/gradle config are on my MBP in ~/me/gradle.properties and ~/.gnupg/* that's not sustainable :( 

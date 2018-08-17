@@ -1,6 +1,6 @@
 group 'com.github.pauldambra'
 
-version System.getenv("VERSION") ?: '0.1.0'
+version System.getenv("VERSION") ?: '0.1.0-SNAPSHOT'
 
 allprojects { ext."signing.keyId" = '1FE3FC71' }
 allprojects { ext."signing.secretKeyRingFile" = './secring.gpg' }
