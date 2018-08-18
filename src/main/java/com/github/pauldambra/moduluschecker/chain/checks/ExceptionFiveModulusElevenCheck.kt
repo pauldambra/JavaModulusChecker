@@ -1,0 +1,30 @@
+package com.github.pauldambra.moduluschecker.chain.checks
+
+import com.github.pauldambra.moduluschecker.ModulusCheckParams
+import com.github.pauldambra.moduluschecker.SortCodeSubstitution
+import com.github.pauldambra.moduluschecker.account.BankAccount
+import com.github.pauldambra.moduluschecker.valacdosFile.WeightRow
+
+class ExceptionFiveModulusElevenCheck(private val sortCodeSubstitution: SortCodeSubstitution) {
+
+    fun check(params: ModulusCheckParams, rowSelector: (mcp: ModulusCheckParams) ->WeightRow): Boolean {
+        val selectedRow = rowSelector(params)
+
+        val bankAccount = sortCodeSubstitution.apply(params.account)
+        val updatedParams = params.copy(account = bankAccount)
+
+        val total = ModulusTotal.calculate(updatedParams.account, selectedRow.weights)
+        val remainder = total % 11
+
+        val checkDigit = updatedParams.account.getNumberAt(BankAccount.G)
+
+        if (remainder == 0 && checkDigit == 0) {
+            return true
+        }
+
+        return if (remainder == 1) {
+            false
+        } else 11 - remainder == checkDigit
+
+    }
+}
