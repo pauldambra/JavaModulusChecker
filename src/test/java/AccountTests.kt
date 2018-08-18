@@ -5,23 +5,22 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual.equalTo
 import org.junit.Test
-import java.util.stream.Stream
 
 class AccountTests {
     @Test
-    fun CanGetSortCodeAndAccountNumberForModulusChecks() {
+    fun canGetSortCodeAndAccountNumberForModulusChecks() {
         val sc = "012345"
         val an = "01234567"
-        val account = BankAccount.with(sc, an)
-        val expected = Stream.of(0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 6, 7)
-        Assert.thatStreamEquals(account.allDigits(), expected)
+        val account = BankAccount(sc, an)
+        val expected = listOf(0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 6, 7)
+        assertThat(account.allDigits(), `is`(equalTo(expected)))
     }
 
     @Test
-    fun CanUseAccountNotationToGetNumbersFromAccount() {
+    fun canUseAccountNotationToGetNumbersFromAccount() {
         val sc = "654321"
         val an = "98765432"
-        val account = BankAccount.with(sc, an)
+        val account = BankAccount(sc, an)
 
         assertThat(account.getNumberAt(BankAccount.U), `is`(equalTo(6)))
         assertThat(account.getNumberAt(BankAccount.V), `is`(equalTo(5)))
@@ -40,10 +39,10 @@ class AccountTests {
     }
 
     @Test
-    fun CanAvoidZeroiseForExceptionSeven() {
+    fun canAvoidZeroiseForExceptionSeven() {
         val sc = "654321"
         val an = "98765432"
-        val account = BankAccount.with(sc, an).zeroiseUToB()
+        val account = BankAccount(sc, an).zeroiseUToB()
 
         assertThat(account.getNumberAt(BankAccount.U), `is`(equalTo(6)))
         assertThat(account.getNumberAt(BankAccount.V), `is`(equalTo(5)))
@@ -62,10 +61,10 @@ class AccountTests {
     }
 
     @Test
-    fun CanZeroiseForExceptionSeven() {
+    fun canZeroiseForExceptionSeven() {
         val sc = "654321"
         val an = "98765492"
-        val account = BankAccount.with(sc, an).zeroiseUToB()
+        val account = BankAccount(sc, an).zeroiseUToB()
 
         assertThat(account.getNumberAt(BankAccount.U), `is`(equalTo(0)))
         assertThat(account.getNumberAt(BankAccount.V), `is`(equalTo(0)))

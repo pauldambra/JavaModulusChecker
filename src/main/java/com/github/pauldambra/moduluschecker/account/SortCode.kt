@@ -3,7 +3,7 @@ package com.github.pauldambra.moduluschecker.account
 // I didn't log where I got this data... is it correct?
 // todo allow external hookup of ISCD? Can't find a free version
 internal object SortCode {
-    fun IsCooperativeBankSortCode(sortCode: String): Boolean {
+    fun isCooperativeBankSortCode(sortCode: String): Boolean {
         return sortCode.startsWith("08") || sortCode.startsWith("839")
     }
 

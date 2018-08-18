@@ -12,7 +12,7 @@ constructor() {
     private val weightRows = ModulusWeightRows.fromFile("file/valacdos.txt")
 
     fun checkBankAccount(sortCode: String, accountNumber: String): Boolean? {
-        val account = BankAccount.with(sortCode, accountNumber)
+        val account = BankAccount(sortCode, accountNumber)
         val params = ModulusCheckParams(account)
 
         return ModulusCheckingChain

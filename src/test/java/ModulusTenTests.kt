@@ -23,7 +23,7 @@ class ModulusTenTests {
         )
 
         val params = ModulusCheckParams(
-          BankAccount.with(sc, an), row)
+          BankAccount(sc, an), row)
         val checker = ModulusTenCheck()
 
         val result = checker.check(params) { obj: ModulusCheckParams -> obj.firstWeightRow!! }

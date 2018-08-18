@@ -37,7 +37,7 @@ class LoadModulusWeightRowTests {
 
         val modulusRows = ModulusWeightRows(Arrays.asList(ValacdosRow(sortCodeRange, weightRow)))
 
-        val originalAccount = BankAccount.with("012345", "01234567")
+        val originalAccount = BankAccount("012345", "01234567")
         val modulusCheckParams = modulusRows.FindFor(originalAccount)
 
         assertThat(modulusCheckParams.account, `is`(equalTo(originalAccount)))
@@ -51,7 +51,7 @@ class LoadModulusWeightRowTests {
 
         val modulusRows = ModulusWeightRows(Arrays.asList(ValacdosRow(sortCodeRange, weightRow)))
 
-        val originalAccount = BankAccount.with("012345", "01234567")
+        val originalAccount = BankAccount("012345", "01234567")
         val modulusCheckParams = modulusRows.FindFor(originalAccount)
 
         assertThat(modulusCheckParams.firstWeightRow, `is`(equalTo(null as WeightRow?)))
@@ -62,7 +62,7 @@ class LoadModulusWeightRowTests {
     fun canLoadFromFileResource() {
         val weightRows = ModulusWeightRows.fromFile("file/valacdos.txt")
 
-        val ba = BankAccount.with("938173", "01234567")
+        val ba = BankAccount("938173", "01234567")
 
         val found = weightRows.FindFor(ba)
 
@@ -81,7 +81,7 @@ class LoadModulusWeightRowTests {
     fun canLoadFromFileResourceAndGetALloydsAccount() {
         val weightRows = ModulusWeightRows.fromFile("file/valacdos.txt")
 
-        val ba = BankAccount.with("309070", "12345668")
+        val ba = BankAccount("309070", "12345668")
 
         val found = weightRows.FindFor(ba)
 

@@ -20,7 +20,7 @@ class SortCodeSubstitutionTests {
           .build()
 
         val sortCodeSubstitution = SortCodeSubstitution(substitutions)
-        val originalAccount = BankAccount.with("012345", "01234567")
+        val originalAccount = BankAccount("012345", "01234567")
         val account = sortCodeSubstitution.apply(originalAccount)
 
         assertThat(account.sortCode, `is`(equalTo("012345")))
@@ -36,7 +36,7 @@ class SortCodeSubstitutionTests {
           .build()
 
         val sortCodeSubstitution = SortCodeSubstitution(substitutions)
-        val originalAccount = BankAccount.with("012345", "01234567")
+        val originalAccount = BankAccount("012345", "01234567")
         val account = sortCodeSubstitution.apply(originalAccount)
 
         assertThat(account.sortCode, `is`(equalTo("543210")))
@@ -49,7 +49,7 @@ class SortCodeSubstitutionTests {
     fun CanLoadFromFileResource() {
         val sortCodeSubstitution = SortCodeSubstitution.fromFile("file/scsubtab.txt")
 
-        val ba = BankAccount.with("938173", "01234567")
+        val ba = BankAccount("938173", "01234567")
         assertThat(sortCodeSubstitution.apply(ba).sortCode, `is`(equalTo("938017")))
     }
 }

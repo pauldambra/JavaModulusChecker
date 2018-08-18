@@ -23,7 +23,7 @@ class DoubleAlternateTests {
           null
         )
 
-        val params = ModulusCheckParams(BankAccount.with(sc, an), row)
+        val params = ModulusCheckParams(BankAccount(sc, an), row)
         val checker = DoubleAlternateCheck()
 
         val result = checker.check(params) { obj: ModulusCheckParams -> obj.firstWeightRow!! }

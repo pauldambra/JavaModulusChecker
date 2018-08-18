@@ -27,7 +27,7 @@ class ExceptionFourteenModulusElevenCheck {
         }
 
         val newAccountNumber = "0" + params.account.accountNumber.substring(0, 7)
-        val correctedAccount = BankAccount.with(params.account.sortCode, newAccountNumber)
+        val correctedAccount = BankAccount(params.account.sortCode, newAccountNumber)
 
         val total = ModulusTotal.calculate(
           correctedAccount,

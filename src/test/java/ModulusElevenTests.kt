@@ -22,7 +22,7 @@ class ModulusElevenTests {
           null
         )
 
-        val params = ModulusCheckParams(BankAccount.with(sc, an), row)
+        val params = ModulusCheckParams(BankAccount(sc, an), row)
         val checker = ModulusElevenCheck()
 
         val result = checker.check(params) { obj: ModulusCheckParams -> obj.firstWeightRow!! }

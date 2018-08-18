@@ -21,7 +21,7 @@ class SortCodeSubstitution {
 
     fun apply(bankAccount: BankAccount) =
       if (sortCodeSubstitutionTable.containsKey(bankAccount.sortCode))
-        BankAccount.with(sortCodeSubstitutionTable[bankAccount.sortCode]!!, bankAccount.accountNumber)
+        BankAccount(sortCodeSubstitutionTable[bankAccount.sortCode]!!, bankAccount.accountNumber)
       else
         BankAccount(bankAccount)
 

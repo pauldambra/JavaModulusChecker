@@ -43,7 +43,7 @@ class ChainOfResponsibilityTests {
     fun CanChainTogether() {
         val chain = First(SecondIsAlwaysResponsible(Third()))
 
-        val result = chain.check(ModulusCheckParams(BankAccount.with("a", "b")))
+        val result = chain.check(ModulusCheckParams(BankAccount("a", "b")))
 
         assertThat(result.firstCheckResult, `is`(equalTo(false)))
         assertThat(firstWasCalled, `is`(equalTo(true)))

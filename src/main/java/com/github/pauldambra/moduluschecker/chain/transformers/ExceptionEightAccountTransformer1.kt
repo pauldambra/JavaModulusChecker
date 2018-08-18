@@ -13,7 +13,7 @@ class ExceptionEightAccountTransformer(
     override fun check(params: ModulusCheckParams): ModulusResult {
         var paramsToPassAlong = params
         if (rowSelector(paramsToPassAlong).isException(8)) {
-            val account = BankAccount.with("090126", paramsToPassAlong.account.accountNumber)
+            val account = BankAccount("090126", paramsToPassAlong.account.accountNumber)
             paramsToPassAlong = paramsToPassAlong.copy(account = account)
         }
         return next.check(paramsToPassAlong)

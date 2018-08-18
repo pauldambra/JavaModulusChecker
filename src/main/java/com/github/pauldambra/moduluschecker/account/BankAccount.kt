@@ -1,40 +1,32 @@
 package com.github.pauldambra.moduluschecker.account
 
-import com.github.pauldambra.moduluschecker.As
-import com.google.common.base.Strings
-
-import java.util.stream.Stream
-import kotlin.streams.toList
+import com.github.pauldambra.moduluschecker.toNumberList
 
 class BankAccount {
 
-    val sortCode: String
-    val accountNumber: String
+    var sortCode: String
+        private set
+    var accountNumber: String
+        private set
 
-    private constructor(sortCode: String, accountNumber: String) {
-        this.sortCode = sortCode
-        this.accountNumber = accountNumber
+    constructor(sortCode: String, accountNumber: String) {
+        val (sc, an) = NonStandardAccounts.corrections(sortCode, accountNumber)
+        this.sortCode = sc
+        this.accountNumber = an
     }
 
-    constructor(bankAccount: BankAccount) {
-        this.sortCode = bankAccount.sortCode
-        this.accountNumber = bankAccount.accountNumber
-    }
+    constructor(bankAccount: BankAccount): this(bankAccount.sortCode, bankAccount.accountNumber)
 
-    fun allDigits() = Stream.concat(
-      As.integerStream(sortCode),
-      As.integerStream(accountNumber))!!
+    fun allDigits() = sortCode.toNumberList() + accountNumber.toNumberList()
 
-    fun getNumberAt(i: Int) = allDigits().toList()[i]
-
-    override fun toString() = "BankAccount{sortCode='$sortCode, accountNumber='$accountNumber}"
+    fun getNumberAt(i: Int) = allDigits()[i]
 
     fun zeroiseUToB(): BankAccount {
         if (getNumberAt(G) == 9) {
-            val account = Strings.padStart(accountNumber.substring(2), 8, '0')
-            return with("000000", account)
+            val an = accountNumber.substring(2).padStart(8, '0')
+            return BankAccount("000000", an)
         }
-        return with(sortCode, accountNumber)
+        return BankAccount(sortCode, accountNumber)
     }
 
     companion object {
@@ -53,11 +45,6 @@ class BankAccount {
         const val G = 12
         const val H = 13
         const val LLOYDS_EURO_SORT_CODE = "309634"
-
-        fun with(sortCode: String, accountNumber: String): BankAccount {
-            val corrected = NonStandardAccounts.corrections(sortCode, accountNumber)
-            return BankAccount(corrected[0], corrected[1])
-        }
     }
 
 }
