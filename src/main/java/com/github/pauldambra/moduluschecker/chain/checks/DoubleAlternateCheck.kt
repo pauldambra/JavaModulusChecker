@@ -6,8 +6,8 @@ import com.github.pauldambra.moduluschecker.valacdosFile.WeightRow
 
 class DoubleAlternateCheck {
     fun check(
-      weightRow: WeightRow,
-      bankAccount: BankAccount): Boolean {
+      bankAccount: BankAccount,
+      weightRow: WeightRow): Boolean {
 
         val exceptionModifier = if (weightRow.isException(1)) {
             27

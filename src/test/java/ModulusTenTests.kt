@@ -13,7 +13,7 @@ import org.junit.Test
 
 class ModulusTenTests {
     @Test
-    fun CanRunModulusTenCheck() {
+    fun canRunModulusTenCheck() {
         val sc = "089999"
         val an = "66374958"
         val row = WeightRow(
@@ -26,7 +26,7 @@ class ModulusTenTests {
           BankAccount(sc, an), row)
         val checker = ModulusTenCheck()
 
-        val result = checker.check(({ obj: ModulusCheckParams -> obj.firstWeightRow!! })(params), params.account)
+        val result = checker.check(params.account, params.firstWeightRow!!)
 
         assertThat(result, `is`(equalTo(true)))
     }

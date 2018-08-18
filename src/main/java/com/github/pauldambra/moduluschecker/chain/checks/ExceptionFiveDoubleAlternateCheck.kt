@@ -9,14 +9,13 @@ class ExceptionFiveDoubleAlternateCheck(private val sortCodeSubstitution: SortCo
 
     fun check(
       params: ModulusCheckParams,
-      rowSelector: (mcp: ModulusCheckParams) -> WeightRow
+      weightRow: WeightRow
     ): Boolean {
-        val selectedRow = rowSelector(params)
 
         val bankAccount = sortCodeSubstitution.apply(params.account)
         val updatedParams = params.copy(account = bankAccount)
 
-        val total = ModulusTotal.calculateDoubleAlternate(updatedParams.account, selectedRow.weights)
+        val total = ModulusTotal.calculateDoubleAlternate(updatedParams.account, weightRow.weights)
         val remainder = total % 10
         val checkDigit = updatedParams.account.getNumberAt(BankAccount.H)
 

@@ -24,8 +24,8 @@ class FirstModulusCheckRouter(
 
     private fun runModulusCheck(params: ModulusCheckParams) =
       when (params.firstWeightRow!!.modulusAlgorithm) {
-        ModulusAlgorithm.DOUBLE_ALTERNATE -> DoubleAlternateCheck().check(params.firstWeightRow, params.account)
-        ModulusAlgorithm.MOD10 -> ModulusTenCheck().check(params.firstWeightRow, params.account)
+        ModulusAlgorithm.DOUBLE_ALTERNATE -> DoubleAlternateCheck().check(params.account, params.firstWeightRow)
+        ModulusAlgorithm.MOD10 -> ModulusTenCheck().check(params.account, params.firstWeightRow)
         ModulusAlgorithm.MOD11 -> if (WeightRow.isExceptionFive(params.firstWeightRow))
                                         ExceptionFiveModulusElevenCheck(sortCodeSubstitution).check(params, params.firstWeightRow)
                                     else

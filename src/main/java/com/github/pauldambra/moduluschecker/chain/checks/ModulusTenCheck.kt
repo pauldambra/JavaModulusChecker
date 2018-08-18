@@ -5,7 +5,7 @@ import com.github.pauldambra.moduluschecker.valacdosFile.WeightRow
 
 class ModulusTenCheck {
 
-    fun check(weightRow: WeightRow, bankAccount: BankAccount): Boolean {
+    fun check(bankAccount: BankAccount, weightRow: WeightRow): Boolean {
 
         val total = ModulusTotal.calculate(bankAccount, weightRow.weights)
 

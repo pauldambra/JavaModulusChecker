@@ -14,7 +14,7 @@ import org.junit.Test
 class DoubleAlternateTests {
 
     @Test
-    fun CanRunDoubleAlternateCheck() {
+    fun canRunDoubleAlternateCheck() {
         val sc = "499273"
         val an = "12345678"
         val row = WeightRow(
@@ -26,7 +26,7 @@ class DoubleAlternateTests {
         val params = ModulusCheckParams(BankAccount(sc, an), row)
         val checker = DoubleAlternateCheck()
 
-        val result = checker.check(({ obj: ModulusCheckParams -> obj.firstWeightRow!! })(params), params.account)
+        val result = checker.check(params.account, params.firstWeightRow!!)
 
         assertThat(result, `is`(equalTo(true)))
     }
