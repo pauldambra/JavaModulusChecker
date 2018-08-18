@@ -5,7 +5,6 @@ import com.github.pauldambra.moduluschecker.ModulusCheckParams
 import com.github.pauldambra.moduluschecker.account.BankAccount
 import com.github.pauldambra.moduluschecker.chain.checks.ModulusTenCheck
 import com.github.pauldambra.moduluschecker.valacdosFile.WeightRow
-import com.google.common.collect.ImmutableList
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual.equalTo
@@ -18,7 +17,7 @@ class ModulusTenTests {
         val an = "66374958"
         val row = WeightRow(
           ModulusAlgorithm.MOD10,
-          ImmutableList.of(0, 0, 0, 0, 0, 0, 7, 1, 3, 7, 1, 3, 7, 1),
+          listOf(0, 0, 0, 0, 0, 0, 7, 1, 3, 7, 1, 3, 7, 1),
           null
         )
 

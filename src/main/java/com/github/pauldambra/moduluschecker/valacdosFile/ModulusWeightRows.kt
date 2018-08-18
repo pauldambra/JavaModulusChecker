@@ -3,16 +3,10 @@ package com.github.pauldambra.moduluschecker.valacdosFile
 import com.github.pauldambra.moduluschecker.ModulusCheckParams
 import com.github.pauldambra.moduluschecker.account.BankAccount
 import com.google.common.base.Charsets
-import com.google.common.collect.ImmutableList
 import com.google.common.io.Resources
 import java.io.IOException
 
-class ModulusWeightRows(valacdosRows: List<ValacdosRow>) {
-    private val valacdosRows: ImmutableList<ValacdosRow>
-
-    init {
-        this.valacdosRows = ImmutableList.copyOf(valacdosRows)
-    }
+class ModulusWeightRows(private val valacdosRows: List<ValacdosRow>) {
 
     fun FindFor(account: BankAccount): ModulusCheckParams {
 

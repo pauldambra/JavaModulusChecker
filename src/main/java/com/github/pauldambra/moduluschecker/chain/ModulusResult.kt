@@ -1,7 +1,5 @@
 package com.github.pauldambra.moduluschecker.chain
 
-import com.google.common.collect.ImmutableList
-
 class ModulusResult {
 
     val firstCheckResult: Boolean?
@@ -100,7 +98,7 @@ class ModulusResult {
         /** the default is for a check to pass  */
         val PASSES = ModulusResult(true, true)
 
-        val exceptionsThatRequireSecondCheck: List<Int> = ImmutableList.of(2, 5, 9, 10, 11, 12, 13, 14)
+        val exceptionsThatRequireSecondCheck: List<Int> = listOf(2, 5, 9, 10, 11, 12, 13, 14)
 
         internal fun WithFirstResult(result: Boolean): ModulusResult {
             return ModulusResult(result, null)

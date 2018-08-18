@@ -7,7 +7,6 @@ import com.github.pauldambra.moduluschecker.valacdosFile.ModulusWeightRows
 import com.github.pauldambra.moduluschecker.valacdosFile.SortCodeRange
 import com.github.pauldambra.moduluschecker.valacdosFile.ValacdosRow
 import com.github.pauldambra.moduluschecker.valacdosFile.WeightRow
-import com.google.common.collect.ImmutableList
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.containsInAnyOrder
@@ -32,7 +31,7 @@ class LoadModulusWeightRowTests {
 
     @Test
     fun canLoadModulusWeightRow() {
-        val weightRow = WeightRow(ModulusAlgorithm.MOD10, ImmutableList.of(), null)
+        val weightRow = WeightRow(ModulusAlgorithm.MOD10, listOf(), null)
         val sortCodeRange = SortCodeRange("012344", "012346")
 
         val modulusRows = ModulusWeightRows(Arrays.asList(ValacdosRow(sortCodeRange, weightRow)))
@@ -46,7 +45,7 @@ class LoadModulusWeightRowTests {
 
     @Test
     fun returnsUnmatchedRowWhenNoSortCodeRangeMatches() {
-        val weightRow = WeightRow(ModulusAlgorithm.MOD10, ImmutableList.of(), null)
+        val weightRow = WeightRow(ModulusAlgorithm.MOD10, listOf(), null)
         val sortCodeRange = SortCodeRange("012346", "012347")
 
         val modulusRows = ModulusWeightRows(Arrays.asList(ValacdosRow(sortCodeRange, weightRow)))
