@@ -1,6 +1,20 @@
 package com.github.pauldambra.moduluschecker.account
 
 internal object NonStandardAccounts {
+
+    // I didn't log where I got this data... is it correct?
+    // todo allow external hookup of ISCD? Can't find a free version
+    private fun isCooperativeBankSortCode(sortCode: String) =
+      sortCode.startsWith("08") || sortCode.startsWith("839")
+
+    private fun isNatWestSortCode(sortCode: String) =
+      sortCode.startsWith("600")
+        || sortCode.startsWith("606")
+        || sortCode.startsWith("601")
+        || sortCode.startsWith("609")
+        || sortCode.startsWith("830")
+        || sortCode.startsWith("602")
+
     fun corrections(sortCode: String, accountNumber: String): Array<String> {
         var accountNumber = accountNumber
 
@@ -29,7 +43,7 @@ internal object NonStandardAccounts {
      * use the first eight digits only
      */
     private fun correctForCoop(sortCode: String, accountNumber: String) =
-      if (SortCode.isCooperativeBankSortCode(sortCode))
+      if (isCooperativeBankSortCode(sortCode))
           accountNumber.substring(0, 8)
       else
           accountNumber
@@ -42,12 +56,12 @@ internal object NonStandardAccounts {
      * third numbers this should be ignored.
      */
     private fun correctForNatWest(sortCode: String, accountNumber: String): String {
-        return if (!SortCode.IsNatWestSortCode(sortCode)) {
-            accountNumber
-        } else {
+        return if (isNatWestSortCode(sortCode)) {
             accountNumber
               .replace("-", "")
               .takeLast(8)
+        } else {
+            accountNumber
         }
     }
 }
