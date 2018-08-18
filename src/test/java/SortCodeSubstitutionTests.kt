@@ -13,7 +13,7 @@ import java.io.IOException
 
 class SortCodeSubstitutionTests {
     @Test
-    fun SortCodesNotInTheTableAreUnchanged() {
+    fun sortCodesNotInTheTableAreUnchanged() {
 
         val substitutions = ImmutableMap.builder<String, String>()
           .put("not_the_sort_code", "12345")
@@ -29,7 +29,7 @@ class SortCodeSubstitutionTests {
     }
 
     @Test
-    fun SortCodesInTheTableAreChanged() {
+    fun sortCodesInTheTableAreChanged() {
 
         val substitutions = ImmutableMap.builder<String, String>()
           .put("012345", "543210")
@@ -46,7 +46,7 @@ class SortCodeSubstitutionTests {
 
     @Test
     @Throws(IOException::class)
-    fun CanLoadFromFileResource() {
+    fun canLoadFromFileResource() {
         val sortCodeSubstitution = SortCodeSubstitution.fromFile("file/scsubtab.txt")
 
         val ba = BankAccount("938173", "01234567")

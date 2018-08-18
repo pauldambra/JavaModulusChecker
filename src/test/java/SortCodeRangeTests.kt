@@ -8,7 +8,7 @@ import org.junit.Test
 
 class SortCodeRangeTests {
     @Test
-    fun SortCodeRangeCanContain() {
+    fun sortCodeRangeCanContain() {
         val range = SortCodeRange("010004", "010006")
         assertThat(range.contains("010003"), `is`(equalTo(false)))
         assertThat(range.contains("010004"), `is`(equalTo(true)))

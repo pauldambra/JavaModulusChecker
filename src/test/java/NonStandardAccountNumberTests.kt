@@ -9,28 +9,28 @@ import org.junit.Test
 class NonStandardAccountNumberTests {
 
     @Test
-    fun CanCreateNatWestAccounts() {
+    fun canCreateNatWestAccounts() {
         val account = BankAccount("601123", "0123456789")
 
         assertThat(account.accountNumber, `is`(equalTo("23456789")))
     }
 
     @Test
-    fun CanCreateHyphenatedNatWestAccounts() {
+    fun canCreateHyphenatedNatWestAccounts() {
         val account = BankAccount("602345", "01-23456789")
 
         assertThat(account.accountNumber, `is`(equalTo("23456789")))
     }
 
     @Test
-    fun CanCreateCoopBankAccounts() {
+    fun canCreateCoopBankAccounts() {
         val account = BankAccount("089286", "1234567890")
 
         assertThat(account.accountNumber, `is`(equalTo("12345678")))
     }
 
     @Test
-    fun CanCreateSantanderAccounts() {
+    fun canCreateSantanderAccounts() {
         val account = BankAccount("123456", "123456789")
 
         assertThat(account.sortCode, `is`(equalTo("123451")))
@@ -38,7 +38,7 @@ class NonStandardAccountNumberTests {
     }
 
     @Test
-    fun CanCreateSevenDigitAccounts() {
+    fun canCreateSevenDigitAccounts() {
         val account = BankAccount("123456", "1234567")
 
         assertThat(account.sortCode, `is`(equalTo("123456")))
@@ -46,7 +46,7 @@ class NonStandardAccountNumberTests {
     }
 
     @Test
-    fun CanCreateSixDigitAccounts() {
+    fun canCreateSixDigitAccounts() {
         val account = BankAccount("123456", "123456")
 
         assertThat(account.sortCode, `is`(equalTo("123456")))

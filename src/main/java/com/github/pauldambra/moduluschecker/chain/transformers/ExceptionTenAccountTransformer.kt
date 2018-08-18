@@ -8,7 +8,7 @@ import com.github.pauldambra.moduluschecker.chain.ModulusChainLink
 class ExceptionTenAccountTransformer(private val next: FirstModulusCheckRouter) : ModulusChainLink {
 
     override fun check(params: ModulusCheckParams) =
-      if (params.firstWeightRow!!.isException(10) && shouldZeroiseUToB(params)) {
+      if (params.firstWeightRow!!.hasException(10) && shouldZeroiseUToB(params)) {
           val account = params.account.zeroiseUToB()
           next.check(params.copy(account = account))
       } else {

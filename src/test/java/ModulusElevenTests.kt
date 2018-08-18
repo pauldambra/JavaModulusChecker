@@ -12,7 +12,7 @@ import org.junit.Test
 
 class ModulusElevenTests {
     @Test
-    fun CanRunModulusElevenCheck() {
+    fun canRunModulusElevenCheck() {
         val sc = "107999"
         val an = "88837491"
         val row = WeightRow(

@@ -2,13 +2,8 @@ package com.github.pauldambra.moduluschecker.valacdosFile
 
 data class SortCodeRange(val lowest: String, val highest: String) {
 
-    private val start: Int
-    private val end: Int
-
-    init {
-        start = asInteger(lowest)
-        end = asInteger(highest)
-    }
+    private val start: Int = asInteger(lowest)
+    private val end: Int = asInteger(highest)
 
     private fun asInteger(s: String) = Integer.parseInt(s.replace("^0+".toRegex(), ""))
 

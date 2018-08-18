@@ -4,23 +4,23 @@ import com.github.pauldambra.moduluschecker.ModulusAlgorithm
 
 data class WeightRow(val modulusAlgorithm: ModulusAlgorithm, val weights: List<Int>, val exception: Int?) {
 
-    fun isException(exceptionNumber: Int) = exception == exceptionNumber
+    fun hasException(exceptionNumber: Int) = exception == exceptionNumber
 
     companion object {
 
-        private fun isException(exceptionNumber: Int, weightRow: WeightRow?) =
-          weightRow?.isException(exceptionNumber) ?: false
+        private fun hasException(exceptionNumber: Int, weightRow: WeightRow?) =
+          weightRow?.hasException(exceptionNumber) ?: false
 
         fun isExceptionTwoAndNine(firstRow: WeightRow?, secondRow: WeightRow?) =
-          isException(2, firstRow) && isException(9, secondRow)
+          hasException(2, firstRow) && hasException(9, secondRow)
 
-        fun isExceptionFourteen(weightRow: WeightRow?) = isException(14, weightRow)
+        fun isExceptionFourteen(weightRow: WeightRow?) = hasException(14, weightRow)
 
-        fun isExceptionTwo(weightRow: WeightRow?) = isException(2, weightRow)
+        fun isExceptionTwo(weightRow: WeightRow?) = hasException(2, weightRow)
 
-        fun isExceptionFive(weightRow: WeightRow?) = isException(5, weightRow)
+        fun isExceptionFive(weightRow: WeightRow?) = hasException(5, weightRow)
 
-        fun isExceptionSix(weightRow: WeightRow?) = isException(6, weightRow)
+        fun isExceptionSix(weightRow: WeightRow?) = hasException(6, weightRow)
 
         private const val MODULUS_INDEX = 2
         private const val EXCEPTION_INDEX = 14

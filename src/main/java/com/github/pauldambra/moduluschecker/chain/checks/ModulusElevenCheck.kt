@@ -2,7 +2,7 @@ package com.github.pauldambra.moduluschecker.chain.checks
 
 import com.github.pauldambra.moduluschecker.ModulusCheckParams
 import com.github.pauldambra.moduluschecker.account.BankAccount
-import com.github.pauldambra.moduluschecker.valacdosFile.ModulusElevenWeightsTransformer
+import com.github.pauldambra.moduluschecker.chain.transformers.ModulusElevenWeightsTransformer
 import com.github.pauldambra.moduluschecker.valacdosFile.WeightRow
 
 class ModulusElevenCheck {
@@ -14,7 +14,7 @@ class ModulusElevenCheck {
         val total = ModulusTotal.calculate(params.account, weights)
         val remainder = total % 11
 
-        return if (weightRow.isException(4)) {
+        return if (weightRow.hasException(4)) {
             remainder == exceptionFourCheckDigit(params)
         } else {
             if (remainder == 0) {

@@ -9,7 +9,7 @@ class ExceptionSevenAccountTransformer(
   private val rowSelector: (mcp: ModulusCheckParams) -> WeightRow) : ModulusChainLink {
 
     override fun check(params: ModulusCheckParams) =
-      if (!rowSelector(params).isException(7)) {
+      if (!rowSelector(params).hasException(7)) {
           next.check(params)
       } else {
           val account = params.account.zeroiseUToB()
