@@ -6,9 +6,7 @@ import com.github.pauldambra.moduluschecker.toNumberList
 internal object ModulusTotal {
 
     fun calculate(account: BankAccount, weights: List<Int>) =
-      account
-          .allDigits()
-          .zip(weights) { l, r -> l * r }
+      account.allDigits().zip(weights) { l, r -> l * r }
           .reduce() { a, b -> a + b }
 
     fun calculateDoubleAlternate(account: BankAccount, weights: List<Int>): Int {

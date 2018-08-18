@@ -17,13 +17,13 @@ class ExceptionFiveModulusElevenCheck(private val sortCodeSubstitution: SortCode
 
         val checkDigit = updatedParams.account.getNumberAt(BankAccount.G)
 
-        if (remainder == 0 && checkDigit == 0) {
-            return true
-        }
-
-        return if (remainder == 1) {
+        return if (remainder == 0 && checkDigit == 0) {
+            true
+        } else if (remainder == 1) {
             false
-        } else 11 - remainder == checkDigit
+        } else {
+            11 - remainder == checkDigit
+        }
 
     }
 }

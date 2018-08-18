@@ -9,11 +9,7 @@ class DoubleAlternateCheck {
       bankAccount: BankAccount,
       weightRow: WeightRow): Boolean {
 
-        val exceptionModifier = if (weightRow.isException(1)) {
-            27
-        } else {
-            0
-        }
+        val exceptionModifier = if (weightRow.isException(1)) 27 else 0
 
         var total = ModulusTotal.calculateDoubleAlternate(bankAccount, weightRow.weights) + exceptionModifier
 

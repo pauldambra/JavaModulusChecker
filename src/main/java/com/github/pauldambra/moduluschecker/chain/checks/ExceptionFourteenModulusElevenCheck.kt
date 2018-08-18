@@ -19,13 +19,14 @@ class ExceptionFourteenModulusElevenCheck {
 
     private val allowedValuesAtH = Arrays.asList(0, 1, 9)
 
-    fun check(params: ModulusCheckParams): Boolean {
-
-        val h = params.account.getNumberAt(BankAccount.H)
-        if (!allowedValuesAtH.contains(h)) {
-            return false
+    fun check(params: ModulusCheckParams) =
+        if (isValidCouttsAccountNumber(params.account)) {
+            checkCouttsNumber(params)
+        } else {
+            false
         }
 
+    private fun checkCouttsNumber(params: ModulusCheckParams): Boolean {
         val newAccountNumber = "0" + params.account.accountNumber.substring(0, 7)
         val correctedAccount = BankAccount(params.account.sortCode, newAccountNumber)
 
@@ -35,6 +36,11 @@ class ExceptionFourteenModulusElevenCheck {
         val remainder = total % 11
 
         return remainder == 0
+    }
+
+    private fun isValidCouttsAccountNumber(account: BankAccount): Boolean {
+        val h = account.getNumberAt(BankAccount.H)
+        return allowedValuesAtH.contains(h)
     }
 
 }

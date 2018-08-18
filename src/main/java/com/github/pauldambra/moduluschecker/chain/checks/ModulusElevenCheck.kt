@@ -17,10 +17,11 @@ class ModulusElevenCheck {
         return if (weightRow.isException(4)) {
             remainder == exceptionFourCheckDigit(params)
         } else {
-            val result = remainder == 0
-            if (result) {
+            if (remainder == 0) {
                 true
-            } else LloydsAlternateModulusElevenCheck().check(params, weightRow)
+            } else {
+                LloydsAlternateModulusElevenCheck().check(params, weightRow)
+            }
 
         }
     }
