@@ -4,19 +4,16 @@ import com.github.pauldambra.moduluschecker.ModulusCheckParams
 import com.github.pauldambra.moduluschecker.account.BankAccount
 import com.github.pauldambra.moduluschecker.chain.FirstModulusCheckRouter
 import com.github.pauldambra.moduluschecker.chain.ModulusChainLink
-import com.github.pauldambra.moduluschecker.chain.ModulusResult
 
 class ExceptionTenAccountTransformer(private val next: FirstModulusCheckRouter) : ModulusChainLink {
 
-    override fun check(params: ModulusCheckParams): ModulusResult {
-        var paramsToPassAlong = params
-
-        if (paramsToPassAlong.firstWeightRow!!.isException(10) && shouldZeroiseUToB(paramsToPassAlong)) {
-            val account = paramsToPassAlong.account.zeroiseUToB()
-            paramsToPassAlong = paramsToPassAlong.copy(account = account)
-        }
-        return next.check(paramsToPassAlong)
-    }
+    override fun check(params: ModulusCheckParams) =
+      if (params.firstWeightRow!!.isException(10) && shouldZeroiseUToB(params)) {
+          val account = params.account.zeroiseUToB()
+          next.check(params.copy(account = account))
+      } else {
+          next.check(params)
+      }
 
     // if ab = 09 or ab = 99 and g = 9, zeroise weighting positions u-b.
     private fun shouldZeroiseUToB(params: ModulusCheckParams): Boolean {
