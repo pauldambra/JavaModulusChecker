@@ -8,11 +8,10 @@ import com.github.pauldambra.moduluschecker.valacdosFile.ModulusWeightRows
 class AtLeastOneWeightRowGate(private val modulusWeightRows: ModulusWeightRows, private val next: ExceptionSixGate) : ModulusChainLink {
 
     override fun check(params: ModulusCheckParams): ModulusResult {
-        var paramsToPassAlong = params
-        paramsToPassAlong = modulusWeightRows.FindFor(paramsToPassAlong.account)
+        val paramsWithFoundWeights = modulusWeightRows.findFor(params.account)
 
-        return if (paramsToPassAlong.firstWeightRow != null) {
-            next.check(paramsToPassAlong)
+        return if (paramsWithFoundWeights.firstWeightRow != null) {
+            next.check(paramsWithFoundWeights)
         } else {
             ModulusResult(false, null)
         }

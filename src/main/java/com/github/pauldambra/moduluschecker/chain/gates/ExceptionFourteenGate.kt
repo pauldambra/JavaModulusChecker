@@ -14,18 +14,16 @@ import com.github.pauldambra.moduluschecker.valacdosFile.WeightRow
  */
 class ExceptionFourteenGate(private val next: ExceptionTwoAndNineGate) : ModulusChainLink {
 
-    override fun check(params: ModulusCheckParams): ModulusResult {
-
-        if (!WeightRow.isExceptionFourteen(params.firstWeightRow)) {
-            return next.check(params)
-        }
-
-        return if (ModulusResult.firstCheckPassed(params.modulusResult))
-            ModulusResult(true, null)
-        else
-            ModulusResult.withSecondResult(
-              params.modulusResult,
-              ExceptionFourteenModulusElevenCheck().check(params))
-    }
+    override fun check(params: ModulusCheckParams) =
+      if (!WeightRow.isExceptionFourteen(params.firstWeightRow)) {
+          next.check(params)
+      } else {
+          if (ModulusResult.firstCheckPassed(params.modulusResult))
+              ModulusResult(true, null)
+          else
+              ModulusResult.withSecondResult(
+                params.modulusResult,
+                ExceptionFourteenModulusElevenCheck().check(params))
+      }
 
 }

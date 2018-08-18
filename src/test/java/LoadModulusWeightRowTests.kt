@@ -37,7 +37,7 @@ class LoadModulusWeightRowTests {
         val modulusRows = ModulusWeightRows(Arrays.asList(ValacdosRow(sortCodeRange, weightRow)))
 
         val originalAccount = BankAccount("012345", "01234567")
-        val modulusCheckParams = modulusRows.FindFor(originalAccount)
+        val modulusCheckParams = modulusRows.findFor(originalAccount)
 
         assertThat(modulusCheckParams.account, `is`(equalTo(originalAccount)))
         assertThat(modulusCheckParams.firstWeightRow!!, `is`(equalTo(weightRow)))
@@ -51,7 +51,7 @@ class LoadModulusWeightRowTests {
         val modulusRows = ModulusWeightRows(Arrays.asList(ValacdosRow(sortCodeRange, weightRow)))
 
         val originalAccount = BankAccount("012345", "01234567")
-        val modulusCheckParams = modulusRows.FindFor(originalAccount)
+        val modulusCheckParams = modulusRows.findFor(originalAccount)
 
         assertThat(modulusCheckParams.firstWeightRow, `is`(equalTo(null as WeightRow?)))
     }
@@ -63,7 +63,7 @@ class LoadModulusWeightRowTests {
 
         val ba = BankAccount("938173", "01234567")
 
-        val found = weightRows.FindFor(ba)
+        val found = weightRows.findFor(ba)
 
         val modulusAlgorithms = listOf(
           found.firstWeightRow?.modulusAlgorithm,
@@ -82,7 +82,7 @@ class LoadModulusWeightRowTests {
 
         val ba = BankAccount("309070", "12345668")
 
-        val found = weightRows.FindFor(ba)
+        val found = weightRows.findFor(ba)
 
         assertThat(found.firstWeightRow!!.exception, `is`(equalTo(2)))
         assertThat(found.secondWeightRow!!.exception, `is`(equalTo(9)))

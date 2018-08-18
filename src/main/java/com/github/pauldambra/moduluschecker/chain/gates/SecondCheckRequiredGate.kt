@@ -7,17 +7,16 @@ import com.github.pauldambra.moduluschecker.valacdosFile.WeightRow
 
 class SecondCheckRequiredGate(private val next: ExceptionTwoGate) : ModulusChainLink {
 
-    override fun check(params: ModulusCheckParams): ModulusResult {
-
-        if (exceptionRequiresSecondCheck(params)) {
-            return next.check(params)
-        }
-
-        return if (params.secondWeightRow != null) {
-            next.check(params)
-        } else params.modulusResult ?: ModulusResult.PASSES
-
-    }
+    override fun check(params: ModulusCheckParams) =
+      if (exceptionRequiresSecondCheck(params)) {
+          next.check(params)
+      } else {
+          if (params.secondWeightRow != null) {
+              next.check(params)
+          } else {
+              params.modulusResult ?: ModulusResult.PASSES
+          }
+      }
 
     private fun exceptionRequiresSecondCheck(params: ModulusCheckParams) =
       rowExceptionRequiresSecondCheck(params.firstWeightRow) || rowExceptionRequiresSecondCheck(params.secondWeightRow)

@@ -17,18 +17,18 @@ import java.util.*
  */
 class ExceptionSixGate(private val next: ExceptionSevenAccountTransformer) : ModulusChainLink {
 
-    override fun check(params: ModulusCheckParams): ModulusResult {
+    override fun check(params: ModulusCheckParams) =
+      if (WeightRow.isExceptionSix(params.firstWeightRow) && isForeignCurrencyAccount(params.account)) {
+          ModulusResult(true, null)
+      } else {
+          next.check(params)
+      }
 
-        if (WeightRow.isExceptionSix(params.firstWeightRow)) {
-            val a = params.account.getNumberAt(BankAccount.A)
-            val g = params.account.getNumberAt(BankAccount.G)
-            val h = params.account.getNumberAt(BankAccount.H)
-
-            if (Arrays.asList(4, 5, 6, 7, 8).contains(a) && g == h) {
-                return ModulusResult(true, null)
-            }
-        }
-        return next.check(params)
+    private fun isForeignCurrencyAccount(account: BankAccount): Boolean {
+        val a = account.getNumberAt(BankAccount.A)
+        val g = account.getNumberAt(BankAccount.G)
+        val h = account.getNumberAt(BankAccount.H)
+        return Arrays.asList(4, 5, 6, 7, 8).contains(a) && g == h
     }
 
 }
