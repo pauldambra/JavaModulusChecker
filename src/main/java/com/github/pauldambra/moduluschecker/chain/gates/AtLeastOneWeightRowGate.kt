@@ -13,7 +13,7 @@ class AtLeastOneWeightRowGate(private val modulusWeightRows: ModulusWeightRows, 
         return if (paramsWithFoundWeights.firstWeightRow != null) {
             next.check(paramsWithFoundWeights)
         } else {
-            ModulusResult(false, null)
+            ModulusResult.FAILS
         }
     }
 }

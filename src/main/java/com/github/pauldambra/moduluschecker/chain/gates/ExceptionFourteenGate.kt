@@ -18,12 +18,13 @@ class ExceptionFourteenGate(private val next: ExceptionTwoAndNineGate) : Modulus
       if (!WeightRow.isExceptionFourteen(params.firstWeightRow)) {
           next.check(params)
       } else {
-          if (ModulusResult.firstCheckPassed(params.modulusResult))
-              ModulusResult(true, null)
-          else
-              ModulusResult.withSecondResult(
-                params.modulusResult,
-                ExceptionFourteenModulusElevenCheck().check(params))
+          if (params.modulusResult!!.firstCheckResult!!) {
+              ModulusResult.PASSES
+          } else {
+              params.modulusResult.copy(
+                secondCheckResult = ExceptionFourteenModulusElevenCheck().check(params)
+              )
+          }
       }
 
 }

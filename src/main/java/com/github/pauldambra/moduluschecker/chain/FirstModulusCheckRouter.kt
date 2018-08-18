@@ -15,21 +15,24 @@ class FirstModulusCheckRouter(
   private val next: SecondCheckRequiredGate) : ModulusChainLink {
 
     override fun check(params: ModulusCheckParams): ModulusResult {
-        val modulusResult = ModulusResult
-          .WithFirstResult(runModulusCheck(params))
-          .withFirstException(params.firstWeightRow?.exception)
+        val modulusResult = ModulusResult(
+          runModulusCheck(params),
+          null,
+          params.firstWeightRow?.exception,
+          null
+        )
 
         return next.check(params.copy(modulusResult = modulusResult))
     }
 
     private fun runModulusCheck(params: ModulusCheckParams) =
       when (params.firstWeightRow!!.modulusAlgorithm) {
-        ModulusAlgorithm.DOUBLE_ALTERNATE -> DoubleAlternateCheck().check(params.account, params.firstWeightRow)
-        ModulusAlgorithm.MOD10 -> ModulusTenCheck().check(params.account, params.firstWeightRow)
-        ModulusAlgorithm.MOD11 -> if (WeightRow.isExceptionFive(params.firstWeightRow))
-                                        ExceptionFiveModulusElevenCheck(sortCodeSubstitution).check(params, params.firstWeightRow)
-                                    else
-                                        ModulusElevenCheck().check(params, params.firstWeightRow)
-    }
+          ModulusAlgorithm.DOUBLE_ALTERNATE -> DoubleAlternateCheck().check(params.account, params.firstWeightRow)
+          ModulusAlgorithm.MOD10            -> ModulusTenCheck().check(params.account, params.firstWeightRow)
+          ModulusAlgorithm.MOD11            -> if (WeightRow.isExceptionFive(params.firstWeightRow))
+              ExceptionFiveModulusElevenCheck(sortCodeSubstitution).check(params, params.firstWeightRow)
+          else
+              ModulusElevenCheck().check(params, params.firstWeightRow)
+      }
 
 }

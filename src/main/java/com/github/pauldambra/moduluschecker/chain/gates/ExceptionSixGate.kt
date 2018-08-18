@@ -19,7 +19,7 @@ class ExceptionSixGate(private val next: ExceptionSevenAccountTransformer) : Mod
 
     override fun check(params: ModulusCheckParams) =
       if (WeightRow.isExceptionSix(params.firstWeightRow) && isForeignCurrencyAccount(params.account)) {
-          ModulusResult(true, null)
+          ModulusResult.PASSES
       } else {
           next.check(params)
       }

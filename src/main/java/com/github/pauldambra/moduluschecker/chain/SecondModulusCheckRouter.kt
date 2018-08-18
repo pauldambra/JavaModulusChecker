@@ -12,18 +12,19 @@ import com.github.pauldambra.moduluschecker.valacdosFile.WeightRow
 class SecondModulusCheckRouter(private val sortCodeSubstitution: SortCodeSubstitution) : ModulusChainLink {
 
     override fun check(params: ModulusCheckParams) =
-      ModulusResult
-          .withSecondResult(params.modulusResult, runModulusCheck(params))
-          .withSecondException(params.secondWeightRow!!.exception)
+      params.modulusResult!!.copy(
+        secondCheckResult = runModulusCheck(params),
+        secondException = params.secondWeightRow!!.exception
+      )
 
     private fun runModulusCheck(params: ModulusCheckParams) =
       when (params.secondWeightRow!!.modulusAlgorithm) {
           ModulusAlgorithm.DOUBLE_ALTERNATE -> if (WeightRow.isExceptionFive(params.secondWeightRow))
-                                                  ExceptionFiveDoubleAlternateCheck(sortCodeSubstitution).check(params, params.secondWeightRow)
-                                              else
-                                                  DoubleAlternateCheck().check(params.account, params.secondWeightRow)
-          ModulusAlgorithm.MOD10 -> ModulusTenCheck().check(params.account, params.secondWeightRow)
-          ModulusAlgorithm.MOD11 -> ModulusElevenCheck().check(params, params.secondWeightRow)
+              ExceptionFiveDoubleAlternateCheck(sortCodeSubstitution).check(params, params.secondWeightRow)
+          else
+              DoubleAlternateCheck().check(params.account, params.secondWeightRow)
+          ModulusAlgorithm.MOD10            -> ModulusTenCheck().check(params.account, params.secondWeightRow)
+          ModulusAlgorithm.MOD11            -> ModulusElevenCheck().check(params, params.secondWeightRow)
       }
 
 }
