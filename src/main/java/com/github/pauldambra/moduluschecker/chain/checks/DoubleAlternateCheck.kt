@@ -1,21 +1,22 @@
 package com.github.pauldambra.moduluschecker.chain.checks
 
-import com.github.pauldambra.moduluschecker.ModulusCheckParams
+import com.github.pauldambra.moduluschecker.account.BankAccount
 import com.github.pauldambra.moduluschecker.valacdosFile.WeightRow
 
 
 class DoubleAlternateCheck {
     fun check(
-      params: ModulusCheckParams,
-      rowSelector: (mcp: ModulusCheckParams) -> WeightRow): Boolean {
-        val selectedRow = rowSelector(params)
-        var total = ModulusTotal.calculateDoubleAlternate(params.account, selectedRow.weights)
+      weightRow: WeightRow,
+      bankAccount: BankAccount): Boolean {
 
-        if (selectedRow.isException(1)) {
-            total += 27
+        val exceptionModifier = if (weightRow.isException(1)) {
+            27
+        } else {
+            0
         }
 
-        val remainder = total % 10
-        return remainder == 0
+        var total = ModulusTotal.calculateDoubleAlternate(bankAccount, weightRow.weights) + exceptionModifier
+
+        return total % 10 == 0
     }
 }

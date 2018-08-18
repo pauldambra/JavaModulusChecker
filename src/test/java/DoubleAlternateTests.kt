@@ -26,7 +26,7 @@ class DoubleAlternateTests {
         val params = ModulusCheckParams(BankAccount(sc, an), row)
         val checker = DoubleAlternateCheck()
 
-        val result = checker.check(params) { obj: ModulusCheckParams -> obj.firstWeightRow!! }
+        val result = checker.check(({ obj: ModulusCheckParams -> obj.firstWeightRow!! })(params), params.account)
 
         assertThat(result, `is`(equalTo(true)))
     }

@@ -21,16 +21,16 @@ class SecondModulusCheckRouter(sortCodeSubstitution: SortCodeSubstitution) : Mod
                 if (WeightRow.isExceptionFive(params.secondWeightRow))
                     ExceptionFiveDoubleAlternateCheck(sortCodeSubstitution).check(params, rowSelector)
                 else
-                    DoubleAlternateCheck().check(params, rowSelector)
+                    DoubleAlternateCheck().check(rowSelector(params), params.account)
             }
           )
           .put(
             ModulusAlgorithm.MOD10,
-            { params -> ModulusTenCheck().check(params, rowSelector) }
+            { params -> ModulusTenCheck().check(rowSelector(params), params.account) }
           )
           .put(
             ModulusAlgorithm.MOD11,
-            { params -> ModulusElevenCheck().check(params, rowSelector) }
+            { params -> ModulusElevenCheck().check(params, rowSelector(params)) }
           )
           .build()
     }

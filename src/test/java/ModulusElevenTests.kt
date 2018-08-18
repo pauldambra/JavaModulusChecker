@@ -25,7 +25,7 @@ class ModulusElevenTests {
         val params = ModulusCheckParams(BankAccount(sc, an), row)
         val checker = ModulusElevenCheck()
 
-        val result = checker.check(params) { obj: ModulusCheckParams -> obj.firstWeightRow!! }
+        val result = checker.check(params, ({ obj: ModulusCheckParams -> obj.firstWeightRow!! })(params))
 
         assertThat(result, `is`(equalTo(true)))
     }

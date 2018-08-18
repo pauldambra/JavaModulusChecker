@@ -5,8 +5,7 @@ import com.github.pauldambra.moduluschecker.account.BankAccount
 import com.github.pauldambra.moduluschecker.valacdosFile.WeightRow
 
 class LloydsAlternateModulusElevenCheck {
-    fun check(params: ModulusCheckParams, rowSelector: (mcp: ModulusCheckParams) ->WeightRow): Boolean {
-        val selectedRow = rowSelector(params)
+    fun check(params: ModulusCheckParams, weightRow: WeightRow): Boolean {
 
         if (!WeightRow.isExceptionTwoAndNine(
             params.firstWeightRow,
@@ -16,7 +15,7 @@ class LloydsAlternateModulusElevenCheck {
 
         val account = BankAccount(BankAccount.LLOYDS_EURO_SORT_CODE, params.account.accountNumber)
 
-        val total = ModulusTotal.calculate(account, selectedRow.weights)
+        val total = ModulusTotal.calculate(account, weightRow.weights)
         return total % 11 == 0
     }
 }

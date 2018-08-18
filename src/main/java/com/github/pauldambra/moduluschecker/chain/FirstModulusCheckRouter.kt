@@ -9,59 +9,27 @@ import com.github.pauldambra.moduluschecker.chain.checks.ModulusElevenCheck
 import com.github.pauldambra.moduluschecker.chain.checks.ModulusTenCheck
 import com.github.pauldambra.moduluschecker.chain.gates.SecondCheckRequiredGate
 import com.github.pauldambra.moduluschecker.valacdosFile.WeightRow
-import com.google.common.collect.ImmutableMap
 
 class FirstModulusCheckRouter(
-  sortCodeSubstitution: SortCodeSubstitution,
+  private val sortCodeSubstitution: SortCodeSubstitution,
   private val next: SecondCheckRequiredGate) : ModulusChainLink {
 
-    init {
-
-        checkAlgorithm = ImmutableMap.builder<ModulusAlgorithm, (mcp: ModulusCheckParams) -> Boolean>()
-          .put(
-            ModulusAlgorithm.DOUBLE_ALTERNATE,
-            { params -> DoubleAlternateCheck().check(params, rowSelector) }
-          )
-          .put(
-            ModulusAlgorithm.MOD10,
-            { params -> ModulusTenCheck().check(params, rowSelector) }
-          )
-          .put(
-            ModulusAlgorithm.MOD11,
-            { params ->
-                if (WeightRow.isExceptionFive(params.firstWeightRow))
-                    ExceptionFiveModulusElevenCheck(sortCodeSubstitution).check(params, rowSelector)
-                else
-                    ModulusElevenCheck().check(params, rowSelector)
-            })
-          .build()
-    }
-
     override fun check(params: ModulusCheckParams): ModulusResult {
-        val result = runModulusCheck(params)
-        val updatedParams = updateParamsWithResult(params, result)
-        return next.check(updatedParams)
-    }
-
-    private fun runModulusCheck(params: ModulusCheckParams): Boolean {
-        val modulusAlgorithm = params.firstWeightRow?.modulusAlgorithm
-        return if (checkAlgorithm.containsKey(modulusAlgorithm)) {
-            checkAlgorithm[modulusAlgorithm]?.invoke(params)!!
-        } else false
-    }
-
-    private fun updateParamsWithResult(params: ModulusCheckParams, result: Boolean): ModulusCheckParams {
         val modulusResult = ModulusResult
-          .WithFirstResult(result)
+          .WithFirstResult(runModulusCheck(params))
           .withFirstException(params.firstWeightRow?.exception)
 
-        return ModulusCheckParams(params.account, params.firstWeightRow, params.secondWeightRow, modulusResult)
+        return next.check(params.copy(modulusResult = modulusResult))
     }
 
-    companion object {
-
-        private val rowSelector = { p: ModulusCheckParams -> p.firstWeightRow!! }
-        private lateinit var checkAlgorithm: Map<ModulusAlgorithm, (mcp: ModulusCheckParams) -> Boolean>
+    private fun runModulusCheck(params: ModulusCheckParams) =
+      when (params.firstWeightRow!!.modulusAlgorithm) {
+        ModulusAlgorithm.DOUBLE_ALTERNATE -> DoubleAlternateCheck().check(params.firstWeightRow, params.account)
+        ModulusAlgorithm.MOD10 -> ModulusTenCheck().check(params.firstWeightRow, params.account)
+        ModulusAlgorithm.MOD11 -> if (WeightRow.isExceptionFive(params.firstWeightRow))
+                                        ExceptionFiveModulusElevenCheck(sortCodeSubstitution).check(params, params.firstWeightRow)
+                                    else
+                                        ModulusElevenCheck().check(params, params.firstWeightRow)
     }
 
 }
