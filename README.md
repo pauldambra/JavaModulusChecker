@@ -29,4 +29,7 @@ Current version: v0.1.0 uses v4.8 of Vocalink Modulus Checking copied from their
 
 ##### Release History
 
+ * version: v1.1.0 switches to version v5.0 of Vocalink spec
+ * version: v1.0.0 switched to kotlin from Java
+ * version: v0.1.0 uses v4.8 of Vocalink
  * version: v0.0.0 uses v4.0 of Vocalink Modulus Checking copied from their site on 2017-01-04
