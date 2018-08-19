@@ -4,9 +4,8 @@ import com.github.pauldambra.moduluschecker.ModulusCheckParams
 import com.github.pauldambra.moduluschecker.account.BankAccount
 import com.github.pauldambra.moduluschecker.chain.ModulusChainLink
 import com.github.pauldambra.moduluschecker.chain.ModulusResult
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.IsEqual.equalTo
+import com.natpryce.hamkrest.assertion.assert
+import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 
 class ChainOfResponsibilityTests {
@@ -45,9 +44,9 @@ class ChainOfResponsibilityTests {
 
         val result = chain.check(ModulusCheckParams(BankAccount("a", "b")))
 
-        assertThat(result.firstCheckResult, `is`(equalTo(false)))
-        assertThat(firstWasCalled, `is`(equalTo(true)))
-        assertThat(secondWasCalled, `is`(equalTo(true)))
-        assertThat(thirdWasCalled, `is`(equalTo(false)))
+        assert.that(result.firstCheckResult, equalTo(false))
+        assert.that(firstWasCalled, equalTo(true))
+        assert.that(secondWasCalled, equalTo(true))
+        assert.that(thirdWasCalled, equalTo(false))
     }
 }

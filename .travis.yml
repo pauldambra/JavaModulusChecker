@@ -10,6 +10,7 @@ cache:
   - "$HOME/.gradle/wrapper/"
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - ./gradlew uploadArchives
 env:
   global:
   - secure: UziVBuI2POsSWth9IIztV1LtsJA0P66nN8xVCm+42xAwIhybMPvC2XON3fV2HtO7iGsWwALzerzrJ9u2iEnUqj/bUy7nyAwHLrgQX7rtpbIXWvdZVdw0HwNRqhB3J2GIdJHG8HaMVmYvzYU/QqpBV333muEAU1YfcKvokDDVCp3I8Bh2Ut+srk+emlZD7X5t43bsvfdRyPidpdDn03tIpZX4899xVgrnSc5lT0kxyu4xqQLFNeZFQlNmSHX8R1UGuMNuqSZ87UT/CdkfIcoR5w9rv311OmgCrwU6SdyEhtwVxxRzPefYC/Qz31fwCNKgwdJgDcFYsaHl69YI5ftiUSeJ1j54Yn+eMJEc9SsiV7nWWeVB0Vl9HSsnxtCcZt4CvR32K5GoObgNdWrABn0CZHRJIdDt4JLg57aTr1JFyACFFur/YfV1MNrwiyUsbVWQR4+Wz2HHBeqh7rjqrP1lYnVu65UKWAPUkMlCd8jCRvbFDKcCBem+saeUMaQiOdG2C8Vwwy55IJUPQ8R0k3OPX5syGcZUPj6ELUyYdgEpjiGYb+MeenALHi2jRjDRtc8KRxL5brP5OcJsZuvp+wLqy7oS1q7WsKS79UEm/RzyMKxqhOjjKrl1qQBSqfUvYLA2NV4pRCNS40NQ6T5ushqDHNooWci59tTztNqtSB8ApsM=

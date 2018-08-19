@@ -2,12 +2,9 @@
 
 import com.github.pauldambra.moduluschecker.SortCodeSubstitution
 import com.github.pauldambra.moduluschecker.account.BankAccount
-import com.google.common.collect.ImmutableMap
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.theInstance
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.IsEqual.equalTo
-import org.hamcrest.core.IsNot.not
+import com.natpryce.hamkrest.assertion.assert
+import com.natpryce.hamkrest.equalTo
+import com.natpryce.hamkrest.sameInstance
 import org.junit.Test
 import java.io.IOException
 
@@ -15,33 +12,29 @@ class SortCodeSubstitutionTests {
     @Test
     fun sortCodesNotInTheTableAreUnchanged() {
 
-        val substitutions = ImmutableMap.builder<String, String>()
-          .put("not_the_sort_code", "12345")
-          .build()
+        val substitutions = mapOf("not_the_sort_code" to "12345")
 
         val sortCodeSubstitution = SortCodeSubstitution(substitutions)
         val originalAccount = BankAccount("012345", "01234567")
         val account = sortCodeSubstitution.apply(originalAccount)
 
-        assertThat(account.sortCode, `is`(equalTo("012345")))
-        assertThat(account.accountNumber, `is`(equalTo("01234567")))
-        assertThat(account, `is`(not(theInstance(originalAccount))))
+        assert.that(account.sortCode, equalTo("012345"))
+        assert.that(account.accountNumber, equalTo("01234567"))
+        assert.that(account, !sameInstance(originalAccount))
     }
 
     @Test
     fun sortCodesInTheTableAreChanged() {
 
-        val substitutions = ImmutableMap.builder<String, String>()
-          .put("012345", "543210")
-          .build()
+        val substitutions = mapOf("012345" to "543210")
 
         val sortCodeSubstitution = SortCodeSubstitution(substitutions)
         val originalAccount = BankAccount("012345", "01234567")
         val account = sortCodeSubstitution.apply(originalAccount)
 
-        assertThat(account.sortCode, `is`(equalTo("543210")))
-        assertThat(account.accountNumber, `is`(equalTo("01234567")))
-        assertThat(account, `is`(not(theInstance(originalAccount))))
+        assert.that(account.sortCode, equalTo("543210"))
+        assert.that(account.accountNumber, equalTo("01234567"))
+        assert.that(account, !sameInstance(originalAccount))
     }
 
     @Test
@@ -50,6 +43,6 @@ class SortCodeSubstitutionTests {
         val sortCodeSubstitution = SortCodeSubstitution.fromFile("file/scsubtab.txt")
 
         val ba = BankAccount("938173", "01234567")
-        assertThat(sortCodeSubstitution.apply(ba).sortCode, `is`(equalTo("938017")))
+        assert.that(sortCodeSubstitution.apply(ba).sortCode, equalTo("938017"))
     }
 }

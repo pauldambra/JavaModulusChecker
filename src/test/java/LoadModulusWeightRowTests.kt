@@ -7,10 +7,8 @@ import com.github.pauldambra.moduluschecker.valacdosFile.ModulusWeightRows
 import com.github.pauldambra.moduluschecker.valacdosFile.SortCodeRange
 import com.github.pauldambra.moduluschecker.valacdosFile.ValacdosRow
 import com.github.pauldambra.moduluschecker.valacdosFile.WeightRow
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.containsInAnyOrder
-import org.hamcrest.core.IsEqual.equalTo
+import com.natpryce.hamkrest.assertion.assert
+import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import java.io.IOException
 import java.util.*
@@ -24,9 +22,9 @@ class LoadModulusWeightRowTests {
 
         val row = WeightRow.parse(input)
 
-        assertThat(row?.modulusAlgorithm, `is`(equalTo(ModulusAlgorithm.MOD10)))
-        assertThat(row?.exception, `is`(equalTo(13)))
-        assertThat(row?.weights, `is`(equalTo(listOf(0, 3, 2, 4, 5, 8, 9, 4, 5, 6, 7, 8, 9, -1))))
+        assert.that(row?.modulusAlgorithm, equalTo(ModulusAlgorithm.MOD10))
+        assert.that(row?.exception, equalTo(13))
+        assert.that(row?.weights, equalTo(listOf(0, 3, 2, 4, 5, 8, 9, 4, 5, 6, 7, 8, 9, -1)))
     }
 
     @Test
@@ -39,8 +37,8 @@ class LoadModulusWeightRowTests {
         val originalAccount = BankAccount("012345", "01234567")
         val modulusCheckParams = modulusRows.findFor(originalAccount)
 
-        assertThat(modulusCheckParams.account, `is`(equalTo(originalAccount)))
-        assertThat(modulusCheckParams.firstWeightRow!!, `is`(equalTo(weightRow)))
+        assert.that(modulusCheckParams.account, equalTo(originalAccount))
+        assert.that(modulusCheckParams.firstWeightRow!!, equalTo(weightRow))
     }
 
     @Test
@@ -53,7 +51,7 @@ class LoadModulusWeightRowTests {
         val originalAccount = BankAccount("012345", "01234567")
         val modulusCheckParams = modulusRows.findFor(originalAccount)
 
-        assertThat(modulusCheckParams.firstWeightRow, `is`(equalTo(null as WeightRow?)))
+        assert.that(modulusCheckParams.firstWeightRow, equalTo(null as WeightRow?))
     }
 
     @Test
@@ -66,10 +64,10 @@ class LoadModulusWeightRowTests {
         val found = weightRows.findFor(ba)
 
         val modulusAlgorithms = listOf(
-          found.firstWeightRow?.modulusAlgorithm,
-          found.secondWeightRow?.modulusAlgorithm
+          found.firstWeightRow!!.modulusAlgorithm,
+          found.secondWeightRow!!.modulusAlgorithm
         )
-        assertThat(modulusAlgorithms, containsInAnyOrder(ModulusAlgorithm.MOD11, ModulusAlgorithm.DOUBLE_ALTERNATE))
+        assert.that(modulusAlgorithms, equalTo(listOf(ModulusAlgorithm.MOD11, ModulusAlgorithm.DOUBLE_ALTERNATE)))
     }
 
     /**
@@ -84,7 +82,7 @@ class LoadModulusWeightRowTests {
 
         val found = weightRows.findFor(ba)
 
-        assertThat(found.firstWeightRow!!.exception, `is`(equalTo(2)))
-        assertThat(found.secondWeightRow!!.exception, `is`(equalTo(9)))
+        assert.that(found.firstWeightRow!!.exception, equalTo(2))
+        assert.that(found.secondWeightRow!!.exception, equalTo(9))
     }
 }

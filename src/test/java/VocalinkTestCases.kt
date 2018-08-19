@@ -1,9 +1,8 @@
 
 
 import com.github.pauldambra.moduluschecker.ModulusChecker
-import org.hamcrest.CoreMatchers.equalTo
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.Is.`is`
+import com.natpryce.hamkrest.assertion.assert
+import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import java.io.IOException
 
@@ -252,7 +251,7 @@ class VocalinkTestCases {
         @Throws(IOException::class)
         private fun assertVocalinkTestCase(sortCode: String, accountNumber: String, expectedValid: Boolean) {
             val actual = modulusChecker().checkBankAccount(sortCode, accountNumber)
-            assertThat(actual, `is`(equalTo(expectedValid)))
+            assert.that(actual, equalTo(expectedValid))
         }
     }
 }

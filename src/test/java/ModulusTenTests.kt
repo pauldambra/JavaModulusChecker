@@ -5,9 +5,8 @@ import com.github.pauldambra.moduluschecker.ModulusCheckParams
 import com.github.pauldambra.moduluschecker.account.BankAccount
 import com.github.pauldambra.moduluschecker.chain.checks.ModulusTenCheck
 import com.github.pauldambra.moduluschecker.valacdosFile.WeightRow
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.IsEqual.equalTo
+import com.natpryce.hamkrest.assertion.assert
+import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 
 class ModulusTenTests {
@@ -27,6 +26,6 @@ class ModulusTenTests {
 
         val result = checker.check(params.account, params.firstWeightRow!!)
 
-        assertThat(result, `is`(equalTo(true)))
+        assert.that(result, equalTo(true))
     }
 }
